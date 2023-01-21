@@ -8,9 +8,20 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Node2D",
+"class": "Board",
+"language": "GDScript",
+"path": "res://Board.gd"
+} ]
+_global_script_class_icons={
+"Board": ""
+}
+
 [application]
 
 config/name="card_game"
+run/main_scene="res://cards/CardBase.tscn"
 config/icon="res://icon.png"
 
 [gui]

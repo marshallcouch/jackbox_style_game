@@ -1,0 +1,62 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://cards/CardBase.gd" type="Script" id=1]
+
+[node name="CardBase" type="Container"]
+margin_right = 250.0
+margin_bottom = 350.0
+rect_pivot_offset = Vector2( 125, 175 )
+script = ExtResource( 1 )
+
+[node name="TopLeft" type="Label" parent="."]
+margin_right = 150.0
+margin_bottom = 31.0
+text = "how many character can fit in thie"
+autowrap = true
+
+[node name="Middle" type="Label" parent="."]
+margin_top = 168.0
+margin_right = 250.0
+margin_bottom = 335.0
+text = "top left'as
+asdf
+asd
+fas
+df
+asdf
+asdf
+asd
+fas
+df
+asdf
+asdf
+"
+align = 1
+valign = 1
+autowrap = true
+clip_text = true
+max_lines_visible = 10
+
+[node name="TopRight" type="Label" parent="."]
+margin_left = 150.0
+margin_right = 250.0
+margin_bottom = 14.0
+text = "Top Right"
+align = 2
+max_lines_visible = 2
+
+[node name="BottomLeft" type="Label" parent="."]
+margin_top = 336.0
+margin_right = 76.0
+margin_bottom = 350.0
+text = "Bottom Left"
+
+[node name="BottomRight" type="Label" parent="."]
+margin_left = 150.0
+margin_top = 336.0
+margin_right = 250.0
+margin_bottom = 350.0
+text = "Bottom Right"
+align = 2
+
+[node name="Image" type="Sprite" parent="."]
