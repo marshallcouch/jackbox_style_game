@@ -1,29 +1,39 @@
 extends Camera2D
 
-
-# Declare member variables here. Examples:
-# var a: int = 2
-# var b: String = "text"
-
-
-# Called when the node enters the scene tree for the first time.
-
-var zoom_min = Vector2(.2,.2)
+var zoom_min = Vector2(.1,.1)
 var zoom_max = Vector2(2,2)
-var zoom_speed = Vector2(.2, .2)
+var zoom_speed = Vector2(.05, .05)
+var previous_mouse_position = Vector2()
+var is_dragging = false
+var over_something = false
+
 func _input(event):
-	print(event)
-	if event is not InputEventMouseButton:
+	#handle dragging
+	if is_dragging and event is InputEventMouseMotion:
+		offset -= (event.position - previous_mouse_position) * zoom
+		previous_mouse_position = event.position
+		
+	if not event is InputEventMouseButton:
 		return
 	if not event.is_pressed():
+		
+		#End dragging
+		if event.is_action_released("ui_middle_mouse"):
+			previous_mouse_position = event.position
+			is_dragging = false
 		return
-	if event.button_index == BUTTON_WHEEL_UP
-		zoom < zoom_max:
-			zoom = zoom-zoom_speed
-	elif event.button_index == BUTTON_WHEEL_DOWN
-		zoom > zoom_min:
-			zoom = zoom-zoom_speed
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta: float) -> void:
-#	pass
+	
+	if event.is_action_pressed("ui_scroll_down"):
+		if zoom < zoom_max:
+			zoom += zoom_speed
+	elif event.is_action_pressed("ui_scroll_up"):
+		if zoom > zoom_min:
+			zoom -= zoom_speed
+			
+	#start dragging
+	elif event.is_action_pressed("ui_middle_mouse"):
+		is_dragging = true
+		previous_mouse_position = event.position
+		
+		
+		

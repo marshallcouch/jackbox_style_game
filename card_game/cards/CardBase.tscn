@@ -1,22 +1,53 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://cards/CardBase.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://assets/cards/energy.png" type="Texture" id=2]
 [ext_resource path="res://assets/cards/blankcard.png" type="Texture" id=3]
 [ext_resource path="res://cards/Draggable.gd" type="Script" id=4]
+[ext_resource path="res://assets/cards/cardback.png" type="Texture" id=5]
+[ext_resource path="res://assets/cards/flip.png" type="Texture" id=6]
+[ext_resource path="res://assets/cards/tap.png" type="Texture" id=7]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 125, 175 )
 
-[node name="Draggable" type="Area2D"]
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 30, 30 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 30, 30 )
+
+[sub_resource type="Theme" id=4]
+
+[node name="draggable_card" type="Area2D"]
+position = Vector2( 1, -1 )
 script = ExtResource( 4 )
 
-[node name="CollisionShape" type="CollisionShape2D" parent="."]
+[node name="card_collision_box" type="CollisionShape2D" parent="."]
 modulate = Color( 0.513726, 0.564706, 0.705882, 1 )
-position = Vector2( 124, 177 )
+position = Vector2( 125, 175 )
 shape = SubResource( 1 )
 
-[node name="CardBase" type="Container" parent="."]
+[node name="tap_box" type="CollisionShape2D" parent="."]
+position = Vector2( 183, 380 )
+shape = SubResource( 2 )
+
+[node name="tap_box_sprite" type="Sprite" parent="tap_box"]
+position = Vector2( -0.999985, 3.05176e-05 )
+scale = Vector2( 0.571429, 0.571429 )
+texture = ExtResource( 7 )
+
+[node name="flip_box" type="CollisionShape2D" parent="."]
+position = Vector2( 67, 380 )
+rotation = 1.5708
+shape = SubResource( 3 )
+
+[node name="Flip" type="Sprite" parent="flip_box"]
+position = Vector2( -0.453125, -1.97311 )
+scale = Vector2( 0.15643, 0.15643 )
+texture = ExtResource( 6 )
+
+[node name="card_base" type="Container" parent="."]
 show_behind_parent = true
 margin_right = 250.0
 margin_bottom = 350.0
@@ -24,23 +55,31 @@ rect_pivot_offset = Vector2( 125, 175 )
 mouse_filter = 2
 script = ExtResource( 1 )
 
-[node name="CardBackground" type="Sprite" parent="CardBase"]
+[node name="card_background" type="Sprite" parent="card_base"]
 texture = ExtResource( 3 )
 offset = Vector2( 125, 175 )
 
-[node name="TopLeft" type="Label" parent="CardBase"]
+[node name="card_image" type="Sprite" parent="card_base"]
+modulate = Color( 0, 0, 0, 1 )
+self_modulate = Color( 0, 0, 0, 1 )
+texture = ExtResource( 2 )
+offset = Vector2( 125, 40 )
+
+[node name="top_left_label" type="Label" parent="card_base"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 157.0
 margin_bottom = 38.0
+theme = SubResource( 4 )
 text = "how many character can fit in thie"
 autowrap = true
 
-[node name="Middle" type="Label" parent="CardBase"]
+[node name="middle_label" type="Label" parent="card_base"]
 margin_left = 5.0
 margin_top = 160.0
 margin_right = 245.0
 margin_bottom = 327.0
+theme = SubResource( 4 )
 text = "line 1
 line 2
 line 3
@@ -58,32 +97,36 @@ autowrap = true
 clip_text = true
 max_lines_visible = 10
 
-[node name="TopRight" type="Label" parent="CardBase"]
+[node name="top_right_label" type="Label" parent="card_base"]
 margin_left = 143.0
 margin_top = 7.0
 margin_right = 243.0
 margin_bottom = 21.0
+theme = SubResource( 4 )
 text = "Top Right"
 align = 2
 max_lines_visible = 2
 
-[node name="BottomLeft" type="Label" parent="CardBase"]
+[node name="bottom_left_label" type="Label" parent="card_base"]
 margin_left = 7.0
 margin_top = 331.0
 margin_right = 83.0
 margin_bottom = 345.0
+theme = SubResource( 4 )
 text = "Bottom Left"
 
-[node name="BottomRight" type="Label" parent="CardBase"]
+[node name="bottom_right_label" type="Label" parent="card_base"]
 margin_left = 143.0
 margin_top = 331.0
 margin_right = 243.0
 margin_bottom = 345.0
+theme = SubResource( 4 )
 text = "Bottom Right"
 align = 2
 
-[node name="Image" type="Sprite" parent="CardBase"]
-texture = ExtResource( 2 )
-offset = Vector2( 125, 100 )
+[node name="card_back_sprite" type="Sprite" parent="card_base"]
+visible = false
+position = Vector2( 123, 176 )
+texture = ExtResource( 5 )
 
 [connection signal="input_event" from="." to="." method="_on_Draggable_input_event"]
