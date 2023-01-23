@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "Node2D",
 "class": "Board",
 "language": "GDScript",
-"path": "res://Board.gd"
+"path": "res://board_actions.gd"
 } ]
 _global_script_class_icons={
 "Board": ""
@@ -21,7 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="card_game"
-run/main_scene="res://Board.tscn"
+run/main_scene="res://board.tscn"
 config/icon="res://icon.png"
 
 [gui]

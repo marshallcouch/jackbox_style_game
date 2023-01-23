@@ -1,0 +1,25 @@
+[
+{
+"TopLeft":"forest",
+"Middle":"Green",
+"Type":"land",
+"count":14
+},
+{
+"TopLeft":"Llanowar Elves",
+"TopRight": "G",
+"Type":"creature",
+"Middle": "Elf Druid - tap, Add Green",
+"BottomRight":"1/1",
+"count":4
+},
+{
+"TopLeft":"Borderland Ranger",
+"TopRight": "2G",
+"Type":"creature",
+"Middle": "Human Scout - When borderland Ranger enters the battlefield you may search your library for a basic land card,reveal it put it into your hand then shuffle your library.",
+"BottomRight":"2/2",
+"count":4
+}
+]
+ 

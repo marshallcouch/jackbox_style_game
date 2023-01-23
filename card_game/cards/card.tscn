@@ -1,9 +1,9 @@
 [gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://cards/CardBase.gd" type="Script" id=1]
+[ext_resource path="res://cards/card_face_actions.gd" type="Script" id=1]
 [ext_resource path="res://assets/cards/energy.png" type="Texture" id=2]
 [ext_resource path="res://assets/cards/blankcard.png" type="Texture" id=3]
-[ext_resource path="res://cards/Draggable.gd" type="Script" id=4]
+[ext_resource path="res://cards/card_actions.gd" type="Script" id=4]
 [ext_resource path="res://assets/cards/cardback.png" type="Texture" id=5]
 [ext_resource path="res://assets/cards/flip.png" type="Texture" id=6]
 [ext_resource path="res://assets/cards/tap.png" type="Texture" id=7]

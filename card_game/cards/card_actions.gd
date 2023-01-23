@@ -22,7 +22,22 @@ func _on_Draggable_input_event(viewport, event, shape_idx):
 		get_tree().set_input_as_handled()
 		previous_mouse_position = event.position
 		is_dragging = true
-
+		
+	#shape ID 1 means tap
+	elif shape_idx == 1:
+		print("tap event: " + event.to_string())
+		if $card_base.get_rotation() == 0:
+			$card_base.set_rotation(1.57)
+		else:
+			$card_base.set_rotation(0)
+			
+	elif shape_idx == 2:
+		print("flip event: " + event.to_string())
+		if $card_base/card_back_sprite.visible:
+			$card_base/card_back_sprite.visible = false
+		else:
+			$card_base/card_back_sprite.visible = true
+			
 
 func _input(event):
 	if not is_dragging:

@@ -7,9 +7,22 @@ extends Area2D
 
 var is_dragging: bool = false
 var previous_mouse_position = Vector2()
+var deck_array:Array
+var deck_result:Array
 # Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+func _init() -> void:
+	var deck_file = File.new()
+	deck_file.open("res://assets/cards/MTGdeck.json",File.READ)
+	print(deck_file.get_as_text())
+	deck_result = JSON.parse(deck_file.get_as_text()).result
+	deck_file.close()
+	print(deck_result)
+	for card in deck_result:
+		for i in range(0,card["count"]):
+			deck_array.push_front(card)
+			print(card["TopLeft"])
+			
+	
 	
 func _on_Draggable_input_event(viewport, event, shape_idx):
 	if not event.is_action_pressed("ui_touch"):
@@ -22,7 +35,8 @@ func _on_Draggable_input_event(viewport, event, shape_idx):
 		get_tree().set_input_as_handled()
 		previous_mouse_position = event.position
 		is_dragging = true
-
+		
+	
 
 func _input(event):
 	if not is_dragging:
