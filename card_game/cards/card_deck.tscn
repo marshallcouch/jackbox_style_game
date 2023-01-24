@@ -1,17 +1,18 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://cards/deck_actions.gd" type="Script" id=1]
+[ext_resource path="res://assets/cards/shuffle.png" type="Texture" id=2]
+[ext_resource path="res://assets/cards/draw.png" type="Texture" id=3]
+[ext_resource path="res://assets/cards/search.png" type="Texture" id=4]
 [ext_resource path="res://assets/cards/cardback.png" type="Texture" id=5]
-[ext_resource path="res://assets/cards/flip.png" type="Texture" id=6]
-[ext_resource path="res://assets/cards/tap.png" type="Texture" id=7]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 125, 175 )
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 30, 30 )
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 30, 30 )
 
 [node name="draggable_deck" type="Area2D"]
@@ -23,27 +24,59 @@ modulate = Color( 0.513726, 0.564706, 0.705882, 1 )
 position = Vector2( 125, 175 )
 shape = SubResource( 1 )
 
-[node name="tap_box" type="CollisionShape2D" parent="."]
-position = Vector2( 183, 380 )
-shape = SubResource( 2 )
-
-[node name="tap_box_sprite" type="Sprite" parent="tap_box"]
-position = Vector2( -0.999985, 3.05176e-05 )
-scale = Vector2( 0.571429, 0.571429 )
-texture = ExtResource( 7 )
-
-[node name="flip_box" type="CollisionShape2D" parent="."]
-position = Vector2( 67, 380 )
+[node name="shuffle_box" type="CollisionShape2D" parent="."]
+position = Vector2( 31, 382 )
 rotation = 1.5708
 shape = SubResource( 3 )
 
-[node name="Flip" type="Sprite" parent="flip_box"]
-position = Vector2( -0.453125, -1.97311 )
-scale = Vector2( 0.15643, 0.15643 )
-texture = ExtResource( 6 )
+[node name="shuffle_sprite" type="Sprite" parent="shuffle_box"]
+position = Vector2( 2.00189, 1.00439 )
+rotation = 4.71239
+scale = Vector2( 0.0890924, 0.0907351 )
+texture = ExtResource( 2 )
 
-[node name="card_back_sprite" type="Sprite" parent="."]
-position = Vector2( 123, 176 )
+[node name="draw_box" type="CollisionShape2D" parent="."]
+position = Vector2( 104, 381 )
+shape = SubResource( 2 )
+
+[node name="draw_sprite" type="Sprite" parent="draw_box"]
+position = Vector2( 0.0357547, 1.78574 )
+scale = Vector2( 0.230358, 0.237857 )
+texture = ExtResource( 3 )
+
+[node name="search_box" type="CollisionShape2D" parent="."]
+position = Vector2( 181, 382 )
+shape = SubResource( 2 )
+
+[node name="search_sprite" type="Sprite" parent="search_box"]
+position = Vector2( 1.51618, 1.33704 )
+scale = Vector2( 0.0761087, 0.0785865 )
+texture = ExtResource( 4 )
+
+[node name="card_back_sprite3" type="Sprite" parent="."]
+position = Vector2( 112, 165 )
 texture = ExtResource( 5 )
 
-[connection signal="input_event" from="." to="." method="_on_Draggable_input_event"]
+[node name="card_back_sprite2" type="Sprite" parent="."]
+position = Vector2( 118, 170 )
+texture = ExtResource( 5 )
+
+[node name="card_back_sprite" type="Sprite" parent="."]
+position = Vector2( 124, 176 )
+texture = ExtResource( 5 )
+
+[node name="card_count_label" type="Label" parent="."]
+margin_left = 188.0
+margin_top = 14.0
+margin_right = 228.0
+margin_bottom = 28.0
+text = "60"
+align = 2
+
+[node name="PopupMenu" type="PopupMenu" parent="."]
+margin_left = -115.0
+margin_top = 80.0
+margin_right = -95.0
+margin_bottom = 100.0
+
+[connection signal="input_event" from="." to="." method="_on_touch_input_event"]

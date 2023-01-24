@@ -1,6 +1,4 @@
 extends Area2D
-
-
 # Declare member variables here. Examples:
 # var a: int = 2
 # var b: String = "text"
@@ -9,9 +7,39 @@ var is_dragging: bool = false
 var previous_mouse_position = Vector2()
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	pass
+
+
+func set_card(card_object):
+	if "TopLeft" in card_object:
+		$card_base/top_left_label.text = card_object["TopLeft"]
+	if "TopRight" in card_object:
+		$card_base/top_right_label.text = card_object["TopRight"]
+	if "Middle" in card_object:
+		$card_base/middle_label.text = card_object["Middle"]
+	if "BottomLeft" in card_object:
+		$card_base/bottom_left_label.text = card_object["BottomLeft"]
+	if "BottomRight" in card_object:
+		$card_base/bottom_right_label.text = card_object["BottomRight"]
+	if "Type" in card_object:
+		if card_object["Type"] in ["creature","defense","action","energy"]:
+			$card_base/card_image.texture = load("res://assets/cards/" + card_object["Type"] +".png")
+		else:
+			$card_base/card_image.texture = load("res://assets/cards/unknown.png")
+	else:
+		$card_base/card_image.texture = load("res://assets/cards/unknown.png")
+		
+	if $card_base/card_image.texture.get_height() > $card_base/card_image.texture.get_width():
+		$card_base/card_image.scale *= 100.0/$card_base/card_image.texture.get_height()
+	else: 
+		$card_base/card_image.scale *= 100.0/$card_base/card_image.texture.get_width()
 	
-func _on_Draggable_input_event(viewport, event, shape_idx):
+	$card_base/card_image.offset.x = 125/$card_base/card_image.scale.x
+	$card_base/card_image.offset.y = ($card_base/card_image.texture.get_height()*$card_base/card_image.scale.y)
+	$card_base/card_image.centered = true
+
+	
+func _on_touch_input_event(viewport, event, shape_idx):
 	if not event.is_action_pressed("ui_touch"):
 		return
 	print(shape_idx)

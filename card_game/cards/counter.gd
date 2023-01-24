@@ -9,19 +9,35 @@ var is_dragging: bool = false
 var previous_mouse_position = Vector2()
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	$timer.one_shot = true
 	
-func _on_Draggable_input_event(viewport, event, shape_idx):
+	pass # Replace with function body.
+
+
+func _on_touch_input_event(viewport, event, shape_idx):
 	if not event.is_action_pressed("ui_touch"):
 		return
-	print(shape_idx)
 	
 	#shape ID 0 means drag, they clicked the card
 	if shape_idx == 0:
-		print("draggable:" + event.to_string())
+		print_debug("draggable:" + event.to_string())
 		get_tree().set_input_as_handled()
 		previous_mouse_position = event.position
 		is_dragging = true
+		
+		if $counter_edit.visible:
+			$counter_label.text = $counter_edit.text
+			$counter_edit.visible = false
+		
+		if $timer.is_stopped() == false:
+			$counter_edit.visible = true
+			print_debug("double click!")
+			$timer.stop()
+		else:
+			$timer.start(.3)
+			
+		
+		
 
 
 func _input(event):
@@ -39,3 +55,5 @@ func _input(event):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta: float) -> void:
 #	pass
+
+

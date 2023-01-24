@@ -1,19 +1,21 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://cards/card_deck.tscn" type="PackedScene" id=1]
-[ext_resource path="res://cards/card.tscn" type="PackedScene" id=2]
 [ext_resource path="res://camera_actions.gd" type="Script" id=3]
 [ext_resource path="res://board_actions.gd" type="Script" id=4]
+[ext_resource path="res://cards/counter.tscn" type="PackedScene" id=5]
 
 [node name="board" type="Node2D"]
 script = ExtResource( 4 )
 
+[node name="counter" parent="." instance=ExtResource( 5 )]
+position = Vector2( 880, 50 )
+
 [node name="camera" type="Camera2D" parent="."]
-offset = Vector2( 350, 0 )
 current = true
 script = ExtResource( 3 )
 
-[node name="card" parent="." instance=ExtResource( 2 )]
-
 [node name="deck" parent="." instance=ExtResource( 1 )]
-position = Vector2( 1000, -1 )
+position = Vector2( 700, 100 )
+
+[connection signal="draw_card" from="deck" to="." method="_on_deck_draw_card"]
