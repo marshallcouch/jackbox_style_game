@@ -9,7 +9,8 @@
 script = ExtResource( 4 )
 
 [node name="counter" parent="." instance=ExtResource( 5 )]
-position = Vector2( 880, 50 )
+position = Vector2( 880, 70 )
+z_index = 8
 
 [node name="camera" type="Camera2D" parent="."]
 current = true
@@ -18,5 +19,16 @@ script = ExtResource( 3 )
 [node name="deck" parent="." instance=ExtResource( 1 )]
 position = Vector2( 700, 100 )
 
+[node name="token_position" type="Position2D" parent="."]
+position = Vector2( 658, 45 )
+
+[node name="token_generator" type="Button" parent="token_position"]
+margin_left = 28.0
+margin_top = 10.0
+margin_right = 89.0
+margin_bottom = 37.0
+text = "Tokens!"
+
 [connection signal="change_camera_scroll" from="deck" to="camera" method="_on_deck_change_camera_scroll"]
 [connection signal="draw_card" from="deck" to="." method="_on_deck_draw_card"]
+[connection signal="pressed" from="token_position/token_generator" to="." method="_on_token_generator_pressed"]

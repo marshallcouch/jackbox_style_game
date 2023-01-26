@@ -90,7 +90,7 @@ func _input(event):
 	if is_dragging and event is InputEventMouseMotion:
 		position += (event.position - previous_mouse_position) # * get_tree().get_root().find_node("Camera2D").
 		previous_mouse_position = event.position
-		
+		1
 	z_index = position.y
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

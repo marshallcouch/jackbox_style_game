@@ -50,4 +50,13 @@ shape = SubResource( 1 )
 
 [node name="timer" type="Timer" parent="."]
 
+[node name="delete_button" type="Button" parent="."]
+visible = false
+margin_left = -77.0
+margin_top = -64.0
+margin_right = 75.0
+margin_bottom = -44.0
+text = "Delete Token/Counter"
+
 [connection signal="input_event" from="." to="." method="_on_touch_input_event"]
+[connection signal="pressed" from="delete_button" to="." method="_on_delete_button_pressed"]
