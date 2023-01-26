@@ -13,14 +13,19 @@ func _ready() -> void:
 func set_card(card_object):
 	if "TopLeft" in card_object:
 		$card_base/top_left_label.text = card_object["TopLeft"]
+		
 	if "TopRight" in card_object:
 		$card_base/top_right_label.text = card_object["TopRight"]
+		
 	if "Middle" in card_object:
 		$card_base/middle_label.text = card_object["Middle"]
+		
 	if "BottomLeft" in card_object:
 		$card_base/bottom_left_label.text = card_object["BottomLeft"]
+		
 	if "BottomRight" in card_object:
 		$card_base/bottom_right_label.text = card_object["BottomRight"]
+		
 	if "Type" in card_object:
 		if card_object["Type"] in ["creature","defense","action","energy"]:
 			$card_base/card_image.texture = load("res://assets/cards/" + card_object["Type"] +".png")
@@ -29,13 +34,14 @@ func set_card(card_object):
 	else:
 		$card_base/card_image.texture = load("res://assets/cards/unknown.png")
 		
+	#scale card image and place it properly
 	if $card_base/card_image.texture.get_height() > $card_base/card_image.texture.get_width():
 		$card_base/card_image.scale *= 100.0/$card_base/card_image.texture.get_height()
 	else: 
 		$card_base/card_image.scale *= 100.0/$card_base/card_image.texture.get_width()
 	
 	$card_base/card_image.offset.x = 125/$card_base/card_image.scale.x
-	$card_base/card_image.offset.y = ($card_base/card_image.texture.get_height()*$card_base/card_image.scale.y)
+	$card_base/card_image.offset.y = ($card_base/card_image.texture.get_height())
 	$card_base/card_image.centered = true
 
 	
@@ -78,6 +84,8 @@ func _input(event):
 	if is_dragging and event is InputEventMouseMotion:
 		position += (event.position - previous_mouse_position) # * get_tree().get_root().find_node("Camera2D").
 		previous_mouse_position = event.position
+		
+	z_index = position.y
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta: float) -> void:

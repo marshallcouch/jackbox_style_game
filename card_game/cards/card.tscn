@@ -13,10 +13,10 @@
 extents = Vector2( 125, 175 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 30, 30 )
+extents = Vector2( 18.5, 15 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 30, 30 )
+extents = Vector2( 15, 16.75 )
 
 [node name="draggable_card" type="Area2D"]
 script = ExtResource( 4 )
@@ -93,22 +93,22 @@ z_index = 1
 shape = SubResource( 1 )
 
 [node name="tap_box" type="CollisionShape2D" parent="."]
-position = Vector2( 183, 380 )
+position = Vector2( 176, 366 )
 shape = SubResource( 2 )
 
 [node name="tap_box_sprite" type="Sprite" parent="tap_box"]
-position = Vector2( -0.999985, 3.05176e-05 )
-scale = Vector2( 0.571429, 0.571429 )
+position = Vector2( 1, -5 )
+scale = Vector2( 0.542857, 0.6 )
 texture = ExtResource( 7 )
 
 [node name="flip_box" type="CollisionShape2D" parent="."]
-position = Vector2( 67, 380 )
+position = Vector2( 79.25, 367 )
 rotation = 1.5708
 shape = SubResource( 3 )
 
 [node name="Flip" type="Sprite" parent="flip_box"]
-position = Vector2( -0.453125, -1.97311 )
-scale = Vector2( 0.15643, 0.15643 )
+position = Vector2( -1.92065, 0.309448 )
+scale = Vector2( 0.0951797, 0.096835 )
 texture = ExtResource( 6 )
 
 [connection signal="input_event" from="." to="." method="_on_touch_input_event"]

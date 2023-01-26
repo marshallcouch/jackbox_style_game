@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://cards/card_in_deck.gd" type="Script" id=1]
+
+[sub_resource type="ImageTexture" id=1]
+
+[node name="card_in_deck" type="MarginContainer"]
+margin_right = 200.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 200, 50 )
+script = ExtResource( 1 )
+
+[node name="card_draw_button" type="Button" parent="."]
+margin_right = 200.0
+margin_bottom = 50.0
+icon = SubResource( 1 )
+flat = true
+
+[node name="card_name_label" type="Label" parent="."]
+margin_top = 10.0
+margin_right = 200.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 80, 30 )
+text = "test"
+valign = 1
+percent_visible = -0.25
+
+[connection signal="pressed" from="card_draw_button" to="." method="_on_card_draw_button_pressed"]

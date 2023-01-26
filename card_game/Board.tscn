@@ -18,4 +18,5 @@ script = ExtResource( 3 )
 [node name="deck" parent="." instance=ExtResource( 1 )]
 position = Vector2( 700, 100 )
 
+[connection signal="change_camera_scroll" from="deck" to="camera" method="_on_deck_change_camera_scroll"]
 [connection signal="draw_card" from="deck" to="." method="_on_deck_draw_card"]

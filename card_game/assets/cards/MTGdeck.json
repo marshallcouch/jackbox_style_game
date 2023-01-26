@@ -3,7 +3,7 @@
 "TopLeft":"forest",
 "Middle":"Green",
 "Type":"energy",
-"count":1
+"count":15
 },
 {
 "TopLeft":"Llanowar Elves",
@@ -11,7 +11,7 @@
 "Type":"creature",
 "Middle": "Elf Druid - tap, Add Green",
 "BottomRight":"1/1",
-"count":1
+"count":4
 },
 {
 "TopLeft":"Borderland Ranger",
@@ -19,13 +19,20 @@
 "Type":"creature",
 "Middle": "Human Scout - When borderland Ranger enters the battlefield you may search your library for a basic land card,reveal it put it into your hand then shuffle your library.",
 "BottomRight":"2/2",
-"count":1
+"count":4
 },
+{
 "TopLeft":"Giant Growth",
 "TopRight": "G",
 "Type":"action",
 "Middle": "Instant - Give +3/+3 to target creature until end of turn",
-"BottomRight":"2/2",
+"count":4
+}
+,{
+"TopLeft":"Big Sword ",
+"TopRight": "G",
+"Type":"defense",
+"Middle": "artifact - 🔴",
 "count":1
 }
 ]

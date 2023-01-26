@@ -6,6 +6,7 @@ var zoom_speed = Vector2(.05, .05)
 var previous_mouse_position = Vector2()
 var is_dragging = false
 var over_something = false
+var scroll_zooming_enabled = true
 
 func _input(event):
 	#handle dragging
@@ -24,9 +25,13 @@ func _input(event):
 		return
 	
 	if event.is_action_pressed("ui_scroll_down"):
+		if not scroll_zooming_enabled:
+			return
 		if zoom < zoom_max:
 			zoom += zoom_speed
 	elif event.is_action_pressed("ui_scroll_up"):
+		if not scroll_zooming_enabled:
+			return
 		if zoom > zoom_min:
 			zoom -= zoom_speed
 			
@@ -37,3 +42,7 @@ func _input(event):
 		
 		
 		
+
+
+func _on_deck_change_camera_scroll(enabled) -> void:
+	scroll_zooming_enabled = enabled

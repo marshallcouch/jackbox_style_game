@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://cards/deck_actions.gd" type="Script" id=1]
 [ext_resource path="res://assets/cards/shuffle.png" type="Texture" id=2]
@@ -10,10 +10,13 @@
 extents = Vector2( 125, 175 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 30, 30 )
+extents = Vector2( 23.5, 23 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 30, 30 )
+extents = Vector2( 23, 25 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 23, 25 )
 
 [node name="draggable_deck" type="Area2D"]
 position = Vector2( 1, -1 )
@@ -25,7 +28,7 @@ position = Vector2( 125, 175 )
 shape = SubResource( 1 )
 
 [node name="shuffle_box" type="CollisionShape2D" parent="."]
-position = Vector2( 31, 382 )
+position = Vector2( 24.0001, 375.5 )
 rotation = 1.5708
 shape = SubResource( 3 )
 
@@ -36,7 +39,7 @@ scale = Vector2( 0.0890924, 0.0907351 )
 texture = ExtResource( 2 )
 
 [node name="draw_box" type="CollisionShape2D" parent="."]
-position = Vector2( 104, 381 )
+position = Vector2( 84, 376 )
 shape = SubResource( 2 )
 
 [node name="draw_sprite" type="Sprite" parent="draw_box"]
@@ -45,8 +48,8 @@ scale = Vector2( 0.230358, 0.237857 )
 texture = ExtResource( 3 )
 
 [node name="search_box" type="CollisionShape2D" parent="."]
-position = Vector2( 181, 382 )
-shape = SubResource( 2 )
+position = Vector2( 151, 376 )
+shape = SubResource( 4 )
 
 [node name="search_sprite" type="Sprite" parent="search_box"]
 position = Vector2( 1.51618, 1.33704 )
@@ -73,10 +76,24 @@ margin_bottom = 28.0
 text = "60"
 align = 2
 
-[node name="PopupMenu" type="PopupMenu" parent="."]
-margin_left = -115.0
-margin_top = 80.0
-margin_right = -95.0
-margin_bottom = 100.0
+[node name="deck_search_box" type="ColorRect" parent="."]
+visible = false
+margin_left = -225.0
+margin_top = 6.0
+margin_right = -15.0
+margin_bottom = 348.0
+color = Color( 0.627451, 0.627451, 0.627451, 1 )
+
+[node name="deck_search" type="ScrollContainer" parent="deck_search_box"]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 209.0
+margin_bottom = 340.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+follow_focus = true
+scroll_deadzone = -1
+
+[node name="deck_list" type="VBoxContainer" parent="deck_search_box/deck_search"]
 
 [connection signal="input_event" from="." to="." method="_on_touch_input_event"]
