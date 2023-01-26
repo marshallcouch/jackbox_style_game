@@ -126,6 +126,12 @@ func _input(event):
 		position += (event.position - previous_mouse_position) # * get_tree().get_root().find_node("Camera2D").
 		previous_mouse_position = event.position
 
+func _place_card_in_deck(card, location):
+	if location == "top":
+		deck_array.push_front(card)
+	elif location == "bottom":
+		deck_array.push_back(card)
+		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta: float) -> void:
 #	pass

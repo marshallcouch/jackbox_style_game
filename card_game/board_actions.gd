@@ -23,6 +23,8 @@ func _on_deck_draw_card(card_object) -> void:
 	drawn_card.position.x = $deck.position.x-250
 	drawn_card.position.y= $deck.position.y
 	add_child(drawn_card)
+	drawn_card.connect("place_card_back_in_deck",self,"_put_card_in_deck")
 	pass # Replace with function body.
 
-
+func _put_card_in_deck(card,location):
+	$deck._place_card_in_deck(card,location)

@@ -5,12 +5,16 @@ extends Area2D
 
 var is_dragging: bool = false
 var previous_mouse_position = Vector2()
+var card
+signal place_card_back_in_deck(card,location)
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass
 
 
 func set_card(card_object):
+	card = card_object
 	if "TopLeft" in card_object:
 		$card_base/top_left_label.text = card_object["TopLeft"]
 		
@@ -52,25 +56,27 @@ func _on_touch_input_event(viewport, event, shape_idx):
 	
 	#shape ID 0 means drag, they clicked the card
 	if shape_idx == 0:
-		print("draggable:" + event.to_string())
 		get_tree().set_input_as_handled()
 		previous_mouse_position = event.position
 		is_dragging = true
 		
 	#shape ID 1 means tap
 	elif shape_idx == 1:
-		print("tap event: " + event.to_string())
 		if $card_base.get_rotation() == 0:
 			$card_base.set_rotation(1.57)
 		else:
 			$card_base.set_rotation(0)
 			
 	elif shape_idx == 2:
-		print("flip event: " + event.to_string())
 		if $card_base/card_back_sprite.visible:
 			$card_base/card_back_sprite.visible = false
 		else:
 			$card_base/card_back_sprite.visible = true
+	
+	elif shape_idx == 3:
+		$place_in_deck_box/place_menu.set_position(self.position+Vector2(200,300))
+		$place_in_deck_box.z_index = 400
+		$place_in_deck_box/place_menu.show()
 			
 
 func _input(event):
@@ -90,3 +96,14 @@ func _input(event):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta: float) -> void:
 #	pass
+
+
+func _on_place_menu_index_pressed(index: int) -> void:
+	if index == 0:
+		emit_signal("place_card_back_in_deck",card,"top")
+	elif index == 1:
+		emit_signal("place_card_back_in_deck",card,"bottom")
+	elif index == 2:
+		return
+		
+	self.queue_free()
