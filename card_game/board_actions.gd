@@ -32,7 +32,6 @@ func _put_card_in_deck(card,location):
 
 func _on_token_generator_pressed() -> void:
 	var new_counter = load("res://cards/counter.tscn").instance()
-	new_counter.show_delete_button()
 	new_counter.position = $token_position.position
 	new_counter.z_index = 1000
 	self.add_child(new_counter)

@@ -13,7 +13,6 @@ func _ready() -> void:
 	
 	pass # Replace with function body.
 
-var show_delete_button
 
 func _on_touch_input_event(viewport, event, shape_idx):
 	if not event.is_action_pressed("ui_touch"):
@@ -29,13 +28,11 @@ func _on_touch_input_event(viewport, event, shape_idx):
 		if $counter_edit.visible:
 			$counter_label.text = $counter_edit.text
 			$counter_edit.visible = false
-			if show_delete_button:
-				$delete_button.hide()
+			$delete_button.hide()
 		
 		if $timer.is_stopped() == false:
 			$counter_edit.visible = true
-			if show_delete_button:
-				$delete_button.show()
+			$delete_button.show()
 			print_debug("double click!")
 			$timer.stop()
 		else:
@@ -60,9 +57,6 @@ func _input(event):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta: float) -> void:
 #	pass
-
-func show_delete_button():
-	show_delete_button = true
 	
 
 
