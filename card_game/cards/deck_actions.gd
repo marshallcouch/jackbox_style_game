@@ -1,10 +1,6 @@
 extends Area2D
 
 
-# Declare member variables here. Examples:
-# var a: int = 2
-# var b: String = "text"
-
 var is_dragging: bool = false
 var previous_mouse_position = Vector2()
 var deck_array:Array = []
@@ -16,22 +12,16 @@ signal change_camera_scroll(enabled)
 func _ready() -> void:
 	var deck_file = File.new()
 	deck_file.open("res://assets/cards/MTGdeck.json",File.READ)
-	print(deck_file.get_as_text())
+	#print_debug(deck_file.get_as_text())
 	deck_result = JSON.parse(deck_file.get_as_text()).result
 	deck_file.close()
-	print(deck_result)
+	#print_debug(deck_result)
 	for card in deck_result:
 		for _i in range(0,card["count"]):
 			deck_array.push_front(card)
 			#print(card["TopLeft"])
 	$card_count_label.text = String(deck_array.size())
-	
-	
-	
-			
-	
-	
-	
+
 func _on_touch_input_event(viewport, event, shape_idx):
 	if not event.is_action_pressed("ui_touch"):
 		return
@@ -55,7 +45,6 @@ func _on_touch_input_event(viewport, event, shape_idx):
 	if shape_idx == 3:
 		_search_deck(event)
 
-
 func _search_deck(event) -> void:
 	if $deck_search_box.visible == false:
 		for card in deck_array:
@@ -67,7 +56,7 @@ func _search_deck(event) -> void:
 		emit_signal("change_camera_scroll",false)
 	else:
 		_hide_deck_search()
-			
+
 func _hide_deck_search():
 	for n in $deck_search_box/deck_search/deck_list.get_children():
 			$deck_search_box/deck_search/deck_list.remove_child(n)
@@ -112,7 +101,7 @@ func _set_deck_cards_visible():
 			$card_back_sprite3.visible = true
 			$card_back_sprite2.visible = true
 			$card_back_sprite.visible = true
-		
+
 
 func _input(event):
 	if not is_dragging:
@@ -132,6 +121,3 @@ func _place_card_in_deck(card, location):
 	elif location == "bottom":
 		deck_array.push_back(card)
 		
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta: float) -> void:
-#	pass

@@ -23,7 +23,7 @@ func _input(event):
 			previous_mouse_position = event.position
 			is_dragging = false
 		return
-	
+
 	if event.is_action_pressed("ui_scroll_down"):
 		if not scroll_zooming_enabled:
 			return
@@ -34,15 +34,32 @@ func _input(event):
 			return
 		if zoom > zoom_min:
 			zoom -= zoom_speed
-			
+
 	#start dragging
 	elif event.is_action_pressed("ui_middle_mouse"):
 		is_dragging = true
 		previous_mouse_position = event.position
-		
-		
-		
 
 
 func _on_deck_change_camera_scroll(enabled) -> void:
 	scroll_zooming_enabled = enabled
+
+func _on_right_button_pressed() -> void:
+	offset_h += 1
+
+func _on_left_button_pressed() -> void:
+	offset_h -= 1
+
+func _on_down_button_pressed() -> void:
+	offset_v += 1
+
+func _on_up_button_pressed() -> void:
+	offset_v -= 1
+
+func _on_zoom_out_pressed() -> void:
+	if zoom < zoom_max:
+			zoom += zoom_speed
+
+func _on_zoom_in_pressed() -> void:
+	if zoom > zoom_min:
+			zoom -= zoom_speed

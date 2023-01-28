@@ -1,7 +1,4 @@
 extends Area2D
-# Declare member variables here. Examples:
-# var a: int = 2
-# var b: String = "text"
 
 var is_dragging: bool = false
 var previous_mouse_position = Vector2()
@@ -92,10 +89,6 @@ func _input(event):
 		previous_mouse_position = event.position
 		1
 	z_index = position.y
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta: float) -> void:
-#	pass
 
 
 func _on_place_menu_index_pressed(index: int) -> void:
