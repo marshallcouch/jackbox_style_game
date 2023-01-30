@@ -4,26 +4,29 @@ extends Area2D
 var is_dragging: bool = false
 var previous_mouse_position = Vector2()
 var deck_array:Array = []
-var deck_result:Array
+
 signal draw_card(card_object)
 signal change_camera_scroll(enabled)
-
+var game_name:String = ""
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	load_deck("res://assets/cards/MTGdeck.json")
+	load_deck("C:\\Users\\marsh\\Documents\\Godot\\jackbox_style_game\\card_game\\assets\\cards\\MTGdeck.json")
 
 func load_deck(file_path_to_deck) -> void:
 	var deck_file = File.new()
 	deck_file.open(file_path_to_deck,File.READ)
 	#print_debug(deck_file.get_as_text())
-	deck_result = JSON.parse(deck_file.get_as_text()).result
+	var json_result = JSON.parse(deck_file.get_as_text()).result
 	deck_file.close()
+	game_name = String(json_result["game"])
 	#print_debug(deck_result)
-	for card in deck_result:
-		for _i in range(0,card["count"]):
-			deck_array.push_front(card)
-			#print(card["TopLeft"])
-	$card_count_label.text = String(deck_array.size())
+	for i in 2:
+		if "deck_"+String(i) in json_result:
+			for card in json_result["deck_"+String(i)]:
+				for j in range(0,card["count"]):
+					deck_array.push_front(card)
+					#print(card["TopLeft"])
+			$card_count_label.text = String(deck_array.size())
 
 func _on_touch_input_event(viewport, event, shape_idx):
 	if not event.is_action_pressed("ui_touch"):
@@ -52,7 +55,7 @@ func _search_deck(event) -> void:
 	if $deck_search_box.visible == false:
 		for card in deck_array:
 			var card_in_deck = load("res://cards/card_in_deck.tscn").instance()
-			card_in_deck._set_label(card["TopLeft"])
+			card_in_deck._set_label(card["top_left"])
 			$deck_search_box/deck_search/deck_list.add_child(card_in_deck)
 			card_in_deck.connect("draw_card_from_deck",self,"_draw_card_from_deck")
 		$deck_search_box.show()
@@ -79,7 +82,7 @@ func _draw_card(event) -> void:
 
 func _draw_card_from_deck(card_to_draw):
 	for card in deck_array:
-		if card["TopLeft"] == card_to_draw:
+		if card["top_left"] == card_to_draw:
 			deck_array.remove(deck_array.find(card))
 			emit_signal("draw_card",card)
 			break

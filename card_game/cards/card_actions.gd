@@ -12,24 +12,24 @@ func _ready() -> void:
 
 func set_card(card_object):
 	card = card_object
-	if "TopLeft" in card_object:
-		$card_base/top_left_label.text = card_object["TopLeft"]
+	if "top_left" in card_object:
+		$card_base/top_left_label.text = card_object["top_left"]
 		
-	if "TopRight" in card_object:
-		$card_base/top_right_label.text = card_object["TopRight"]
+	if "top_right" in card_object:
+		$card_base/top_right_label.text = card_object["top_right"]
 		
-	if "Middle" in card_object:
-		$card_base/middle_label.text = card_object["Middle"]
+	if "middle" in card_object:
+		$card_base/middle_label.text = card_object["middle"]
 		
-	if "BottomLeft" in card_object:
-		$card_base/bottom_left_label.text = card_object["BottomLeft"]
+	if "bottom_left" in card_object:
+		$card_base/bottom_left_label.text = card_object["bottom_left"]
 		
-	if "BottomRight" in card_object:
-		$card_base/bottom_right_label.text = card_object["BottomRight"]
+	if "bottom_right" in card_object:
+		$card_base/bottom_right_label.text = card_object["bottom_right"]
 		
-	if "Type" in card_object:
-		if card_object["Type"] in ["creature","defense","action","energy"]:
-			$card_base/card_image.texture = load("res://assets/cards/" + card_object["Type"] +".png")
+	if "type" in card_object:
+		if card_object["type"] in ["creature","defense","action","energy"]:
+			$card_base/card_image.texture = load("res://assets/cards/" + card_object["type"] +".png")
 		else:
 			$card_base/card_image.texture = load("res://assets/cards/unknown.png")
 	else:

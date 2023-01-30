@@ -6,7 +6,7 @@ func _ready() -> void:
 
 
 func _on_deck_draw_card(card_object) -> void:
-	print_debug("drawn card:" + card_object["TopLeft"])
+	print_debug("drawn card:" + card_object["top_left"])
 	var drawn_card = load("res://cards/card.tscn").instance()
 	drawn_card.set_card(card_object)
 	drawn_card.position.x = $deck.position.x-250

@@ -5,9 +5,10 @@ extends PopupMenu
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	add_item("Load Deck")
+	add_item("Load Deck") 
 	add_item("Clear Deck")
 	add_item("Create Token/Counter")
+	add_item("Clear Tokens/Counters")
 	add_item("Close Menu")
 
 
@@ -27,7 +28,9 @@ func _on_action_menu_index_pressed(index: int) -> void:
 	elif index == 2: #Create Token/Counter
 		var new_counter = load("res://cards/counter.tscn").instance()
 		new_counter.z_index = 1000
-		get_node("/root/board").add_child(new_counter)
-
-
+		get_node("/root/board/counters").add_child(new_counter)
+		
+	elif index == 3: #Create Token/Counter
+		for nodes in get_node("/root/board/counters").get_children():
+			get_node("/root/board/counters").remove_child(nodes)
 
