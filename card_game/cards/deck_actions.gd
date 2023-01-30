@@ -10,8 +10,11 @@ signal change_camera_scroll(enabled)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	load_deck("res://assets/cards/MTGdeck.json")
+
+func load_deck(file_path_to_deck) -> void:
 	var deck_file = File.new()
-	deck_file.open("res://assets/cards/MTGdeck.json",File.READ)
+	deck_file.open(file_path_to_deck,File.READ)
 	#print_debug(deck_file.get_as_text())
 	deck_result = JSON.parse(deck_file.get_as_text()).result
 	deck_file.close()
@@ -53,7 +56,6 @@ func _search_deck(event) -> void:
 			$deck_search_box/deck_search/deck_list.add_child(card_in_deck)
 			card_in_deck.connect("draw_card_from_deck",self,"_draw_card_from_deck")
 		$deck_search_box.show()
-		emit_signal("change_camera_scroll",false)
 	else:
 		_hide_deck_search()
 
@@ -62,8 +64,7 @@ func _hide_deck_search():
 			$deck_search_box/deck_search/deck_list.remove_child(n)
 			n.queue_free()
 	$deck_search_box.hide()
-	emit_signal("change_camera_scroll",true)
-		
+
 func _shuffle_deck(event) -> void:
 	print_debug("shuffle:" + event.to_string())
 	if deck_array.size() >1:

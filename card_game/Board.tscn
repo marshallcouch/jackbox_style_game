@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://cards/card_deck.tscn" type="PackedScene" id=1]
+[ext_resource path="res://action_menu.gd" type="Script" id=2]
 [ext_resource path="res://camera_actions.gd" type="Script" id=3]
 [ext_resource path="res://board_actions.gd" type="Script" id=4]
 [ext_resource path="res://cards/counter.tscn" type="PackedScene" id=5]
@@ -18,18 +19,18 @@ z_index = 8
 current = true
 script = ExtResource( 3 )
 
-[node name="navigation_panel" type="CanvasLayer" parent="camera"]
+[node name="action_panel" type="CanvasLayer" parent="camera"]
 
-[node name="left_button" type="Button" parent="camera/navigation_panel"]
-margin_left = 111.0
-margin_top = -8.0
-margin_right = 151.0
-margin_bottom = 32.0
+[node name="left_button" type="Button" parent="camera/action_panel"]
+margin_left = -10.0
+margin_top = 99.0
+margin_right = 30.0
+margin_bottom = 139.0
 rect_rotation = 90.0
-rect_pivot_offset = Vector2( -61, -7 )
+rect_pivot_offset = Vector2( 53.0044, 0 )
 text = "V"
 
-[node name="down_button" type="Button" parent="camera/navigation_panel"]
+[node name="down_button" type="Button" parent="camera/action_panel"]
 margin_left = 45.0
 margin_top = 88.0
 margin_right = 85.0
@@ -37,7 +38,7 @@ margin_bottom = 128.0
 rect_pivot_offset = Vector2( 20, 20 )
 text = "V"
 
-[node name="up_button" type="Button" parent="camera/navigation_panel"]
+[node name="up_button" type="Button" parent="camera/action_panel"]
 margin_left = 45.0
 margin_top = 3.99999
 margin_right = 85.0
@@ -46,7 +47,7 @@ rect_rotation = 180.0
 rect_pivot_offset = Vector2( 20, 20 )
 text = "V"
 
-[node name="right_button" type="Button" parent="camera/navigation_panel"]
+[node name="right_button" type="Button" parent="camera/action_panel"]
 margin_left = 141.0
 margin_top = 154.0
 margin_right = 181.0
@@ -55,7 +56,7 @@ rect_rotation = 270.0
 rect_pivot_offset = Vector2( -61, -7 )
 text = "V"
 
-[node name="zoom_in" type="Button" parent="camera/navigation_panel"]
+[node name="zoom_in" type="Button" parent="camera/action_panel"]
 margin_left = 87.0
 margin_top = 4.0
 margin_right = 127.0
@@ -63,7 +64,7 @@ margin_bottom = 44.0
 rect_pivot_offset = Vector2( 20, 20 )
 text = "+"
 
-[node name="zoom_out" type="Button" parent="camera/navigation_panel"]
+[node name="zoom_out" type="Button" parent="camera/action_panel"]
 margin_left = 3.0
 margin_top = 4.0
 margin_right = 43.0
@@ -71,29 +72,46 @@ margin_bottom = 44.0
 rect_pivot_offset = Vector2( 20, 20 )
 text = "-"
 
+[node name="action_menu_button" type="Button" parent="camera/action_panel"]
+margin_left = 3.0
+margin_top = 88.0
+margin_right = 43.0
+margin_bottom = 128.0
+rect_pivot_offset = Vector2( 20, 20 )
+text = "..."
+
+[node name="action_menu" type="PopupMenu" parent="camera/action_panel/action_menu_button"]
+margin_right = 20.0
+margin_bottom = 20.0
+script = ExtResource( 2 )
+
+[node name="deck_dialog" type="FileDialog" parent="camera/action_panel/action_menu_button/action_menu"]
+visible = true
+margin_left = 21.0
+margin_top = -43.0
+margin_right = 938.0
+margin_bottom = 406.0
+mode_overrides_title = false
+mode = 0
+access = 2
+
 [node name="player_hand" type="CanvasLayer" parent="camera"]
 script = ExtResource( 6 )
 
 [node name="deck" parent="." instance=ExtResource( 1 )]
-position = Vector2( 700, 100 )
+position = Vector2( 697, 107 )
 
-[node name="token_position" type="Position2D" parent="."]
-position = Vector2( 658, 45 )
+[node name="decks" type="Node" parent="."]
 
-[node name="token_generator" type="Button" parent="token_position"]
-margin_left = 28.0
-margin_top = 10.0
-margin_right = 89.0
-margin_bottom = 37.0
-text = "Tokens!"
-
-[connection signal="pressed" from="camera/navigation_panel/left_button" to="camera" method="_on_left_button_pressed"]
-[connection signal="pressed" from="camera/navigation_panel/down_button" to="camera" method="_on_down_button_pressed"]
-[connection signal="pressed" from="camera/navigation_panel/up_button" to="camera" method="_on_up_button_pressed"]
-[connection signal="pressed" from="camera/navigation_panel/right_button" to="camera" method="_on_right_button_pressed"]
-[connection signal="pressed" from="camera/navigation_panel/zoom_in" to="camera" method="_on_zoom_in_pressed"]
-[connection signal="pressed" from="camera/navigation_panel/zoom_out" to="camera" method="_on_zoom_out_pressed"]
+[connection signal="pressed" from="camera/action_panel/left_button" to="camera" method="_on_left_button_pressed"]
+[connection signal="pressed" from="camera/action_panel/down_button" to="camera" method="_on_down_button_pressed"]
+[connection signal="pressed" from="camera/action_panel/up_button" to="camera" method="_on_up_button_pressed"]
+[connection signal="pressed" from="camera/action_panel/right_button" to="camera" method="_on_right_button_pressed"]
+[connection signal="pressed" from="camera/action_panel/zoom_in" to="camera" method="_on_zoom_in_pressed"]
+[connection signal="pressed" from="camera/action_panel/zoom_out" to="camera" method="_on_zoom_out_pressed"]
+[connection signal="pressed" from="camera/action_panel/action_menu_button" to="camera/action_panel/action_menu_button/action_menu" method="_on_action_menu_button_pressed"]
+[connection signal="index_pressed" from="camera/action_panel/action_menu_button/action_menu" to="camera/action_panel/action_menu_button/action_menu" method="_on_action_menu_index_pressed"]
+[connection signal="file_selected" from="camera/action_panel/action_menu_button/action_menu/deck_dialog" to="." method="_on_deck_dialog_file_selected"]
 [connection signal="child_entered_tree" from="camera/player_hand" to="camera/player_hand" method="_on_player_hand_child_entered_tree"]
 [connection signal="change_camera_scroll" from="deck" to="camera" method="_on_deck_change_camera_scroll"]
 [connection signal="draw_card" from="deck" to="." method="_on_deck_draw_card"]
-[connection signal="pressed" from="token_position/token_generator" to="." method="_on_token_generator_pressed"]

@@ -13,15 +13,12 @@ func _on_deck_draw_card(card_object) -> void:
 	drawn_card.position.y= $deck.position.y
 	add_child(drawn_card)
 	drawn_card.connect("place_card_back_in_deck",self,"_put_card_in_deck")
-	pass # Replace with function body.
+
 
 func _put_card_in_deck(card,location):
 	$deck._place_card_in_deck(card,location)
 
-
-func _on_token_generator_pressed() -> void:
-	var new_counter = load("res://cards/counter.tscn").instance()
-	new_counter.position = $token_position.position
-	new_counter.z_index = 1000
-	self.add_child(new_counter)
-	pass # Replace with function body.
+func _on_deck_dialog_file_selected(path: String) -> void:
+	var new_deck = load("res://cards/card_deck.tscn").instance()
+	new_deck.load_deck(path)
+	$decks.add_child(new_deck)
