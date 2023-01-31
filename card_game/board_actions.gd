@@ -19,7 +19,7 @@ func _on_deck_draw_card(card_object) -> void:
 			max_x = cards.position.x
 		if cards.position.y > max_y:
 			max_y = cards.position.y
-	drawn_card.position = Vector2(max_x + 40 ,max_y + 40 )
+	drawn_card.position = Vector2(max_x + 20 ,max_y + 60 )
 	drawn_card.flip()
 	$camera/player_hand.add_child(drawn_card)
 	drawn_card.connect("place_card_back_in_deck",self,"_put_card_in_deck")

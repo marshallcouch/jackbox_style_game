@@ -87,9 +87,10 @@ margin_left = 21.0
 margin_top = -43.0
 margin_right = 938.0
 margin_bottom = 406.0
-mode_overrides_title = false
+window_title = "Open Deck(s)"
+dialog_text = "Open Deck(s)"
 mode = 0
-access = 2
+access = 1
 
 [node name="show_hide_hand_button" type="Button" parent="camera/action_panel"]
 margin_right = 45.0

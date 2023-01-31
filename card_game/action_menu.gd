@@ -6,7 +6,7 @@ extends PopupMenu
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	add_item("Load Deck(s)") 
-	add_item("Clear Decks")
+	add_item("Clear Decks and Cards")
 	add_item("Create Token/Counter")
 	add_item("Clear Tokens/Counters")
 	add_item("Close Menu")
@@ -25,6 +25,10 @@ func _on_action_menu_index_pressed(index: int) -> void:
 	if index == 1: #Clear decks
 		for nodes in get_node("/root/board/decks").get_children():
 			get_node("/root/board/decks").remove_child(nodes)
+		for nodes in get_node("/root/board/cards").get_children():
+			get_node("/root/board/cards").remove_child(nodes)
+		for nodes in get_node("/root/board/camera/player_hand").get_children():
+			get_node("/root/board/camera/player_hand").remove_child(nodes)
 		
 	elif index == 2: #Create Token/Counter
 		var new_counter = load("res://cards/counter.tscn").instance()
