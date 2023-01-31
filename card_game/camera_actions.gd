@@ -8,6 +8,9 @@ var is_dragging = false
 var over_something = false
 var scroll_zooming_enabled = true
 
+func _ready() -> void:
+	$action_panel/show_hide_hand_button.set_global_position(Vector2(5,get_viewport().size.y - 65))
+		
 func _input(event):
 	#handle dragging
 	if is_dragging and event is InputEventMouseMotion:
@@ -23,17 +26,6 @@ func _input(event):
 			previous_mouse_position = event.position
 			is_dragging = false
 		return
-
-#	if event.is_action_pressed("ui_scroll_down"):
-#		if not scroll_zooming_enabled:
-#			return
-#		if zoom < zoom_max:
-#			zoom += zoom_speed
-#	elif event.is_action_pressed("ui_scroll_up"):
-#		if not scroll_zooming_enabled:
-#			return
-#		if zoom > zoom_min:
-#			zoom -= zoom_speed
 
 	#start dragging
 	elif event.is_action_pressed("ui_middle_mouse"):
@@ -63,3 +55,12 @@ func _on_zoom_out_pressed() -> void:
 func _on_zoom_in_pressed() -> void:
 	if zoom > zoom_min:
 			zoom -= zoom_speed
+
+
+func _on_show_hide_hand_button_pressed() -> void:
+	if $player_hand.visible:
+		$player_hand.hide()
+		$action_panel/show_hide_hand_button.text = "Show"
+	else:
+		$player_hand.show()
+		$action_panel/show_hide_hand_button.text = "Hide"

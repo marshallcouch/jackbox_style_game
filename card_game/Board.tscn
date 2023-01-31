@@ -90,8 +90,16 @@ mode_overrides_title = false
 mode = 0
 access = 2
 
+[node name="show_hide_hand_button" type="Button" parent="camera/action_panel"]
+margin_right = 45.0
+margin_bottom = 40.0
+rect_scale = Vector2( 1.5, 1.5 )
+text = "Hide"
+
 [node name="player_hand" type="CanvasLayer" parent="camera"]
 script = ExtResource( 6 )
+
+[node name="cards" type="Node" parent="."]
 
 [node name="decks" type="Node" parent="."]
 
@@ -110,4 +118,5 @@ z_index = 8
 [connection signal="pressed" from="camera/action_panel/action_menu_button" to="camera/action_panel/action_menu_button/action_menu" method="_on_action_menu_button_pressed"]
 [connection signal="index_pressed" from="camera/action_panel/action_menu_button/action_menu" to="camera/action_panel/action_menu_button/action_menu" method="_on_action_menu_index_pressed"]
 [connection signal="file_selected" from="camera/action_panel/action_menu_button/action_menu/deck_dialog" to="." method="_on_deck_dialog_file_selected"]
+[connection signal="pressed" from="camera/action_panel/show_hide_hand_button" to="camera" method="_on_show_hide_hand_button_pressed"]
 [connection signal="child_entered_tree" from="camera/player_hand" to="camera/player_hand" method="_on_player_hand_child_entered_tree"]

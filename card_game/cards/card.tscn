@@ -130,5 +130,7 @@ margin_bottom = 20.0
 rect_scale = Vector2( 1.5, 1.5 )
 items = [ "Top", null, 0, false, false, 0, 0, null, "", false, "Bottom", null, 0, false, false, 1, 0, null, "", false, "Close", null, 0, false, false, 2, 0, null, "", false ]
 
+[node name="timer" type="Timer" parent="."]
+
 [connection signal="input_event" from="." to="." method="_on_touch_input_event"]
 [connection signal="index_pressed" from="place_in_deck_box/place_menu" to="." method="_on_place_menu_index_pressed"]

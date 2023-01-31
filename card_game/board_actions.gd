@@ -1,8 +1,10 @@
 extends Node2D
 class_name Board
 signal place_card_in_deck(card,location)
-
+var testing = true
 func _ready() -> void:
+	if testing:
+		_on_deck_dialog_file_selected("C:\\Users\\marsh\\Documents\\Godot\\jackbox_style_game\\card_game\\assets\\cards\\MTGdeck.json")
 	pass
 
 
@@ -10,11 +12,8 @@ func _on_deck_draw_card(card_object) -> void:
 	print_debug("drawn card:" + card_object["top_left"])
 	var drawn_card = load("res://cards/card.tscn").instance()
 	drawn_card.set_card(card_object)
-	#drawn_card.position.x = $deck.position.x-250
-	#drawn_card.position.y= $deck.position.y
-	add_child(drawn_card)
+	$camera/player_hand.add_child(drawn_card)
 	drawn_card.connect("place_card_back_in_deck",self,"_put_card_in_deck")
-
 
 func _put_card_in_deck(card,location):
 	emit_signal("place_card_in_deck",card,location)

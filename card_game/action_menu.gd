@@ -5,8 +5,8 @@ extends PopupMenu
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	add_item("Load Deck") 
-	add_item("Clear Deck")
+	add_item("Load Deck(s)") 
+	add_item("Clear Decks")
 	add_item("Create Token/Counter")
 	add_item("Clear Tokens/Counters")
 	add_item("Close Menu")

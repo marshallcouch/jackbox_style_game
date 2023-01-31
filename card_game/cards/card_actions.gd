@@ -7,6 +7,7 @@ signal place_card_back_in_deck(card,location)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	$timer.one_shot = true
 	pass
 
 
@@ -51,6 +52,14 @@ func _on_touch_input_event(viewport, event, shape_idx):
 		return
 	print(shape_idx)
 	
+	if $timer.is_stopped() == false:
+		print_debug("double click!")
+		var new_parent = get_node("/root/board/cards")
+		get_parent().remove_child(self)
+		new_parent.add_child(self)
+		$timer.stop()
+	else:
+		$timer.start(.3)
 	#shape ID 0 means drag, they clicked the card
 	if shape_idx == 0:
 		get_tree().set_input_as_handled()
