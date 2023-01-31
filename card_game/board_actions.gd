@@ -12,7 +12,14 @@ func _on_deck_draw_card(card_object) -> void:
 	print_debug("drawn card:" + card_object["top_left"])
 	var drawn_card = load("res://cards/card.tscn").instance()
 	drawn_card.set_card(card_object)
-	drawn_card.position = Vector2(20*$camera/player_hand.get_child_count() + rand_range(0,20),30*$camera/player_hand.get_child_count() + rand_range(0,20))
+	var max_x = 0
+	var max_y = 0
+	for cards in $camera/player_hand.get_children():
+		if cards.position.x > max_x:
+			max_x = cards.position.x
+		if cards.position.y > max_y:
+			max_y = cards.position.y
+	drawn_card.position = Vector2(max_x + 40 ,max_y + 40 )
 	drawn_card.flip()
 	$camera/player_hand.add_child(drawn_card)
 	drawn_card.connect("place_card_back_in_deck",self,"_put_card_in_deck")
