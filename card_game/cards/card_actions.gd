@@ -8,6 +8,7 @@ signal place_card_back_in_deck(card,location)
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$timer.one_shot = true
+	z_index = position.y-2000
 	pass
 
 
@@ -57,6 +58,7 @@ func _on_touch_input_event(viewport, event, shape_idx):
 		var new_parent = get_node("/root/board/cards")
 		get_parent().remove_child(self)
 		new_parent.add_child(self)
+		position = Vector2(0-rand_range(0,250),0-rand_range(0,350))
 		$timer.stop()
 	else:
 		$timer.start(.3)
@@ -74,14 +76,10 @@ func _on_touch_input_event(viewport, event, shape_idx):
 			$card_base.set_rotation(0)
 			
 	elif shape_idx == 2:
-		if $card_base/card_back_sprite.visible:
-			$card_base/card_back_sprite.visible = false
-		else:
-			$card_base/card_back_sprite.visible = true
+		flip()
 	
 	elif shape_idx == 3:
-		$place_in_deck_box/place_menu.set_position(self.position+Vector2(200,300))
-		$place_in_deck_box.z_index = 400
+		$place_in_deck_box/place_menu.set_position(self.position+Vector2(200,250))
 		$place_in_deck_box/place_menu.show()
 			
 
@@ -97,8 +95,13 @@ func _input(event):
 		position += (event.position - previous_mouse_position) # * get_tree().get_root().find_node("Camera2D").
 		previous_mouse_position = event.position
 		1
-	z_index = position.y
+	z_index = position.y-2000
 
+func flip():
+	if $card_base/card_back_sprite.visible:
+		$card_base/card_back_sprite.visible = false
+	else:
+		$card_base/card_back_sprite.visible = true
 
 func _on_place_menu_index_pressed(index: int) -> void:
 	if index == 0:

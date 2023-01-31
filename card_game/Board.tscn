@@ -15,6 +15,7 @@ current = true
 script = ExtResource( 3 )
 
 [node name="action_panel" type="CanvasLayer" parent="camera"]
+layer = 2
 
 [node name="left_button" type="Button" parent="camera/action_panel"]
 margin_left = -10.0
