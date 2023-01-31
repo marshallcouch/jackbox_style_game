@@ -8,25 +8,22 @@ var deck_array:Array = []
 signal draw_card(card_object)
 signal change_camera_scroll(enabled)
 var game_name:String = ""
+var deck_name:String = ""
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	load_deck("C:\\Users\\marsh\\Documents\\Godot\\jackbox_style_game\\card_game\\assets\\cards\\MTGdeck.json")
+	pass
 
-func load_deck(file_path_to_deck) -> void:
-	var deck_file = File.new()
-	deck_file.open(file_path_to_deck,File.READ)
-	#print_debug(deck_file.get_as_text())
-	var json_result = JSON.parse(deck_file.get_as_text()).result
-	deck_file.close()
-	game_name = String(json_result["game"])
-	#print_debug(deck_result)
-	for i in 2:
-		if "deck_"+String(i) in json_result:
-			for card in json_result["deck_"+String(i)]:
-				for j in range(0,card["count"]):
-					deck_array.push_front(card)
-					#print(card["TopLeft"])
-			$card_count_label.text = String(deck_array.size())
+func load_deck(game_name, deck_name, deck_json) -> void:
+	for card in deck_json:
+		for j in range(0,card["count"]):
+			deck_array.push_front(card)
+	$card_count_label.text = String(deck_array.size())
+	self.game_name = game_name
+	self.deck_name = deck_name
+	$deck_name_label.text = deck_name
+	
+	
+	
 
 func _on_touch_input_event(viewport, event, shape_idx):
 	if not event.is_action_pressed("ui_touch"):
@@ -124,4 +121,4 @@ func _place_card_in_deck(card, location):
 		deck_array.push_front(card)
 	elif location == "bottom":
 		deck_array.push_back(card)
-		
+	_set_deck_cards_visible()

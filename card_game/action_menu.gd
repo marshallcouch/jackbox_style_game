@@ -23,7 +23,8 @@ func _on_action_menu_index_pressed(index: int) -> void:
 		$deck_dialog.popup()
 		
 	if index == 1: #Clear decks
-		pass
+		for nodes in get_node("/root/board/decks").get_children():
+			get_node("/root/board/decks").remove_child(nodes)
 		
 	elif index == 2: #Create Token/Counter
 		var new_counter = load("res://cards/counter.tscn").instance()

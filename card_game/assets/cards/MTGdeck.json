@@ -1,51 +1,54 @@
 {
 	"game":"Magic The Gathering",
-	"deck_1":
-	[
+	"decks":[
+		{"deck_name":"Main Deck",
+		"deck":[
+			{
+			"top_left":"forest",
+			"middle":"Green",
+			"type":"energy",
+			"count":15
+			},
+			{
+			"top_left":"Llanowar Elves",
+			"top_right": "G",
+			"type":"creature",
+			"middle": "Elf Druid - tap, Add Green",
+			"bottom_right":"1/1",
+			"count":4
+			},
+			{
+			"top_left":"Borderland Ranger",
+			"top_right": "2G",
+			"type":"creature",
+			"middle": "Human Scout - When borderland Ranger enters the battlefield you may search your library for a basic land card,reveal it put it into your hand then shuffle your library.",
+			"bottom_right":"2/2",
+			"count":4
+			},
+			{
+			"top_left":"Giant Growth",
+			"top_right": "G",
+			"type":"action",
+			"middle": "Instant - Give +3/+3 to target creature until end of turn",
+			"count":4
+			},
+			{
+			"top_left":"Big Sword ",
+			"top_right": "G",
+			"type":"defense",
+			"middle": "artifact",
+			"count":1
+			}
+		]},
+		{"deck_name": "Side Board",
+		"deck":[
 		{
-		"top_left":"forest",
-		"middle":"Green",
-		"type":"energy",
-		"count":15
-		},
-		{
-		"top_left":"Llanowar Elves",
-		"top_right": "G",
-		"type":"creature",
-		"middle": "Elf Druid - tap, Add Green",
-		"bottom_right":"1/1",
-		"count":4
-		},
-		{
-		"top_left":"Borderland Ranger",
-		"top_right": "2G",
-		"type":"creature",
-		"middle": "Human Scout - When borderland Ranger enters the battlefield you may search your library for a basic land card,reveal it put it into your hand then shuffle your library.",
-		"bottom_right":"2/2",
-		"count":4
-		},
-		{
-		"top_left":"Giant Growth",
-		"top_right": "G",
-		"type":"action",
-		"middle": "Instant - Give +3/+3 to target creature until end of turn",
-		"count":4
-		},
-		{
-		"top_left":"Big Sword ",
-		"top_right": "G",
-		"type":"defense",
-		"middle": "artifact",
-		"count":1
-		}
-	],
-	"deck_2":
-	[	{
-		"top_left":"Big Sword ",
-		"top_right": "G",
-		"type":"defense",
-		"middle": "artifact - +1/+1",
-		"count":1
-		}
+			"top_left":"Big Sword ",
+			"top_right": "G",
+			"type":"defense",
+			"middle": "artifact - +1/+1",
+			"count":1
+			}
+		]}
 	]
 }

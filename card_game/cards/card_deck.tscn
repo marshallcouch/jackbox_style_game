@@ -76,6 +76,13 @@ margin_bottom = 28.0
 text = "60"
 align = 2
 
+[node name="deck_name_label" type="Label" parent="."]
+margin_left = 174.0
+margin_top = 328.0
+margin_right = 241.0
+margin_bottom = 342.0
+text = "Main Deck"
+
 [node name="deck_search_box" type="ColorRect" parent="."]
 visible = false
 margin_left = -225.0
