@@ -7,7 +7,7 @@
 [ext_resource path="res://player_hand.gd" type="Script" id=6]
 
 [node name="board" type="Node2D"]
-position = Vector2( 43, 24 )
+position = Vector2( 51, 32 )
 script = ExtResource( 4 )
 
 [node name="camera" type="Camera2D" parent="."]
@@ -22,60 +22,65 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -920.0
-margin_top = -492.0
-margin_right = -880.0
-margin_bottom = -452.0
+margin_left = -912.0
+margin_top = -484.0
+margin_right = -872.0
+margin_bottom = -444.0
 rect_rotation = 90.0
 text = "V"
 
 [node name="recenter_button" type="Button" parent="camera/action_panel"]
-margin_left = 48.0
-margin_top = 48.0
-margin_right = 88.0
-margin_bottom = 88.0
+margin_left = 56.0
+margin_top = 56.0
+margin_right = 96.0
+margin_bottom = 96.0
 text = "]["
 
 [node name="down_button" type="Button" parent="camera/action_panel"]
-margin_left = 48.0
-margin_top = 96.0
-margin_right = 88.0
-margin_bottom = 136.0
+margin_left = 56.0
+margin_top = 104.0
+margin_right = 96.0
+margin_bottom = 144.0
 text = "V"
 
 [node name="up_button" type="Button" parent="camera/action_panel"]
-margin_left = 48.0
-margin_right = 88.0
-margin_bottom = 40.0
+margin_left = 56.0
+margin_top = 8.0
+margin_right = 96.0
+margin_bottom = 48.0
 rect_rotation = 180.0
 rect_pivot_offset = Vector2( 20, 20 )
 text = "V"
 
 [node name="right_button" type="Button" parent="camera/action_panel"]
-margin_left = 96.0
-margin_top = 88.0
-margin_right = 136.0
-margin_bottom = 128.0
+margin_left = 104.0
+margin_top = 96.0
+margin_right = 144.0
+margin_bottom = 136.0
 rect_rotation = 270.0
 text = "V"
 
 [node name="zoom_in" type="Button" parent="camera/action_panel"]
-margin_left = 96.0
-margin_right = 136.0
-margin_bottom = 40.0
+margin_left = 104.0
+margin_top = 8.0
+margin_right = 144.0
+margin_bottom = 48.0
 rect_pivot_offset = Vector2( 20, 20 )
 text = "+"
 
 [node name="zoom_out" type="Button" parent="camera/action_panel"]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 48.0
+margin_bottom = 48.0
 rect_pivot_offset = Vector2( 20, 20 )
 text = "-"
 
 [node name="action_menu_button" type="Button" parent="camera/action_panel"]
-margin_top = 96.0
-margin_right = 40.0
-margin_bottom = 136.0
+margin_left = 8.0
+margin_top = 104.0
+margin_right = 48.0
+margin_bottom = 144.0
 rect_pivot_offset = Vector2( 20, 20 )
 text = "..."
 
@@ -111,7 +116,7 @@ text = "Confirm"
 
 [node name="show_hide_hand_button" type="Button" parent="camera/action_panel"]
 margin_left = -137.0
-margin_right = -92.0
+margin_right = -87.0
 margin_bottom = 40.0
 rect_scale = Vector2( 1.5, 1.5 )
 text = "Hide"

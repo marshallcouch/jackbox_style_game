@@ -9,7 +9,7 @@ var over_something = false
 var scroll_zooming_enabled = true
 
 func _ready() -> void:
-	$action_panel/show_hide_hand_button.set_global_position(Vector2(5,get_viewport().size.y - 65))
+	$action_panel/show_hide_hand_button.set_global_position(Vector2(10,get_viewport().size.y - 70))
 	$player_hand.transform = Transform2D(0,Vector2(20,150))
 		
 func _input(event):
