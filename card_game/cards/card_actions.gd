@@ -4,7 +4,7 @@ var is_dragging: bool = false
 var previous_mouse_position = Vector2()
 var card
 signal place_card_back_in_deck(card,location)
-
+signal place_card_back_in_hand(card)
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$timer.one_shot = true
@@ -79,7 +79,7 @@ func _on_touch_input_event(viewport, event, shape_idx):
 		flip()
 	
 	elif shape_idx == 3:
-		$place_in_deck_box/place_menu.set_position(self.position+Vector2(200,250))
+		$place_in_deck_box/place_menu.set_position(position+Vector2(200,250))
 		$place_in_deck_box/place_menu.show()
 			
 
@@ -97,6 +97,9 @@ func _input(event):
 		1
 	z_index = position.y-2000
 
+func is_face_down() -> bool:
+	return $card_base/card_back_sprite.visible
+
 func flip():
 	if $card_base/card_back_sprite.visible:
 		$card_base/card_back_sprite.visible = false
@@ -109,6 +112,9 @@ func _on_place_menu_index_pressed(index: int) -> void:
 	elif index == 1:
 		emit_signal("place_card_back_in_deck",card,"bottom")
 	elif index == 2:
+		emit_signal("place_card_back_in_hand",self)
+		return
+	elif index == 3:
 		return
 		
 	self.queue_free()

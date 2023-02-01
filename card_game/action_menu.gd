@@ -1,7 +1,7 @@
 extends PopupMenu
 
 
-
+signal json_pasted(json_text)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -20,7 +20,7 @@ func _on_action_menu_button_pressed() -> void:
 
 func _on_action_menu_index_pressed(index: int) -> void:
 	if index == 0: #load deck
-		$deck_dialog.popup()
+		$deck_json_popup.popup()
 		
 	if index == 1: #Clear decks
 		for nodes in get_node("/root/board/decks").get_children():
@@ -39,3 +39,7 @@ func _on_action_menu_index_pressed(index: int) -> void:
 		for nodes in get_node("/root/board/counters").get_children():
 			get_node("/root/board/counters").remove_child(nodes)
 
+
+
+func _on_confirm_button_pressed() -> void:
+	emit_signal("json_pasted",$deck_json_popup/json_text_edit.text)

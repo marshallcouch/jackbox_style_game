@@ -18,61 +18,64 @@ script = ExtResource( 3 )
 layer = 2
 
 [node name="left_button" type="Button" parent="camera/action_panel"]
-margin_left = -10.0
-margin_top = 99.0
-margin_right = 30.0
-margin_bottom = 139.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -920.0
+margin_top = -492.0
+margin_right = -880.0
+margin_bottom = -452.0
 rect_rotation = 90.0
-rect_pivot_offset = Vector2( 53.0044, 0 )
 text = "V"
 
+[node name="recenter_button" type="Button" parent="camera/action_panel"]
+margin_left = 48.0
+margin_top = 48.0
+margin_right = 88.0
+margin_bottom = 88.0
+text = "]["
+
 [node name="down_button" type="Button" parent="camera/action_panel"]
-margin_left = 45.0
-margin_top = 88.0
-margin_right = 85.0
-margin_bottom = 128.0
-rect_pivot_offset = Vector2( 20, 20 )
+margin_left = 48.0
+margin_top = 96.0
+margin_right = 88.0
+margin_bottom = 136.0
 text = "V"
 
 [node name="up_button" type="Button" parent="camera/action_panel"]
-margin_left = 45.0
-margin_top = 3.99999
-margin_right = 85.0
-margin_bottom = 44.0
+margin_left = 48.0
+margin_right = 88.0
+margin_bottom = 40.0
 rect_rotation = 180.0
 rect_pivot_offset = Vector2( 20, 20 )
 text = "V"
 
 [node name="right_button" type="Button" parent="camera/action_panel"]
-margin_left = 141.0
-margin_top = 154.0
-margin_right = 181.0
-margin_bottom = 194.0
+margin_left = 96.0
+margin_top = 88.0
+margin_right = 136.0
+margin_bottom = 128.0
 rect_rotation = 270.0
-rect_pivot_offset = Vector2( -61, -7 )
 text = "V"
 
 [node name="zoom_in" type="Button" parent="camera/action_panel"]
-margin_left = 87.0
-margin_top = 4.0
-margin_right = 127.0
-margin_bottom = 44.0
+margin_left = 96.0
+margin_right = 136.0
+margin_bottom = 40.0
 rect_pivot_offset = Vector2( 20, 20 )
 text = "+"
 
 [node name="zoom_out" type="Button" parent="camera/action_panel"]
-margin_left = 3.0
-margin_top = 4.0
-margin_right = 43.0
-margin_bottom = 44.0
+margin_right = 40.0
+margin_bottom = 40.0
 rect_pivot_offset = Vector2( 20, 20 )
 text = "-"
 
 [node name="action_menu_button" type="Button" parent="camera/action_panel"]
-margin_left = 3.0
-margin_top = 88.0
-margin_right = 43.0
-margin_bottom = 128.0
+margin_top = 96.0
+margin_right = 40.0
+margin_bottom = 136.0
 rect_pivot_offset = Vector2( 20, 20 )
 text = "..."
 
@@ -81,19 +84,34 @@ margin_right = 20.0
 margin_bottom = 20.0
 script = ExtResource( 2 )
 
-[node name="deck_dialog" type="FileDialog" parent="camera/action_panel/action_menu_button/action_menu"]
+[node name="deck_json_popup" type="WindowDialog" parent="camera/action_panel/action_menu_button/action_menu"]
 visible = true
-margin_left = 21.0
-margin_top = -43.0
-margin_right = 938.0
-margin_bottom = 406.0
-window_title = "Open Deck(s)"
-dialog_text = "Open Deck(s)"
-mode = 0
-access = 1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -358.0
+margin_top = -128.0
+margin_right = 359.0
+margin_bottom = 374.0
+window_title = "Paste Deck JSON"
+
+[node name="json_text_edit" type="TextEdit" parent="camera/action_panel/action_menu_button/action_menu/deck_json_popup"]
+margin_left = 17.0
+margin_top = 14.0
+margin_right = 697.0
+margin_bottom = 446.0
+
+[node name="confirm_button" type="Button" parent="camera/action_panel/action_menu_button/action_menu/deck_json_popup"]
+margin_left = 617.0
+margin_top = 470.0
+margin_right = 697.0
+margin_bottom = 490.0
+text = "Confirm"
 
 [node name="show_hide_hand_button" type="Button" parent="camera/action_panel"]
-margin_right = 45.0
+margin_left = -137.0
+margin_right = -92.0
 margin_bottom = 40.0
 rect_scale = Vector2( 1.5, 1.5 )
 text = "Hide"
@@ -112,6 +130,7 @@ position = Vector2( 923, 94 )
 z_index = 8
 
 [connection signal="pressed" from="camera/action_panel/left_button" to="camera" method="_on_left_button_pressed"]
+[connection signal="pressed" from="camera/action_panel/recenter_button" to="camera" method="_on_recenter_button_pressed"]
 [connection signal="pressed" from="camera/action_panel/down_button" to="camera" method="_on_down_button_pressed"]
 [connection signal="pressed" from="camera/action_panel/up_button" to="camera" method="_on_up_button_pressed"]
 [connection signal="pressed" from="camera/action_panel/right_button" to="camera" method="_on_right_button_pressed"]
@@ -119,6 +138,7 @@ z_index = 8
 [connection signal="pressed" from="camera/action_panel/zoom_out" to="camera" method="_on_zoom_out_pressed"]
 [connection signal="pressed" from="camera/action_panel/action_menu_button" to="camera/action_panel/action_menu_button/action_menu" method="_on_action_menu_button_pressed"]
 [connection signal="index_pressed" from="camera/action_panel/action_menu_button/action_menu" to="camera/action_panel/action_menu_button/action_menu" method="_on_action_menu_index_pressed"]
-[connection signal="file_selected" from="camera/action_panel/action_menu_button/action_menu/deck_dialog" to="." method="_on_deck_dialog_file_selected"]
+[connection signal="json_pasted" from="camera/action_panel/action_menu_button/action_menu" to="." method="_on_action_menu_json_pasted"]
+[connection signal="pressed" from="camera/action_panel/action_menu_button/action_menu/deck_json_popup/confirm_button" to="camera/action_panel/action_menu_button/action_menu" method="_on_confirm_button_pressed"]
 [connection signal="pressed" from="camera/action_panel/show_hide_hand_button" to="camera" method="_on_show_hide_hand_button_pressed"]
 [connection signal="child_entered_tree" from="camera/player_hand" to="camera/player_hand" method="_on_player_hand_child_entered_tree"]

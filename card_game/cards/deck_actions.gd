@@ -21,6 +21,7 @@ func load_deck(game_name, deck_name, deck_json) -> void:
 	self.game_name = game_name
 	self.deck_name = deck_name
 	$deck_name_label.text = deck_name
+	deck_array.shuffle()
 	
 	
 	

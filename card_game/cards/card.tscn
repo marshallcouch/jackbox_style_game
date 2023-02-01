@@ -126,7 +126,7 @@ texture = ExtResource( 1 )
 margin_right = 20.0
 margin_bottom = 20.0
 rect_scale = Vector2( 1.5, 1.5 )
-items = [ "Top", null, 0, false, false, 0, 0, null, "", false, "Bottom", null, 0, false, false, 1, 0, null, "", false, "Close", null, 0, false, false, 2, 0, null, "", false ]
+items = [ "Deck Top", null, 0, false, false, 0, 0, null, "", false, "Deck Bottom", null, 0, false, false, 1, 0, null, "", false, "Hand", null, 0, false, false, 2, 0, null, "", false, "Close", null, 0, false, false, 3, 0, null, "", false ]
 
 [node name="timer" type="Timer" parent="."]
 

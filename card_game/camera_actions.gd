@@ -65,3 +65,9 @@ func _on_show_hide_hand_button_pressed() -> void:
 	else:
 		$player_hand.show()
 		$action_panel/show_hide_hand_button.text = "Hide"
+
+
+func _on_recenter_button_pressed() -> void:
+	offset_v = 0
+	offset_h = 0
+	zoom = Vector2(1,1)
