@@ -23,6 +23,5 @@ margin_bottom = 40.0
 rect_min_size = Vector2( 80, 30 )
 text = "test"
 valign = 1
-percent_visible = -0.25
 
 [connection signal="pressed" from="card_draw_button" to="." method="_on_card_draw_button_pressed"]

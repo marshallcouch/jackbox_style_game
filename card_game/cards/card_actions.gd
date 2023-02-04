@@ -3,6 +3,7 @@ extends Area2D
 var is_dragging: bool = false
 var previous_mouse_position = Vector2()
 var card
+var is_selected: bool = false
 signal place_card_back_in_deck(card,location)
 signal place_card_back_in_hand(card)
 # Called when the node enters the scene tree for the first time.
@@ -52,13 +53,21 @@ func _on_touch_input_event(viewport, event, shape_idx):
 	if not event.is_action_pressed("ui_touch"):
 		return
 	print(shape_idx)
+	is_selected = true
+	
+	for other_cards in get_parent().get_children():
+		if other_cards != self:
+			if other_cards.z_index > z_index and overlaps_area(other_cards) and other_cards.is_selected:
+				is_selected = false
+				return
 	
 	if $timer.is_stopped() == false:
 		print_debug("double click!")
-		var new_parent = get_node("/root/board/cards")
-		get_parent().remove_child(self)
-		new_parent.add_child(self)
-		position = Vector2(0-rand_range(0,250),0-rand_range(0,350))
+		if get_node("/root/board/cards") != get_parent():
+			var new_parent = get_node("/root/board/cards")
+			get_parent().remove_child(self)
+			new_parent.add_child(self)
+			position = Vector2(0-rand_range(0,250),0-rand_range(0,350))
 		$timer.stop()
 	else:
 		$timer.start(.3)
@@ -91,7 +100,13 @@ func _input(event):
 		previous_mouse_position = Vector2()
 		is_dragging = false
 	
-	if is_dragging and event is InputEventMouseMotion:
+	for other_card in get_parent().get_children():
+		if other_card != self:
+			if other_card.z_index > z_index and other_card.is_dragging:
+				is_dragging = false
+				return
+	
+	if is_dragging and is_selected and event is InputEventMouseMotion:
 		position += (event.position - previous_mouse_position) # * get_tree().get_root().find_node("Camera2D").
 		previous_mouse_position = event.position
 		1
