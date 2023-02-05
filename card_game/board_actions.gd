@@ -20,6 +20,7 @@ func _on_deck_draw_card(card_object) -> void:
 	drawn_card.connect("place_card_back_in_deck",self,"_put_card_in_deck")
 	drawn_card.connect("place_card_back_in_hand",self,"_place_card_in_hand")
 
+
 func _place_card_in_hand(card_scene):
 	var max_x = 0
 	var max_y = 0

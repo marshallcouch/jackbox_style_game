@@ -90,6 +90,7 @@ func _on_touch_input_event(viewport, event, shape_idx):
 		$place_in_deck_box/place_menu.set_position(position+Vector2(200,250))
 		$place_in_deck_box/place_menu.show()
 
+
 func _input(event):
 	if not is_dragging:
 		return
@@ -110,14 +111,17 @@ func _input(event):
 		1
 	z_index = position.y-2000
 
+
 func is_face_down() -> bool:
 	return $card_base/card_back_sprite.visible
+
 
 func flip():
 	if $card_base/card_back_sprite.visible:
 		$card_base/card_back_sprite.visible = false
 	else:
 		$card_base/card_back_sprite.visible = true
+
 
 func _on_place_menu_index_pressed(index: int) -> void:
 	if index == 0:

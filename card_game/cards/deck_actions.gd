@@ -22,9 +22,7 @@ func load_deck(game_name, deck_name, deck_json) -> void:
 	self.deck_name = deck_name
 	$deck_name_label.text = deck_name
 	deck_array.shuffle()
-	
-	
-	
+
 
 func _on_touch_input_event(viewport, event, shape_idx):
 	if not event.is_action_pressed("ui_touch"):
@@ -49,6 +47,7 @@ func _on_touch_input_event(viewport, event, shape_idx):
 	if shape_idx == 3:
 		_search_deck(event)
 
+
 func _search_deck(event) -> void:
 	if $deck_search_box.visible == false:
 		for card in deck_array:
@@ -60,23 +59,26 @@ func _search_deck(event) -> void:
 	else:
 		_hide_deck_search()
 
+
 func _hide_deck_search():
 	for n in $deck_search_box/deck_search/deck_list.get_children():
 			$deck_search_box/deck_search/deck_list.remove_child(n)
 			n.queue_free()
 	$deck_search_box.hide()
 
+
 func _shuffle_deck(event) -> void:
 	print_debug("shuffle:" + event.to_string())
 	if deck_array.size() >1:
 		deck_array.shuffle()
-	
-	
+
+
 func _draw_card(event) -> void:
 	if deck_array.size() >0:
 		emit_signal("draw_card",deck_array.pop_front())
 		print_debug("draw:" + event.to_string())
 		_set_deck_cards_visible()
+
 
 func _draw_card_from_deck(card_to_draw):
 	for card in deck_array:
@@ -86,6 +88,7 @@ func _draw_card_from_deck(card_to_draw):
 			break
 	_set_deck_cards_visible()
 	_hide_deck_search()
+
 
 func _set_deck_cards_visible():
 	$card_count_label.text = String(deck_array.size())
@@ -116,6 +119,7 @@ func _input(event):
 	if is_dragging and event is InputEventMouseMotion:
 		position += (event.position - previous_mouse_position) # * get_tree().get_root().find_node("Camera2D").
 		previous_mouse_position = event.position
+
 
 func _place_card_in_deck(card, location):
 	if location == "top":

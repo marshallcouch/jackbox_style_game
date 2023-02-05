@@ -7,7 +7,6 @@ var hand_array : Array
 func _ready() -> void:
 	get_tree().root.connect("size_changed", self, "_on_viewport_resized")
 	_on_viewport_resized()
-	
 
 
 func _on_viewport_resized() -> void:
