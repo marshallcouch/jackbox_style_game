@@ -1,0 +1,91 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://player_hand.gd" type="Script" id=1]
+
+[node name="player_hand" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="card_list" type="ItemList" parent="."]
+margin_right = 403.0
+margin_bottom = 197.0
+
+[node name="card_preview" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="top_left" type="Label" parent="card_preview"]
+margin_left = 5.0
+margin_right = 122.0
+margin_bottom = 14.0
+text = "border land ranger"
+
+[node name="top_right" type="Label" parent="card_preview"]
+margin_left = 349.0
+margin_top = 1.0
+margin_right = 409.0
+margin_bottom = 15.0
+text = "6wuberg"
+align = 2
+
+[node name="bottom" type="Label" parent="card_preview"]
+margin_left = 5.0
+margin_right = 122.0
+margin_bottom = 14.0
+text = "2/2"
+
+[node name="middle_scroller" type="ScrollContainer" parent="card_preview"]
+margin_right = 12.0
+
+[node name="middle" type="Label" parent="card_preview/middle_scroller"]
+margin_right = 1.0
+margin_bottom = 16827.0
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vehicula at magna sed aliquam. Maecenas at placerat eros. Morbi tempor diam aliquam dui consequat, id tincidunt tortor sodales. Aenean semper aliquet nulla, et eleifend nulla viverra eu. Nam metus quam, volutpat vitae elit sollicitudin, accumsan egestas odio. Proin porttitor vulputate erat nec porta. Phasellus mauris nibh, faucibus eget nisi vel, pellentesque egestas sapien. Suspendisse potenti. Integer et ullamcorper nisl. Quisque turpis dui, facilisis sed tristique tempus, volutpat in neque. Nam lacinia purus in magna viverra aliquam.
+
+Ut dapibus metus mauris, vitae sodales est lacinia sit amet. Nunc a felis eros. Donec sodales dui est, in aliquam velit hendrerit eget. In congue congue felis a faucibus. Vivamus vel est ante. Nunc congue odio non elementum bibendum. Nulla nec scelerisque dolor, vitae ornare justo. Aliquam vel massa enim. Aenean eleifend est id sem mollis mollis. Quisque id fringilla diam."
+autowrap = true
+
+[node name="actions_list" type="HBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -83.0
+margin_right = 83.0
+margin_bottom = 40.0
+grow_horizontal = 2
+
+[node name="play_button" type="Button" parent="actions_list"]
+margin_right = 70.0
+margin_bottom = 40.0
+text = "Play Card"
+
+[node name="deck_top_button" type="Button" parent="actions_list"]
+margin_left = 74.0
+margin_right = 145.0
+margin_bottom = 40.0
+text = "Deck Top"
+
+[node name="deck_bottom_button" type="Button" parent="actions_list"]
+margin_left = 149.0
+margin_right = 245.0
+margin_bottom = 40.0
+text = "Deck Bottom"
+
+[node name="spacer" type="Label" parent="actions_list"]
+margin_left = 249.0
+margin_top = 13.0
+margin_right = 277.0
+margin_bottom = 27.0
+text = "       "
+
+[node name="draw_button" type="Button" parent="actions_list"]
+margin_left = 281.0
+margin_right = 325.0
+margin_bottom = 40.0
+text = "Draw"
+
+[connection signal="item_selected" from="card_list" to="." method="_on_card_list_item_selected"]
+[connection signal="pressed" from="actions_list/play_button" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="actions_list/deck_top_button" to="." method="_on_deck_top_button_pressed"]
+[connection signal="pressed" from="actions_list/deck_bottom_button" to="." method="_on_deck_bottom_button_pressed"]
+[connection signal="pressed" from="actions_list/draw_button" to="." method="_on_draw_button_pressed"]
