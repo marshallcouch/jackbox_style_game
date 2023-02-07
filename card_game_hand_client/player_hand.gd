@@ -7,6 +7,12 @@ var hand_array : Array
 func _ready() -> void:
 	get_tree().root.connect("size_changed", self, "_on_viewport_resized")
 	_on_viewport_resized()
+	setup_network()
+	
+func setup_network():
+	var peer = NetworkedMultiplayerENet.new()
+	peer.create_client('127.0.0.1', 1337)
+	get_tree().network_peer = peer
 
 
 func _on_viewport_resized() -> void:
@@ -41,12 +47,14 @@ func _on_deck_bottom_button_pressed() -> void:
 
 
 func _on_draw_button_pressed() -> void:
-	var new_card = {"top_left":"blah " + String(rand_range(1,20)), 
-	"top_right":"1G",
-	"middle":"the quick brown fox jumps over the lazy dog",
-	}
-	hand_array.append(new_card)
-	$card_list.add_item(new_card["top_left"])
+	rpc("draw_card")
+	#print_debug(String(drawn_card))
+#	var new_card = {"top_left":"blah " + String(rand_range(1,20)), 
+#	"top_right":"1G",
+#	"middle":"the quick brown fox jumps over the lazy dog",
+#	}
+#	hand_array.append(new_card)
+#	$card_list.add_item(new_card["top_left"])
 
 
 func _on_card_list_item_selected(index: int) -> void:

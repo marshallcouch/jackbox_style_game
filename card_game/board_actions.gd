@@ -3,14 +3,34 @@ class_name Board
 signal place_card_in_deck(card,location)
 signal Place_card_back_in_hand(card)
 var testing = true
+var password:String = ""
+var peer: NetworkedMultiplayerENet
+
+
 func _ready() -> void:
 	if testing:
 		var deck_file = File.new()
 		deck_file.open("C:\\Users\\marsh\\Documents\\Godot\\jackbox_style_game\\card_game\\assets\\cards\\MTGdeck.json",File.READ)
 		_on_action_menu_json_pasted(deck_file.get_as_text())
 		deck_file.close()
-	pass
+	setup_about()
+	peer = NetworkedMultiplayerENet.new()
+	peer.create_server(1337,2)
+	get_tree().network_peer = peer
 
+func draw_card() -> Dictionary:
+	setup_about()
+	return {"key1":"test"}
+	
+func setup_about():
+	password = String(ceil(rand_range(1000,9999)))
+	var ip = ""
+	for address in IP.get_local_addresses():
+		if (address.split('.').size() == 4):
+			ip += "\n" + address
+	$camera/action_panel/action_menu_button/about_popup/about_label.text = "ip: " + ip
+	$camera/action_panel/action_menu_button/about_popup/about_label.text += "\n\npassowrd: " + password
+	$camera/action_panel/action_menu_button/about_popup.show()
 
 func _on_deck_draw_card(card_object) -> void:
 	print_debug("drawn card:" + card_object["top_left"])
@@ -52,3 +72,7 @@ func _on_action_menu_json_pasted(json_text) -> void:
 		if deck["deck_name"] == "Main Deck":
 			self.connect("place_card_in_deck",new_deck,"_place_card_in_deck")
 		$decks.add_child(new_deck)
+
+
+func _on_close_about_window_button_pressed() -> void:
+	$camera/action_panel/action_menu_button/about_popup.hide() # Replace with function body.

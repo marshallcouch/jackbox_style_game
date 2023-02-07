@@ -84,6 +84,47 @@ margin_bottom = 144.0
 rect_pivot_offset = Vector2( 20, 20 )
 text = "..."
 
+[node name="about_popup" type="Popup" parent="camera/action_panel/action_menu_button"]
+visible = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -192.0
+margin_top = -160.0
+margin_right = 192.0
+margin_bottom = 160.0
+popup_exclusive = true
+
+[node name="background" type="ColorRect" parent="camera/action_panel/action_menu_button/about_popup"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -192.0
+margin_top = -160.0
+margin_right = 192.0
+margin_bottom = 160.0
+color = Color( 0.466667, 0.466667, 0.466667, 1 )
+
+[node name="about_label" type="Label" parent="camera/action_panel/action_menu_button/about_popup"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -176.0
+margin_top = -136.0
+margin_right = 176.0
+margin_bottom = 136.0
+text = "Testing"
+
+[node name="close_about_window_button" type="Button" parent="camera/action_panel/action_menu_button/about_popup"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -20.0
+margin_bottom = 24.0
+text = "X"
+
 [node name="action_menu" type="PopupMenu" parent="camera/action_panel/action_menu_button"]
 margin_right = 20.0
 margin_bottom = 20.0
@@ -142,6 +183,7 @@ z_index = 8
 [connection signal="pressed" from="camera/action_panel/zoom_in" to="camera" method="_on_zoom_in_pressed"]
 [connection signal="pressed" from="camera/action_panel/zoom_out" to="camera" method="_on_zoom_out_pressed"]
 [connection signal="pressed" from="camera/action_panel/action_menu_button" to="camera/action_panel/action_menu_button/action_menu" method="_on_action_menu_button_pressed"]
+[connection signal="pressed" from="camera/action_panel/action_menu_button/about_popup/close_about_window_button" to="." method="_on_close_about_window_button_pressed"]
 [connection signal="index_pressed" from="camera/action_panel/action_menu_button/action_menu" to="camera/action_panel/action_menu_button/action_menu" method="_on_action_menu_index_pressed"]
 [connection signal="json_pasted" from="camera/action_panel/action_menu_button/action_menu" to="." method="_on_action_menu_json_pasted"]
 [connection signal="pressed" from="camera/action_panel/action_menu_button/action_menu/deck_json_popup/confirm_button" to="camera/action_panel/action_menu_button/action_menu" method="_on_confirm_button_pressed"]

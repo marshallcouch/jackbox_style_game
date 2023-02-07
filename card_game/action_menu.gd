@@ -9,6 +9,7 @@ func _ready() -> void:
 	add_item("Clear Decks and Cards")
 	add_item("Create Token/Counter")
 	add_item("Clear Tokens/Counters")
+	add_item("About")
 	add_item("Close Menu")
 
 
@@ -35,10 +36,12 @@ func _on_action_menu_index_pressed(index: int) -> void:
 		new_counter.z_index = 1000
 		get_node("/root/board/counters").add_child(new_counter)
 		
-	elif index == 3: #Create Token/Counter
+	elif index == 3: #clear Token/Counter
 		for nodes in get_node("/root/board/counters").get_children():
 			get_node("/root/board/counters").remove_child(nodes)
 
+	elif index == 4: #Create Token/Counter
+		get_parent().find_node("about_popup").popup()
 
 
 func _on_confirm_button_pressed() -> void:
