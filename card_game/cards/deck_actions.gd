@@ -1,30 +1,28 @@
 extends Area2D
 
-
 var is_dragging: bool = false
 var previous_mouse_position = Vector2()
 var deck_array:Array = []
 
 signal draw_card(card_object)
-signal change_camera_scroll(enabled)
 var game_name:String = ""
 var deck_name:String = ""
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass
 
-func load_deck(game_name, deck_name, deck_json) -> void:
+func load_deck(_game_name, _deck_name, deck_json) -> void:
 	for card in deck_json:
-		for j in range(0,card["count"]):
+		for _j in range(0,card["count"]):
 			deck_array.push_front(card)
 	$card_count_label.text = String(deck_array.size())
-	self.game_name = game_name
-	self.deck_name = deck_name
+	self.game_name = _game_name
+	self.deck_name = _deck_name
 	$deck_name_label.text = deck_name
 	deck_array.shuffle()
 
 
-func _on_touch_input_event(viewport, event, shape_idx):
+func _on_touch_input_event(_viewport, event, shape_idx):
 	if not event.is_action_pressed("ui_touch"):
 		return
 	print_debug(shape_idx)
@@ -48,7 +46,7 @@ func _on_touch_input_event(viewport, event, shape_idx):
 		_search_deck(event)
 
 
-func _search_deck(event) -> void:
+func _search_deck(_event) -> void:
 	if $deck_search_box.visible == false:
 		for card in deck_array:
 			var card_in_deck = load("res://cards/card_in_deck.tscn").instance()

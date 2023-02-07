@@ -9,7 +9,7 @@ signal place_card_back_in_hand(card)
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$timer.one_shot = true
-	z_index = position.y-2000
+	z_index = int(position.y)-2000
 	pass
 
 
@@ -49,7 +49,7 @@ func set_card(card_object):
 	$card_base/card_image.centered = true
 
 	
-func _on_touch_input_event(viewport, event, shape_idx):
+func _on_touch_input_event(_viewport, event, shape_idx):
 	if not event.is_action_pressed("ui_touch"):
 		return
 	print_debug(shape_idx)
@@ -108,8 +108,7 @@ func _input(event):
 	if is_dragging and event is InputEventMouseMotion:
 		position += (event.position - previous_mouse_position) # * get_tree().get_root().find_node("Camera2D").
 		previous_mouse_position = event.position
-		1
-	z_index = position.y-2000
+	z_index = int(position.y)-2000
 
 
 func is_face_down() -> bool:

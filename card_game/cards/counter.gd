@@ -14,7 +14,7 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 
-func _on_touch_input_event(viewport, event, shape_idx):
+func _on_touch_input_event(_viewport, event, shape_idx):
 	if not event.is_action_pressed("ui_touch"):
 		return
 	
