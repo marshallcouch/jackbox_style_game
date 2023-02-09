@@ -2,7 +2,6 @@ extends Node2D
 class_name Board
 var testing = true
 var password:String = ""
-var peer: NetworkedMultiplayerENet
 
 
 func _ready() -> void:
@@ -12,9 +11,9 @@ func _ready() -> void:
 		_on_action_menu_json_pasted(deck_file.get_as_text())
 		deck_file.close()
 	setup_about()
-	peer = NetworkedMultiplayerENet.new()
-	peer.create_server(1337,2)
-	get_tree().network_peer = peer
+	setup_server()
+	
+	
 
 func draw_card() -> Dictionary:
 	setup_about()
@@ -27,7 +26,7 @@ func setup_about():
 		if (address.split('.').size() == 4):
 			ip += "\n" + address
 	$camera/action_panel/action_menu_button/about_popup/about_label.text = "ip: " + ip
-	$camera/action_panel/action_menu_button/about_popup/about_label.text += "\n\npassowrd: " + password
+	$camera/action_panel/action_menu_button/about_popup/about_label.text += "\n\npassword: " + password
 	$camera/action_panel/action_menu_button/about_popup.show()
 
 func _on_deck_draw_card(card_object) -> void:
@@ -71,3 +70,54 @@ func _on_action_menu_json_pasted(json_text) -> void:
 
 func _on_close_about_window_button_pressed() -> void:
 	$camera/action_panel/action_menu_button/about_popup.hide() # Replace with function body.
+
+
+# The port we will listen to
+const PORT = 9080
+# Our WebSocketServer instance
+var _server = WebSocketServer.new()
+
+func setup_server():
+	# Connect base signals to get notified of new client connections,
+	# disconnections, and disconnect requests.
+	_server.connect("client_connected", self, "_connected")
+	_server.connect("client_disconnected", self, "_disconnected")
+	_server.connect("client_close_request", self, "_close_request")
+	# This signal is emitted when not using the Multiplayer API every time a
+	# full packet is received.
+	# Alternatively, you could check get_peer(PEER_ID).get_available_packets()
+	# in a loop for each connected peer.
+	_server.connect("data_received", self, "_on_data")
+	# Start listening on the given port.
+	var err = _server.listen(PORT)
+	if err != OK:
+		print_debug("Unable to start server")
+		set_process(false)
+
+func _connected(id, proto):
+	# This is called when a new peer connects, "id" will be the assigned peer id,
+	# "proto" will be the selected WebSocket sub-protocol (which is optional)
+	print_debug("Client %d connected with protocol: %s" % [id, proto])
+
+func _close_request(id, code, reason):
+	# This is called when a client notifies that it wishes to close the connection,
+	# providing a reason string and close code.
+	print_debug("Client %d disconnecting with code: %d, reason: %s" % [id, code, reason])
+
+func _disconnected(id, was_clean = false):
+	# This is called when a client disconnects, "id" will be the one of the
+	# disconnecting client, "was_clean" will tell you if the disconnection
+	# was correctly notified by the remote peer before closing the socket.
+	print_debug("Client %d disconnected, clean: %s" % [id, str(was_clean)])
+
+func _on_data(id):
+	# Print the received packet, you MUST always use get_peer(id).get_packet to receive data,
+	# and not get_packet directly when not using the MultiplayerAPI.
+	var pkt = _server.get_peer(id).get_packet()
+	print_debug("Got data from client %d: %s ... echoing" % [id, pkt.get_string_from_utf8()])
+	_server.get_peer(id).put_packet(pkt)
+
+func _process(_delta):
+	# Call this in _process or _physics_process.
+	# Data transfer, and signals emission will only happen when calling this function.
+	_server.poll()
