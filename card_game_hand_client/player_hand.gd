@@ -28,29 +28,30 @@ func _on_viewport_resized() -> void:
 
 
 func _on_play_button_pressed() -> void:
+	action_on_card("play")
+
+func _on_deck_bottom_button_pressed() -> void:
+	action_on_card("deck_bottom")
+
+func _on_deck_top_button_pressed() -> void:
+	action_on_card("deck_top")
+
+func action_on_card(action:String):
+	
 	for card_num in $card_list.get_selected_items():
 		for i in range(0,hand_array.size()):
 			if hand_array[i]["top_left"] == $card_list.get_item_text(card_num):
-				_client.get_peer(1).put_packet("play~".to_utf8() + hand_array[i]["top_left"].to_utf8())
+				_client.get_peer(1).put_packet(action.to_utf8() + "~".to_utf8() + hand_array[i]["top_left"].to_utf8())
 				hand_array.remove(i)
 				$card_list.remove_item(i)
 				break
 
 
-func _on_deck_bottom_button_pressed() -> void:
-	_client.get_peer(1).put_packet("deck_bottom".to_utf8())
 
 
 func _on_draw_button_pressed() -> void:
 	print_debug("sending packet...")
 	_client.get_peer(1).put_packet("draw".to_utf8())
-	#print_debug(String(drawn_card))
-#	var new_card = {"top_left":"blah " + String(rand_range(1,20)), 
-#	"top_right":"1G",
-#	"middle":"the quick brown fox jumps over the lazy dog",
-#	}
-#	hand_array.append(new_card)
-#	$card_list.add_item(new_card["top_left"])
 
 
 func _on_card_list_item_selected(_index: int) -> void:
@@ -123,3 +124,5 @@ func _process(_delta):
 	# emission will only happen when calling this function.
 	_client.poll()
 	
+
+

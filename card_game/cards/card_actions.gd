@@ -57,11 +57,7 @@ func _on_touch_input_event(_viewport, event, shape_idx):
 	
 	if $timer.is_stopped() == false and is_selected:
 		print_debug("double click!")
-		if get_node("/root/board/cards") != get_parent():
-			var new_parent = get_node("/root/board/cards")
-			get_parent().remove_child(self)
-			new_parent.add_child(self)
-			position = Vector2(0-rand_range(0,250),0-rand_range(0,350))
+		play_card()
 		$timer.stop()
 	else:
 		for other_cards in get_parent().get_children():
@@ -90,7 +86,13 @@ func _on_touch_input_event(_viewport, event, shape_idx):
 		$place_in_deck_box/place_menu.set_position(position+Vector2(200,250))
 		$place_in_deck_box/place_menu.show()
 
-
+func play_card():
+	if get_node("/root/board/cards") != get_parent():
+			var new_parent = get_node("/root/board/cards")
+			get_parent().remove_child(self)
+			new_parent.add_child(self)
+			position = Vector2(0-rand_range(0,250),0-rand_range(0,350))
+			
 func _input(event):
 	if not is_dragging:
 		return
