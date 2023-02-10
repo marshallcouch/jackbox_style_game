@@ -6,7 +6,7 @@
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
-websocket_url = "wss://192.168.1.11"
+websocket_url = "ws://localhost:9080"
 
 [node name="card_list" type="ItemList" parent="."]
 margin_right = 403.0

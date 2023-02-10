@@ -5,7 +5,7 @@ var hand_array : Array
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	get_tree().root.connect("size_changed", self, "_on_viewport_resized")
+	var _connected = get_tree().root.connect("size_changed", self, "_on_viewport_resized")
 	_on_viewport_resized()
 	setup_client()
 	
@@ -43,7 +43,8 @@ func _on_deck_bottom_button_pressed() -> void:
 
 
 func _on_draw_button_pressed() -> void:
-	rpc("draw_card")
+	print_debug("sending packet...")
+	_client.get_peer(1).put_packet("Draw a card".to_utf8())
 	#print_debug(String(drawn_card))
 #	var new_card = {"top_left":"blah " + String(rand_range(1,20)), 
 #	"top_right":"1G",
@@ -53,7 +54,7 @@ func _on_draw_button_pressed() -> void:
 #	$card_list.add_item(new_card["top_left"])
 
 
-func _on_card_list_item_selected(index: int) -> void:
+func _on_card_list_item_selected(_index: int) -> void:
 	$card_preview/top_left.text = "new" + String(rand_range(1,20))
 	$card_preview/top_right.text = "new" + String(rand_range(1,20))
 	$card_preview/middle_scroller/middle.text = "new" + String(rand_range(1,20))
@@ -61,7 +62,7 @@ func _on_card_list_item_selected(index: int) -> void:
 	pass
 
 
-export var websocket_url = "wss://libwebsockets.org"
+export var websocket_url = "ws://localhost:9080/test"
 
 # Our WebSocketClient instance
 var _client = WebSocketClient.new()
@@ -75,12 +76,13 @@ func setup_client():
 	# a full packet is received.
 	# Alternatively, you could check get_peer(1).get_available_packets() in a loop.
 	_client.connect("data_received", self, "_on_data")
-
 	# Initiate connection to the given URL.
-	var err = _client.connect_to_url(websocket_url, ["lws-mirror-protocol"])
+	var err = _client.connect_to_url(websocket_url, ["my-protocol"],true)
 	if err != OK:
 		print_debug("Unable to connect")
 		set_process(false)
+	else:
+		print_debug("connected")
 
 func _closed(was_clean = false):
 	# was_clean will tell you if the disconnection was correctly notified
@@ -96,13 +98,14 @@ func _connected(proto = ""):
 	# and not put_packet directly when not using the MultiplayerAPI.
 	_client.get_peer(1).put_packet("Test packet".to_utf8())
 
+
 func _on_data():
 	# Print the received packet, you MUST always use get_peer(1).get_packet
 	# to receive data from server, and not get_packet directly when not
 	# using the MultiplayerAPI.
 	print_debug("Got data from server: ", _client.get_peer(1).get_packet().get_string_from_utf8())
 
-func _process(delta):
+func _process(_delta):
 	# Call this in _process or _physics_process. Data transfer, and signals
 	# emission will only happen when calling this function.
 	_client.poll()

@@ -89,10 +89,12 @@ func setup_server():
 	# in a loop for each connected peer.
 	_server.connect("data_received", self, "_on_data")
 	# Start listening on the given port.
-	var err = _server.listen(PORT)
+	var err = _server.listen(PORT,["my-protocol"], false)
 	if err != OK:
 		print_debug("Unable to start server")
 		set_process(false)
+	else:
+		print_debug("debug: server listening...")
 
 func _connected(id, proto):
 	# This is called when a new peer connects, "id" will be the assigned peer id,
