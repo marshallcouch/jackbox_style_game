@@ -2,7 +2,12 @@ extends Node2D
 class_name Board
 var testing = true
 var password:String = ""
-
+var is_connected:bool = false
+# The port we will listen to
+const PORT = 9080
+# Our WebSocketServer instance
+var _server = WebSocketServer.new()
+var client_id:int = -1
 
 func _ready() -> void:
 	if testing:
@@ -13,11 +18,7 @@ func _ready() -> void:
 	setup_about()
 	setup_server()
 	
-	
 
-func draw_card() -> Dictionary:
-	setup_about()
-	return {"key1":"test"}
 	
 func setup_about():
 	password = String(ceil(rand_range(1000,9999)))
@@ -46,11 +47,13 @@ func _place_card_in_hand(card_scene):
 		if cards.position.y > max_y:
 			max_y = cards.position.y
 	card_scene.position = Vector2(max_x + 20 + rand_range(0,10),max_y + 40 + rand_range(0,30))
-	if(card_scene.is_face_down()):
-		card_scene.flip()
+#	if(card_scene.is_face_down()):
+#		card_scene.flip()
 	if card_scene.get_parent() == $cards:
 		card_scene.get_parent().remove_child(card_scene)
 	$camera/player_hand.add_child(card_scene)
+	if is_connected:
+		_server.get_peer(client_id).put_packet("card~".to_utf8() + String(JSON.print(card_scene.card)).to_utf8())
 
 
 func _on_action_menu_json_pasted(json_text) -> void:
@@ -72,10 +75,7 @@ func _on_close_about_window_button_pressed() -> void:
 	$camera/action_panel/action_menu_button/about_popup.hide() # Replace with function body.
 
 
-# The port we will listen to
-const PORT = 9080
-# Our WebSocketServer instance
-var _server = WebSocketServer.new()
+
 
 func setup_server():
 	# Connect base signals to get notified of new client connections,
@@ -89,7 +89,7 @@ func setup_server():
 	# in a loop for each connected peer.
 	_server.connect("data_received", self, "_on_data")
 	# Start listening on the given port.
-	var err = _server.listen(PORT,["my-protocol"], false)
+	var err = _server.listen(PORT,["my-protocol"],false)
 	if err != OK:
 		print_debug("Unable to start server")
 		set_process(false)
@@ -100,6 +100,8 @@ func _connected(id, proto):
 	# This is called when a new peer connects, "id" will be the assigned peer id,
 	# "proto" will be the selected WebSocket sub-protocol (which is optional)
 	print_debug("Client %d connected with protocol: %s" % [id, proto])
+	is_connected = true
+	client_id = id
 
 func _close_request(id, code, reason):
 	# This is called when a client notifies that it wishes to close the connection,
@@ -111,13 +113,18 @@ func _disconnected(id, was_clean = false):
 	# disconnecting client, "was_clean" will tell you if the disconnection
 	# was correctly notified by the remote peer before closing the socket.
 	print_debug("Client %d disconnected, clean: %s" % [id, str(was_clean)])
+	is_connected = false
 
 func _on_data(id):
 	# Print the received packet, you MUST always use get_peer(id).get_packet to receive data,
 	# and not get_packet directly when not using the MultiplayerAPI.
-	var pkt = _server.get_peer(id).get_packet()
-	print_debug("Got data from client %d: %s ... echoing" % [id, pkt.get_string_from_utf8()])
-	_server.get_peer(id).put_packet(pkt)
+	var pkt = _server.get_peer(id).get_packet().get_string_from_utf8()
+	print_debug("Got data from client %d: %s ... echoing" % [id, pkt])
+	if "draw" == pkt.left(5):
+		$decks.get_child(0)._draw_card()
+	if "play" == pkt.left(5):
+		pass
+		
 
 func _process(_delta):
 	# Call this in _process or _physics_process.

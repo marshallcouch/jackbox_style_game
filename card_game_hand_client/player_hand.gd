@@ -1,7 +1,7 @@
 extends Control
 
 
-var hand_array : Array
+var hand_array : Array = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -28,23 +28,22 @@ func _on_viewport_resized() -> void:
 
 
 func _on_play_button_pressed() -> void:
-	for card_name in $card_list.get_selected_items():
+	for card_num in $card_list.get_selected_items():
 		for i in range(0,hand_array.size()):
-			if hand_array[i]["top_left"] == $card_list.get_item_text(card_name):
+			if hand_array[i]["top_left"] == $card_list.get_item_text(card_num):
+				_client.get_peer(1).put_packet("play~".to_utf8() + hand_array[i]["top_left"].to_utf8())
 				hand_array.remove(i)
 				$card_list.remove_item(i)
 				break
 
-	pass # Replace with function body.
-
 
 func _on_deck_bottom_button_pressed() -> void:
-	pass # Replace with function body.
+	_client.get_peer(1).put_packet("deck_bottom".to_utf8())
 
 
 func _on_draw_button_pressed() -> void:
 	print_debug("sending packet...")
-	_client.get_peer(1).put_packet("Draw a card".to_utf8())
+	_client.get_peer(1).put_packet("draw".to_utf8())
 	#print_debug(String(drawn_card))
 #	var new_card = {"top_left":"blah " + String(rand_range(1,20)), 
 #	"top_right":"1G",
@@ -55,10 +54,18 @@ func _on_draw_button_pressed() -> void:
 
 
 func _on_card_list_item_selected(_index: int) -> void:
-	$card_preview/top_left.text = "new" + String(rand_range(1,20))
-	$card_preview/top_right.text = "new" + String(rand_range(1,20))
-	$card_preview/middle_scroller/middle.text = "new" + String(rand_range(1,20))
-	$card_preview/bottom.text = "new"+ String(rand_range(1,20))
+	if "top_left" in hand_array[_index]:
+		$card_preview/top_left.text = hand_array[_index]["top_left"]
+	if "top_right" in hand_array[_index]:
+		$card_preview/top_right.text = hand_array[_index]["top_right"]
+	if "middle" in hand_array[_index]:
+		$card_preview/middle_scroller/middle.text = hand_array[_index]["middle"]
+	var bottom:String = ""
+	if "bottom_left" in hand_array[_index]:
+		bottom += hand_array[_index]["bottom_left"]
+	if "bottom_right" in hand_array[_index]:
+		bottom += hand_array[_index]["bottom_right"]
+	$card_preview/bottom.text = bottom
 	pass
 
 
@@ -77,7 +84,7 @@ func setup_client():
 	# Alternatively, you could check get_peer(1).get_available_packets() in a loop.
 	_client.connect("data_received", self, "_on_data")
 	# Initiate connection to the given URL.
-	var err = _client.connect_to_url(websocket_url, ["my-protocol"],true)
+	var err = _client.connect_to_url(websocket_url, ["my-protocol"],false)
 	if err != OK:
 		print_debug("Unable to connect")
 		set_process(false)
@@ -103,9 +110,16 @@ func _on_data():
 	# Print the received packet, you MUST always use get_peer(1).get_packet
 	# to receive data from server, and not get_packet directly when not
 	# using the MultiplayerAPI.
-	print_debug("Got data from server: ", _client.get_peer(1).get_packet().get_string_from_utf8())
+	var data:String  = String(_client.get_peer(1).get_packet().get_string_from_utf8())
+	print_debug("Got data from server: "+ data)
+	if "card~" == data.left(5):
+		print_debug(data.substr(5,data.length()-5))
+		hand_array.append(JSON.parse(data.substr(5,data.length()-5)).result)
+		$card_list.add_item(hand_array[hand_array.size()-1]["top_left"])
+		#print_debug("drew: " + hand_array[0]["top_left"])
 
 func _process(_delta):
 	# Call this in _process or _physics_process. Data transfer, and signals
 	# emission will only happen when calling this function.
 	_client.poll()
+	

@@ -40,7 +40,7 @@ func _on_touch_input_event(_viewport, event, shape_idx):
 		
 	#Draw
 	if shape_idx == 2:
-		_draw_card(event)
+		_draw_card()
 	
 	if shape_idx == 3:
 		_search_deck(event)
@@ -71,10 +71,10 @@ func _shuffle_deck(event) -> void:
 		deck_array.shuffle()
 
 
-func _draw_card(event) -> void:
+func _draw_card() -> void:
 	if deck_array.size() >0:
 		emit_signal("draw_card",deck_array.pop_front())
-		print_debug("draw:" + event.to_string())
+		print_debug("draw:" )
 		_set_deck_cards_visible()
 
 
