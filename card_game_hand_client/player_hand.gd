@@ -8,7 +8,7 @@ func _ready() -> void:
 	var _connected = get_tree().root.connect("size_changed", self, "_on_viewport_resized")
 	_on_viewport_resized()
 	setup_client()
-	
+	$disconnected_popup.popup()
 
 
 func _on_viewport_resized() -> void:
@@ -37,7 +37,6 @@ func _on_deck_top_button_pressed() -> void:
 	action_on_card("deck_top")
 
 func action_on_card(action:String):
-	
 	for card_num in $card_list.get_selected_items():
 		for i in range(0,hand_array.size()):
 			if hand_array[i]["top_left"] == $card_list.get_item_text(card_num):
@@ -47,12 +46,9 @@ func action_on_card(action:String):
 				break
 
 
-
-
 func _on_draw_button_pressed() -> void:
 	print_debug("sending packet...")
 	_client.get_peer(1).put_packet("draw".to_utf8())
-
 
 func _on_card_list_item_selected(_index: int) -> void:
 	if "top_left" in hand_array[_index]:
@@ -84,7 +80,11 @@ func setup_client():
 	# a full packet is received.
 	# Alternatively, you could check get_peer(1).get_available_packets() in a loop.
 	_client.connect("data_received", self, "_on_data")
+
+	
+func connect_client():
 	# Initiate connection to the given URL.
+	websocket_url = "ws://" + $disconnected_popup/ip_address_box.text + ":9080"
 	var err = _client.connect_to_url(websocket_url, ["my-protocol"],false)
 	if err != OK:
 		print_debug("Unable to connect")
@@ -97,6 +97,10 @@ func _closed(was_clean = false):
 	# by the remote peer before closing the socket.
 	print_debug("Closed, clean: ", was_clean)
 	set_process(false)
+	hand_array.clear()
+	$card_list.clear()
+	_client = WebSocketClient.new()
+	$disconnected_popup.popup()
 
 func _connected(proto = ""):
 	# This is called on connection, "proto" will be the selected WebSocket
@@ -105,6 +109,7 @@ func _connected(proto = ""):
 	# You MUST always use get_peer(1).put_packet to send data to server,
 	# and not put_packet directly when not using the MultiplayerAPI.
 	_client.get_peer(1).put_packet("Test packet".to_utf8())
+	$disconnected_popup.hide()
 
 
 func _on_data():
@@ -123,6 +128,8 @@ func _process(_delta):
 	# Call this in _process or _physics_process. Data transfer, and signals
 	# emission will only happen when calling this function.
 	_client.poll()
-	
 
 
+func _on_Refresh_pressed() -> void:
+	connect_client()
+	$disconnected_popup.hide()

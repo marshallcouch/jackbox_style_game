@@ -85,8 +85,40 @@ margin_right = 325.0
 margin_bottom = 40.0
 text = "Draw"
 
+[node name="disconnected_popup" type="WindowDialog" parent="."]
+margin_left = 53.0
+margin_top = 87.0
+margin_right = 316.0
+margin_bottom = 315.0
+
+[node name="Label" type="Label" parent="disconnected_popup"]
+margin_left = 78.0
+margin_top = 46.0
+margin_right = 188.0
+margin_bottom = 111.0
+text = "Not Connected
+
+
+Enter IP Address:"
+align = 1
+
+[node name="Refresh" type="Button" parent="disconnected_popup"]
+margin_left = 88.0
+margin_top = 178.0
+margin_right = 163.0
+margin_bottom = 213.0
+text = "Connect"
+
+[node name="ip_address_box" type="TextEdit" parent="disconnected_popup"]
+margin_left = 35.0
+margin_top = 121.0
+margin_right = 223.0
+margin_bottom = 161.0
+text = "localhost"
+
 [connection signal="item_selected" from="card_list" to="." method="_on_card_list_item_selected"]
 [connection signal="pressed" from="actions_list/play_button" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="actions_list/deck_top_button" to="." method="_on_deck_top_button_pressed"]
 [connection signal="pressed" from="actions_list/deck_bottom_button" to="." method="_on_deck_bottom_button_pressed"]
 [connection signal="pressed" from="actions_list/draw_button" to="." method="_on_draw_button_pressed"]
+[connection signal="pressed" from="disconnected_popup/Refresh" to="." method="_on_Refresh_pressed"]
