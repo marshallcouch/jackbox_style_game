@@ -13,18 +13,18 @@ func _ready() -> void:
 
 func _on_viewport_resized() -> void:
 	var viewport_size = get_viewport().size
-	$card_list.rect_size = viewport_size * Vector2(1,0.5)
+	$card_list.rect_size = viewport_size * Vector2(1,0.4)
 	$card_preview.rect_position.y = $card_list.rect_size.y+5
 	$card_preview/top_right.rect_position.x = viewport_size.x-65
 	$card_preview/bottom.rect_position.y = $card_preview/top_right.rect_size.y + 10
 	
 	$card_preview/middle_scroller.rect_position = Vector2(10, $card_preview/bottom.rect_position.y + $card_preview/bottom.rect_size.y + 20)
-	$card_preview/middle_scroller.rect_size = Vector2(viewport_size.x - 20, viewport_size.y - \
+	$card_preview/middle_scroller.rect_size = Vector2(viewport_size.x - 20, viewport_size.y*.9 - \
 		($card_preview/middle_scroller.rect_position.y + $actions_list.rect_size.y + $card_list.rect_size.y + 40 ))
 	
 	$card_preview/middle_scroller/middle.rect_min_size = $card_preview/middle_scroller.rect_size - Vector2(10,10)
 	
-	$actions_list.rect_position = Vector2(viewport_size.x/2 - $actions_list.rect_size.x/2, viewport_size.y - ($actions_list.rect_size.y + 5))
+	$actions_list.rect_position = Vector2(viewport_size.x/2 - $actions_list.rect_size.x/2, $card_preview.rect_position.y + $card_preview.rect_size.y+ $card_list.rect_size.y)
 
 
 func _on_play_button_pressed() -> void:

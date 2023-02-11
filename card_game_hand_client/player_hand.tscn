@@ -114,7 +114,7 @@ margin_left = 35.0
 margin_top = 121.0
 margin_right = 223.0
 margin_bottom = 161.0
-text = "localhost"
+text = "192.168.1.11"
 
 [connection signal="item_selected" from="card_list" to="." method="_on_card_list_item_selected"]
 [connection signal="pressed" from="actions_list/play_button" to="." method="_on_play_button_pressed"]

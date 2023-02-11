@@ -12,13 +12,12 @@ var client_id:int = -1
 func _ready() -> void:
 	if testing:
 		var deck_file = File.new()
-		deck_file.open("C:\\Users\\marsh\\Documents\\Godot\\jackbox_style_game\\card_game\\assets\\cards\\MTGdeck.json",File.READ)
-		_on_action_menu_json_pasted(deck_file.get_as_text())
+		deck_file.open("res://assets/preloaded_decks/mtg_deck.tres",File.READ)
+		_on_action_menu_json_pasted(deck_file.get_as_text().replace("[gd_resource type=\"Resource\" format=2]","").replace("[resource]",""))
 		deck_file.close()
-	setup_about()
+	#setup_about()
 	setup_server()
 	
-
 	
 func setup_about():
 	password = String(ceil(rand_range(1000,9999)))
@@ -32,7 +31,7 @@ func setup_about():
 
 func _on_deck_draw_card(card_object) -> void:
 	print_debug("drawn card:" + card_object["top_left"])
-	var drawn_card = load("res://cards/card.tscn").instance()
+	var drawn_card = load("://cards/card.tscn").instance()
 	drawn_card.set_card(card_object)
 	_place_card_in_hand(drawn_card)
 	drawn_card.connect("place_card_back_in_deck",$decks.get_child(0),"place_card_in_deck")
@@ -58,7 +57,10 @@ func _place_card_in_hand(card_scene):
 
 func _on_action_menu_json_pasted(json_text) -> void:
 	var json_result = JSON.parse(json_text).result
-	var _game_name = String(json_result["game"])
+	
+	var _game_name 
+	if "game" in json_result:
+		_game_name = String(json_result["game"])
 	#print_debug(deck_result)
 	var new_deck
 	for deck in json_result["decks"]:

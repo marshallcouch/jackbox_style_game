@@ -18,14 +18,10 @@ script = ExtResource( 3 )
 layer = 2
 
 [node name="left_button" type="Button" parent="camera/action_panel"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -912.0
-margin_top = -484.0
-margin_right = -872.0
-margin_bottom = -444.0
+margin_left = 48.0
+margin_top = 56.0
+margin_right = 88.0
+margin_bottom = 96.0
 rect_rotation = 90.0
 text = "V"
 
@@ -85,7 +81,6 @@ rect_pivot_offset = Vector2( 20, 20 )
 text = "..."
 
 [node name="about_popup" type="Popup" parent="camera/action_panel/action_menu_button"]
-visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
