@@ -31,7 +31,7 @@ func setup_about():
 
 func _on_deck_draw_card(card_object) -> void:
 	print_debug("drawn card:" + card_object["top_left"])
-	var drawn_card = load("://cards/card.tscn").instance()
+	var drawn_card = load("res://cards/card.tscn").instance()
 	drawn_card.set_card(card_object)
 	_place_card_in_hand(drawn_card)
 	drawn_card.connect("place_card_back_in_deck",$decks.get_child(0),"place_card_in_deck")

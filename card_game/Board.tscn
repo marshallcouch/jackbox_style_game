@@ -158,7 +158,6 @@ rect_scale = Vector2( 1.5, 1.5 )
 text = "Hide"
 
 [node name="player_hand" type="CanvasLayer" parent="camera"]
-visible = false
 script = ExtResource( 6 )
 
 [node name="cards" type="Node" parent="."]
