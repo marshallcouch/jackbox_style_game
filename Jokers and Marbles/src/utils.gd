@@ -13,16 +13,16 @@ static func setup_standard_deck(with_jokers:bool = false,unlimited:bool = false)
 			suit_name = "Diamonds"
 			
 		for j in range(2,11):
-			new_deck_cards.append({"card_name": String(j) + " of " + suit_name})
+			new_deck_cards.append({"name": String(j) + " of " + suit_name})
 		
-		new_deck_cards.append({"card_name": "Ace" + " of " + suit_name})
-		new_deck_cards.append({"card_name": "King" + " of " + suit_name})
-		new_deck_cards.append({"card_name": "Queen" + " of " + suit_name})
-		new_deck_cards.append({"card_name": "Jack" + " of " + suit_name})
-		if with_jokers:
-			new_deck_cards.append({"card_name": "Joker"})
-			new_deck_cards.append({"card_name": "Joker"})
-	
+		new_deck_cards.append({"name": "Ace" + " of " + suit_name})
+		new_deck_cards.append({"name": "King" + " of " + suit_name})
+		new_deck_cards.append({"name": "Queen" + " of " + suit_name})
+		new_deck_cards.append({"name": "Jack" + " of " + suit_name})
+	if with_jokers:
+		new_deck_cards.append({"name": "Joker"})
+		new_deck_cards.append({"name": "Joker"})
+	randomize()
 	if unlimited:
 		var unlimited_deck_cards: Array = []
 		for i in 20: #20 decks seems pretty unlimited...
@@ -32,4 +32,4 @@ static func setup_standard_deck(with_jokers:bool = false,unlimited:bool = false)
 	else:
 		new_deck_cards.shuffle()
 	
-	return {"type":"standard","deck":new_deck_cards, "jokers":with_jokers, "unlimited":unlimited}
+	return {"type":"standard","name":"standard","cards":new_deck_cards, "jokers":with_jokers, "unlimited":unlimited}

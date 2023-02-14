@@ -8,18 +8,34 @@ script = ExtResource( 1 )
 
 [node name="Cards" type="Node" parent="."]
 
+[node name="DiscardPile" type="ItemList" parent="Cards"]
+margin_left = 6.0
+margin_top = -228.0
+margin_right = 271.0
+margin_bottom = -88.0
+
+[node name="DiscardLabel" type="Label" parent="Cards/DiscardPile"]
+margin_left = 173.0
+margin_top = 119.0
+margin_right = 249.0
+margin_bottom = 133.0
+text = "Discard Pile"
+
 [node name="Boards" type="Node" parent="."]
 
 [node name="Pieces" type="Node" parent="."]
 
 [node name="Controls" type="Node" parent="."]
 
+[node name="camera" parent="Controls" instance=ExtResource( 2 )]
+position = Vector2( 3, -9 )
+
 [node name="_debug" type="Node" parent="."]
 
 [node name="DebugButton" type="Button" parent="_debug"]
-margin_left = 243.0
-margin_top = 167.0
-margin_right = 389.0
-margin_bottom = 254.0
+margin_left = -326.0
+margin_top = -215.0
+margin_right = -180.0
+margin_bottom = -128.0
 
-[node name="camera" parent="." instance=ExtResource( 2 )]
+[connection signal="pressed" from="_debug/DebugButton" to="." method="_on_DebugButton_pressed"]

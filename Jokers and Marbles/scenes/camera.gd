@@ -18,7 +18,7 @@ func _on_viewport_size_changed():
 	# Do whatever you need to do when the window changes!
 	$ActionPanel.transform = Transform2D(0,Vector2(
 		get_viewport().size.x *.5 - (.5*PANEL_WIDTH)\
-		,get_viewport().size.y - 200))
+		,get_viewport().size.y - 180))
 
 func _process(delta):
 	if $ActionPanel/LeftButton.pressed:
