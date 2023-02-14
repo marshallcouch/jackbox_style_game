@@ -9,3 +9,4 @@ func _ready() -> void:
 #this _setup deck calls a function to create a normal deck of playing cards
 func _setup_deck() -> void:
 	decks.append(Utils.setup_standard_deck(true,true))
+
