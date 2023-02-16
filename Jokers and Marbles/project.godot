@@ -9,12 +9,18 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node",
+"class": "Networking",
+"language": "GDScript",
+"path": "res://src/networking.gd"
+}, {
 "base": "Reference",
 "class": "Utils",
 "language": "GDScript",
 "path": "res://src/utils.gd"
 } ]
 _global_script_class_icons={
+"Networking": "",
 "Utils": ""
 }
 

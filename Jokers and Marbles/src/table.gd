@@ -5,7 +5,7 @@ var discard_pile: Array = []
 var player_hands: Array = []
 
 onready var _discard_pile_list = $Cards/DiscardPile
-
+var networking:Networking = Networking.new()
 
 func _ready() -> void:
 	_setup_deck()
