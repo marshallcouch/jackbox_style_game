@@ -30,6 +30,47 @@ text = "Discard Pile"
 [node name="camera" parent="Controls" instance=ExtResource( 2 )]
 position = Vector2( 3, -9 )
 
+[node name="StartMenu" type="CanvasLayer" parent="Controls"]
+layer = 2
+visible = false
+
+[node name="StartMenuPanel" type="Panel" parent="Controls/StartMenu"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="StartMenuVbox" type="VBoxContainer" parent="Controls/StartMenu/StartMenuPanel"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 20.0
+margin_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="StartGameButton" type="Button" parent="Controls/StartMenu/StartMenuPanel/StartMenuVbox"]
+margin_right = 115.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 0, 40 )
+text = "Start Game"
+
+[node name="JoinGameButton" type="Button" parent="Controls/StartMenu/StartMenuPanel/StartMenuVbox"]
+margin_top = 44.0
+margin_right = 115.0
+margin_bottom = 64.0
+text = "Join Game"
+
+[node name="ReturnToGameButton" type="Button" parent="Controls/StartMenu/StartMenuPanel/StartMenuVbox"]
+margin_top = 68.0
+margin_right = 115.0
+margin_bottom = 88.0
+text = "Return To Game"
+
+[node name="QuitButton" type="Button" parent="Controls/StartMenu/StartMenuPanel/StartMenuVbox"]
+margin_top = 92.0
+margin_right = 115.0
+margin_bottom = 112.0
+text = "Quit"
+
 [node name="_debug" type="Node" parent="."]
 
 [node name="DebugButton" type="Button" parent="_debug"]
@@ -38,4 +79,8 @@ margin_top = -215.0
 margin_right = -180.0
 margin_bottom = -128.0
 
+[connection signal="pressed" from="Controls/StartMenu/StartMenuPanel/StartMenuVbox/StartGameButton" to="." method="_on_start_menu_button_pressed" binds= [ "start_game" ]]
+[connection signal="pressed" from="Controls/StartMenu/StartMenuPanel/StartMenuVbox/JoinGameButton" to="." method="_on_start_menu_button_pressed" binds= [ "join_game" ]]
+[connection signal="pressed" from="Controls/StartMenu/StartMenuPanel/StartMenuVbox/ReturnToGameButton" to="." method="_on_start_menu_button_pressed" binds= [ "return_to_game" ]]
+[connection signal="pressed" from="Controls/StartMenu/StartMenuPanel/StartMenuVbox/QuitButton" to="." method="_on_start_menu_button_pressed" binds= [ "quit" ]]
 [connection signal="pressed" from="_debug/DebugButton" to="." method="_on_DebugButton_pressed"]
