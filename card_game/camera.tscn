@@ -151,6 +151,15 @@ margin_bottom = 40.0
 rect_scale = Vector2( 1.5, 1.5 )
 text = "Hide"
 
+[node name="HandCountLabel" type="Label" parent="action_panel/show_hide_hand_button"]
+unique_name_in_owner = true
+margin_left = 1.0
+margin_top = -16.0
+margin_right = 49.0
+margin_bottom = -2.0
+text = "0"
+align = 1
+
 [node name="player_hand" type="CanvasLayer" parent="."]
 script = ExtResource( 3 )
 
@@ -167,3 +176,4 @@ script = ExtResource( 3 )
 [connection signal="pressed" from="action_panel/action_menu_button/action_menu/about_popup/close_about_window_button" to="." method="_on_close_about_window_button_pressed"]
 [connection signal="pressed" from="action_panel/show_hide_hand_button" to="." method="_on_show_hide_hand_button_pressed"]
 [connection signal="child_entered_tree" from="player_hand" to="player_hand" method="_on_player_hand_child_entered_tree"]
+[connection signal="child_exiting_tree" from="player_hand" to="player_hand" method="_on_player_hand_child_exiting_tree"]
