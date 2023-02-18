@@ -11,6 +11,12 @@ var scroll_zooming_enabled = true
 func _ready() -> void:
 	$action_panel/show_hide_hand_button.set_global_position(Vector2(10,get_viewport().size.y - 70))
 	$player_hand.transform = Transform2D(0,Vector2(20,150))
+	var ip_address:String = ""
+	for address in IP.get_local_addresses():
+		if (address.split('.').size() == 4):
+			ip_address+=address + '\n'
+	$action_panel/action_menu_button/action_menu/about_popup/about_label.text = ip_address
+
 		
 func _input(event):
 	#handle dragging
@@ -71,3 +77,8 @@ func _on_recenter_button_pressed() -> void:
 	offset_v = 0
 	offset_h = 0
 	zoom = Vector2(1,1)
+
+
+func _on_close_about_window_button_pressed() -> void:
+	$action_panel/action_menu_button/about_popup.hide()
+

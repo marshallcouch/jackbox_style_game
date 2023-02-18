@@ -68,8 +68,8 @@ func _on_action_menu_json_pasted(json_text) -> void:
 		new_deck.load_deck(String(json_result["game"]), deck["deck_name"], deck["deck"])
 		new_deck.connect("draw_card",self, "_on_deck_draw_card")
 		
-		new_deck.position.y = get_viewport().size.y/2 - 380 
-		new_deck.position.x = get_viewport().size.x/2 - 250 + (300 * $decks.get_child_count())
+		new_deck.position.y = get_viewport().size.y/2 - 190 
+		new_deck.position.x = get_viewport().size.x/2 - 125 + (220 * $decks.get_child_count())
 		$decks.add_child(new_deck)
 
 

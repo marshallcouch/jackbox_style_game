@@ -34,19 +34,10 @@ func _on_touch_input_event(_viewport, event, shape_idx):
 		previous_mouse_position = event.position
 		is_dragging = true
 	
-	#shuffle
-	if shape_idx == 1:
-		_shuffle_deck(event)
-		
-	#Draw
-	if shape_idx == 2:
-		_draw_card()
-	
-	if shape_idx == 3:
-		_search_deck(event)
 
 
-func _search_deck(_event) -> void:
+
+func _search_deck() -> void:
 	if $deck_search_box.visible == false:
 		for card in deck_array:
 			var card_in_deck = load("res://cards/card_in_deck.tscn").instance()
@@ -65,8 +56,8 @@ func _hide_deck_search():
 	$deck_search_box.hide()
 
 
-func _shuffle_deck(event) -> void:
-	print_debug("shuffle:" + event.to_string())
+func _shuffle_deck() -> void:
+	print_debug("shuffle")
 	if deck_array.size() >1:
 		deck_array.shuffle()
 
@@ -125,3 +116,13 @@ func place_card_in_deck(card, location):
 	elif location == "bottom":
 		deck_array.push_back(card)
 	_set_deck_cards_visible()
+
+
+func _on_ShuffleButton_pressed() -> void:
+	_shuffle_deck()
+
+func _on_DrawButton_pressed() -> void:
+	_draw_card()
+
+func _on_SearchButton_pressed() -> void:
+	_search_deck()

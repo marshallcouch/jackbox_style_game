@@ -42,7 +42,7 @@ func _on_action_menu_index_pressed(index: int) -> void:
 
 	elif index == 4: #Create Token/Counter
 		get_parent().find_node("about_popup").popup()
-
+		
 
 func _on_confirm_button_pressed() -> void:
 	emit_signal("json_pasted",$deck_json_popup/json_text_edit.text)
