@@ -60,6 +60,13 @@ func _load_preloaded_deck(filename: String) -> void:
 	_on_action_menu_json_pasted(deck_file.get_as_text().replace("[gd_resource type=\"Resource\" format=2]","").replace("[resource]",""))
 	deck_file.close()
 
+func _load_deck(filename: String) -> void:
+	print_debug("loading...")
+	var deck_file = File.new()
+	deck_file.open(filename,File.READ)
+	_on_action_menu_json_pasted(deck_file.get_as_text().replace("[gd_resource type=\"Resource\" format=2]","").replace("[resource]",""))
+	deck_file.close()
+
 func _on_action_menu_json_pasted(json_text) -> void:
 	var json_result = JSON.parse(json_text).result
 	

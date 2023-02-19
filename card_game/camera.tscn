@@ -113,6 +113,21 @@ margin_right = 135.0
 margin_bottom = 490.0
 text = "Pre-Loaded Decks"
 
+[node name="LoadFileButton" type="Button" parent="action_panel/action_menu_button/action_menu/deck_json_popup"]
+margin_left = 300.0
+margin_top = 470.0
+margin_right = 369.0
+margin_bottom = 490.0
+text = "Load File"
+
+[node name="OpenDeckDialog" type="FileDialog" parent="action_panel/action_menu_button/action_menu/deck_json_popup"]
+visible = true
+margin_right = 804.0
+margin_bottom = 438.0
+window_title = "Open a File"
+mode = 0
+access = 2
+
 [node name="about_popup" type="Popup" parent="action_panel/action_menu_button/action_menu"]
 anchor_left = 0.5
 anchor_top = 0.5
@@ -183,6 +198,8 @@ script = ExtResource( 3 )
 [connection signal="pressed" from="action_panel/action_menu_button" to="action_panel/action_menu_button/action_menu" method="_on_action_menu_button_pressed"]
 [connection signal="index_pressed" from="action_panel/action_menu_button/action_menu" to="action_panel/action_menu_button/action_menu" method="_on_action_menu_index_pressed"]
 [connection signal="pressed" from="action_panel/action_menu_button/action_menu/deck_json_popup/confirm_button" to="action_panel/action_menu_button/action_menu" method="_on_confirm_button_pressed"]
+[connection signal="pressed" from="action_panel/action_menu_button/action_menu/deck_json_popup/LoadFileButton" to="." method="_on_LoadFileButton_pressed"]
+[connection signal="file_selected" from="action_panel/action_menu_button/action_menu/deck_json_popup/OpenDeckDialog" to="." method="_on_OpenDeckDialog_file_selected"]
 [connection signal="pressed" from="action_panel/action_menu_button/action_menu/about_popup/close_about_window_button" to="." method="_on_close_about_window_button_pressed"]
 [connection signal="pressed" from="action_panel/show_hide_hand_button" to="." method="_on_show_hide_hand_button_pressed"]
 [connection signal="child_entered_tree" from="player_hand" to="player_hand" method="_on_player_hand_child_entered_tree"]

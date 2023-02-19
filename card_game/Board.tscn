@@ -23,3 +23,4 @@ z_index = 8
 [node name="_debug" type="Node" parent="."]
 
 [node name="Sprite" type="Sprite" parent="."]
+visible = false

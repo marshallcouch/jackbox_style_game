@@ -8,6 +8,7 @@ var is_dragging = false
 var over_something = false
 var scroll_zooming_enabled = true
 signal load_preloaded_deck(file_name)
+signal load_deck(file_name)
 
 func _ready() -> void:
 	$action_panel/show_hide_hand_button.set_global_position(Vector2(10,get_viewport().size.y - 70))
@@ -31,6 +32,7 @@ func _ready() -> void:
 		
 	$action_panel/action_menu_button/action_menu/deck_json_popup/PreloadedDecksButton.get_popup().connect("index_pressed",self,"_preloaded_id_pressed")
 	self.connect("load_preloaded_deck",get_parent(),"_load_preloaded_deck")
+	self.connect("load_deck",get_parent(),"_load_deck")
 
 		
 func _input(event):
@@ -101,3 +103,12 @@ func _preloaded_id_pressed(idx: int) -> void:
 	var item:String = $action_panel/action_menu_button/action_menu/deck_json_popup/PreloadedDecksButton.get_popup().get_item_text(idx)
 	print_debug(item)
 	emit_signal("load_preloaded_deck",item)
+
+
+func _on_LoadFileButton_pressed() -> void:
+	$action_panel/action_menu_button/action_menu/deck_json_popup/OpenDeckDialog.show()
+
+
+func _on_OpenDeckDialog_file_selected(path: String) -> void:
+	$action_panel/action_menu_button/action_menu/deck_json_popup.hide()
+	emit_signal("load_deck",path)

@@ -11,6 +11,7 @@ func _ready() -> void:
 	add_item("Clear Tokens/Counters")
 	add_item("About")
 	add_item("Close Menu")
+	self.connect("json_pasted",get_node("/root/board"),"_on_action_menu_json_pasted")
 	
 
 
