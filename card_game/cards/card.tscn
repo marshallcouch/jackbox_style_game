@@ -48,6 +48,8 @@ margin_right = 122.0
 margin_bottom = 172.0
 theme = SubResource( 4 )
 align = 2
+autowrap = true
+clip_text = true
 
 [node name="card_back_sprite" type="Sprite" parent="card_base"]
 position = Vector2( 63, 88 )

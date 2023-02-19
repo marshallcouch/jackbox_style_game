@@ -21,6 +21,7 @@ func set_card(card_object):
 		full_card_info += card_object["top_left"]
 		
 	if "top_right" in card_object:
+		$card_base/top_left_label.text += " " + card_object["top_right"]
 		full_card_info += '\n\n'+ card_object["top_right"]
 		
 	if "middle" in card_object:

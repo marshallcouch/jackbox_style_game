@@ -19,3 +19,5 @@ script = ExtResource( 4 )
 [node name="counter" parent="counters" instance=ExtResource( 5 )]
 position = Vector2( 616, 176 )
 z_index = 8
+
+[node name="_debug" type="Node" parent="."]

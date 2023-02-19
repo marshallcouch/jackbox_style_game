@@ -161,6 +161,7 @@ text = "0"
 align = 1
 
 [node name="player_hand" type="CanvasLayer" parent="."]
+visible = false
 script = ExtResource( 3 )
 
 [connection signal="pressed" from="action_panel/left_button" to="." method="_on_left_button_pressed"]

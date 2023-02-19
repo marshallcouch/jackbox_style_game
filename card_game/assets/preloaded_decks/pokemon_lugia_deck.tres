@@ -1,0 +1,251 @@
+[gd_resource type="Resource" format=2]
+{
+	"game":"Pokemon",
+	"decks":[
+		{"deck_name":"Main Deck",
+		"deck":[
+			{
+			"top_left":"Lugia EX",
+			"top_right": "170 *",
+			"type":"creature",
+			"middle":"** Aero Ball Atack 20x\nThis attackdoes 20 damage times the amount of Energy attached to both Active Pokemon.\n\n**** Deep Hurricane 80+\nIf there is any Stadium card in play, this attack does 70 more damage.  Then, Discard that Stadium card.",
+			"bottom_left":"Weakness: Lx2   Resistance: Ftg-20    Retreat: **",
+			"count":2
+			},
+			{
+			"top_left":"Wyrdeer V *",
+			"top_right": "220",
+			"type":"creature",
+			"middle":"Ability: Once during your turn, when this Pokemon moves from your Bench to the ActiveSpot, you may move any amount of Energy from your other pokemon to it.\n\n*** Psychield Bash 40x\nThis attack does 40 damage for each Energy attach to this Pokemon.",
+			"bottom_left":"Weakness: Ftgx2   Resistance:    Retreat: **",
+			"count":3
+			},
+			{
+			"top_left":"Gardevoir V",
+			"top_right": "210 P",
+			"type":"creature",
+			"middle":"P Magical Shot 30\n\n PP* Swelling Pulse 120+\nIf this Pokemon was healed during this turn, this attack does 80 more damage",
+			"bottom_left":"Weakness: Mx2   Resistance:    Retreat: **",
+			"count":2
+			},
+			{
+			"top_left":"Blissey (Evolves from Chansey)",
+			"top_right": "130 *",
+			"type":"creature",
+			"middle":"Ability: Once during your turn (before your attack), you may flip a coin.  If heads, heal 30 damage from your Active Pokemon.\n\n *** Double-Edge 90\nThis Pokemon does 60 damage to itself",
+			"bottom_left":"Weakness: Ftgx2  Resistance:    Retreat: ***",
+			"count":2
+			},
+			{
+			"top_left":"Chansey",
+			"top_right": "100 *",
+			"type":"creature",
+			"middle":"* Nap\n Heal 30 damage from this Pokemon.\n\n *** Lucky Punch 100\nIf you don't have exactly 7 cards in your hand, this attack does nothing.",
+			"bottom_left":"Weakness: Ftgx2  Resistance:    Retreat: ***",
+			"count":3
+			},
+			{
+			"top_left":"Miltank",
+			"top_right": "110 *",
+			"type":"creature",
+			"middle":"Ability: Prevent all damage done to this Pokemon by attacks from your opponents Pokemon V.\n\n ** Rout 10+\nThis attack does 20 more damage for each of your opponent's Benched Pokemon.",
+			"bottom_left":"Weakness: Ftgx2  Resistance:    Retreat: **",
+			"count":1
+			},
+			{
+			"top_left":"Snorlax",
+			"top_right": "150 *",
+			"type":"creature",
+			"middle":"*** Rolling Tackle 80\n\n****Heavy Impact 130",
+			"bottom_left":"Weakness: Ftgx2  Resistance:    Retreat: ****",
+			"count":1
+			},
+			{
+			"top_left":"Skarmory ",
+			"top_right": "100 *",
+			"type":"creature",
+			"middle":"* Call For Family\nSearch your deck for up to 2 Basic Pokemon and put them ionto your Bench.  Shuffle your deck afterward\n\n** Blow Through 30+\n If there is any Stadium card in play, this attack does 30 more damage.",
+			"bottom_left":"Weakness: Lx2  Resistance: Ftg-20   Retreat: *",
+			"count":2
+			},
+			{
+			"top_left":"Golett",
+			"top_right": "90 P",
+			"type":"creature",
+			"middle":"** Smash Punch 30\nFlip a coin, if tails, this attack does nothing.",
+			"bottom_left":"Weakness: Drkx2  Resistance: Ftg-20   Retreat: ***",
+			"count":1
+			},
+			{
+			"top_left":"Golurk (Evolves from Golett)",
+			"top_right": "130 P",
+			"type":"creature",
+			"middle":"P** Wreck 60+\nIf there is any Stadium card in play, this attack does 60 more damage.  Discard that Stadium card.\n\nP*** Golurk Hammer 100",
+			"bottom_left":"Weakness: Drkx2  Resistance: Ftg-20   Retreat: ****",
+			"count":1
+			},
+			{
+			"top_left":"Cresselia",
+			"top_right": "110 P",
+			"type":"creature",
+			"middle":"Ability: If there is any stadium card in play, this Pokemon has no retreat cost.\n\nP** Moonlight Gain 70\n Heal 20 damage from this Pokemon.",
+			"bottom_left":"Weakness: Px2  Resistance:   Retreat: **",
+			"count":1
+			},
+
+
+			{
+			"top_left":"Pokemon Communication",
+			"top_right":"Item",
+			"type":"action",
+			"middle":"Reveal a Pokemon in your hand and put it on top of your deck.  If you do, search your deck for a Pokemon, reveal it, and put it into your hand.  Shuffle your deck afterward.",
+			"count":2
+			},
+			{
+			"top_left":"Ultra Ball",
+			"top_right":"Item",
+			"type":"action",
+			"middle":"Discard 2 cards from your hand.  (If you can't discard 2 cards, you can't play this card.)  Search your deck for a Pokemon, reveal it, an dput it into your hand.  Shuffle your deck afterward.",
+			"count":2
+			},	
+			
+			
+			{
+			"top_left":"VS Seeker",
+			"top_right":"Item",
+			"type":"action",
+			"middle":"Put a Supporter card from your discard pile into your hand.",
+			"count":1
+			},
+			{
+			"top_left":"Super Rod",
+			"top_right":"Item",
+			"type":"action",
+			"middle":"Shuffle 3 in any combination of pokemon and basic Energy cards from your discard pile back into your deck.",
+			"count":1
+			},
+			{
+			"top_left":"Escape Rope",
+			"top_right":"Item",
+			"type":"action",
+			"middle":"Each player switches his or her Active Pokemon with 1 of hist or her Benched Pokemon. (Your opponent switch first.  If a player does not have a Benched Pokemon, he or she doesn't switch Pokemon.)",
+			"count":1
+			},
+			{
+			"top_left":"Professor's Letter",
+			"top_right":"Item",
+			"type":"action",
+			"middle":"Search your deck for up to 2 basic Energy cards.  Reveal them, an dput them into your hand.  Shuffle your deck afterward.",
+			"count":1
+			},
+			{
+			"top_left":"Switch",
+			"top_right":"Item",
+			"type":"action",
+			"middle":"Switch your Active Pokemon with 1 of your Benched Pokemon",
+			"count":1
+			},
+			{
+			"top_left":"Switch Cart",
+			"top_right":"Item",
+			"type":"action",
+			"middle":"Switch your Active Basic Pokemon with 1 of your Benched Pokmeon.  If you do, heal 30 damage from the Pokemon you moved to your Bench.",
+			"count":1
+			},
+			
+			
+			{
+			"top_left":"Dimension Valley",
+			"top_right":"Stadium",
+			"type":"defense",
+			"middle": "Each P Pokemon's attacks (both yours and your opponents) cost * less.",
+			"count":2
+			},
+			{
+			"top_left":"Aspertia City Gym",
+			"top_right":"Stadium",
+			"type":"defense",
+			"middle": "Each * Pokemon in play (both yours and your opponents) gets +20 HP.",
+			"count":2
+			},
+			
+			
+			{
+			"top_left":"Professor Juniper",
+			"top_right":"Supporter",
+			"type":"action",
+			"middle":"Discard your hand and draw 7 cards",
+			"count":2
+			},
+			{
+			"top_left":"Zisu",
+			"top_right":"Supporter",
+			"type":"action",
+			"middle":"Draw cards until you have 1 more card in your hand than your opponent.",
+			"count":2
+			},
+			{
+			"top_left":"Pokemon Fan Club",
+			"top_right":"Supporter",
+			"type":"action",
+			"middle":"Search yoru deck for up to 2 Basic Pokemon, reveal them, and put them into your hand.  Shuffle your deck afterward.",
+			"count":1
+			},
+			{
+			"top_left":"Shauna",
+			"top_right":"Supporter",
+			"type":"action",
+			"middle":"Shuffle your hand into your deck.  Then draw 5 cards",
+			"count":1
+			},
+			{
+			"top_left":"Bianca",
+			"top_right":"Supporter",
+			"type":"action",
+			"middle":"Draw cards until you have 6 cards in your hand.",
+			"count":1
+			},
+			{
+			"top_left":"Lysandre",
+			"top_right":"Supporter",
+			"type":"action",
+			"middle":"Switch 1 of your opponent's Benched Pokemon with his or her Active Pokemon.",
+			"count":1
+			},
+			{
+			"top_left":"Winona",
+			"top_right":"Supporter",
+			"type":"action",
+			"middle":"Search your deck for up to 3 * Pokemon, Reveal them, and put them into your hand.  Shuffle your deck afterward.",
+			"count":1
+			},
+			{
+			"top_left":"Cheren",
+			"top_right":"Supporter",
+			"type":"action",
+			"middle":"Draw 3 cards.",
+			"count":1
+			},
+			{
+			"top_left":"N",
+			"top_right":"Supporter",
+			"type":"action",
+			"middle":"Each player shuffles his or her hand into his or her deck.  Then, each player draws a card for each of his or her remaining Prize cards.",
+			"count":1
+			},
+			{
+			"top_left":"Double Colorless",
+			"middle":"Double Colorless Energy provies ** Energy",
+			"type":"energy",
+			"count":3
+			},
+			{
+			"top_left":"Pyschic Energy",
+			"middle":"Pyschic",
+			"type":"energy",
+			"count":13
+			}
+		]}
+	]
+}
+[resource]

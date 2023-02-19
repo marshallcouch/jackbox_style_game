@@ -12,11 +12,35 @@ var client_id:int = -1
 func _ready() -> void:
 	if testing:
 		var deck_file = File.new()
-		deck_file.open("res://assets/preloaded_decks/mtg_deck.tres",File.READ)
+		deck_file.open("res://assets/preloaded_decks/pokemon_lugia_deck.tres",File.READ)
 		_on_action_menu_json_pasted(deck_file.get_as_text().replace("[gd_resource type=\"Resource\" format=2]","").replace("[resource]",""))
 		deck_file.close()
 	#setup_about()
 	setup_server()
+	get_image_from_google("llanowar elves")
+	
+	
+	
+	
+func get_image_from_google(search_term: String):
+	var http_request = HTTPRequest.new()
+	add_child(http_request)
+	http_request.connect("request_completed", self, "_http_request_completed")
+
+	var http_error = http_request.request("https://www.google.com/search?q=llanowar+elves+art&tbm=isch")
+	if http_error != OK:
+		print("An error occurred in the HTTP request.")
+		
+func _http_request_completed(result, response_code, headers, body):
+	print(body)
+	var image = Image.new()
+	var image_error = image.load_png_from_buffer(body)
+	if image_error != OK:
+		print("An error occurred while trying to display the image.")
+	var texture = ImageTexture.new()
+	texture.create_from_image(image)
+
+	
 	
 	
 func setup_about():
