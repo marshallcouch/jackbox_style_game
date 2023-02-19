@@ -17,29 +17,22 @@ func _ready() -> void:
 		deck_file.close()
 	#setup_about()
 	setup_server()
-	get_image_from_google("llanowar elves")
+	#get_image_from_google("llanowar elves")
 	
 	
-	
-	
-func get_image_from_google(search_term: String):
-	var http_request = HTTPRequest.new()
-	add_child(http_request)
-	http_request.connect("request_completed", self, "_http_request_completed")
 
-	var http_error = http_request.request("https://www.google.com/search?q=llanowar+elves+art&tbm=isch")
-	if http_error != OK:
-		print("An error occurred in the HTTP request.")
-		
-func _http_request_completed(result, response_code, headers, body):
-	print(body)
+	
+	
+func _load_image_from_http(result, response_code, header,body):
 	var image = Image.new()
 	var image_error = image.load_png_from_buffer(body)
 	if image_error != OK:
-		print("An error occurred while trying to display the image.")
+		print_debug("An error occurred while trying to display the image.")
 	var texture = ImageTexture.new()
 	texture.create_from_image(image)
-
+	$Sprite.texture = texture
+	
+	
 	
 	
 	
@@ -54,7 +47,7 @@ func setup_about():
 	$camera/action_panel/action_menu_button/about_popup.show()
 
 func _on_deck_draw_card(card_object) -> void:
-	print_debug("drawn card:" + card_object["top_left"])
+	#print_debug("drawn card:" + card_object["top_left"])
 	var drawn_card = load("res://cards/card.tscn").instance()
 	drawn_card.set_card(card_object)
 	_place_card_in_hand(drawn_card)
@@ -69,7 +62,7 @@ func _place_card_in_hand(card_scene):
 			max_x = cards.position.x
 		if cards.position.y > max_y:
 			max_y = cards.position.y
-	card_scene.position = Vector2(max_x + 20 + rand_range(0,10),max_y + 40 + rand_range(0,30))
+	card_scene.position = Vector2(max_x + 20 ,max_y + 40)
 #	if(card_scene.is_face_down()):
 #		card_scene.flip()
 	if card_scene.get_parent() == $cards:
@@ -117,10 +110,9 @@ func setup_server():
 	# Start listening on the given port.
 	var err = _server.listen(PORT,["my-protocol"],false)
 	if err != OK:
-		print_debug("Unable to start server")
 		set_process(false)
-	else:
-		print_debug("debug: server listening...")
+		print("error with server")
+	
 
 func _connected(id, proto):
 	# This is called when a new peer connects, "id" will be the assigned peer id,
@@ -178,3 +170,34 @@ func _process(_delta):
 	# Call this in _process or _physics_process.
 	# Data transfer, and signals emission will only happen when calling this function.
 	_server.poll()
+
+
+
+
+	
+#func get_image_from_google(search_term: String):
+#	var http_request = HTTPRequest.new()
+#	add_child(http_request)
+#	http_request.connect("request_completed", self, "_http_request_completed")
+#
+#
+#	var http_error = http_request.request("https://www.bing.com/images/search?q=llanowar")
+#	if http_error != OK:
+#		print_debug("An error occurred in the HTTP request.")
+#
+#
+#func _http_request_completed(result, response_code, headers, body):
+#	var parser: XMLParser = XMLParser.new()
+#	parser.open_buffer(body)
+#
+#	var parsedString: String = ""
+#	while parser.read():
+#		if "jpg" in parser.get_attribute_value(1):
+#			parsedString = parser.get_attribute_value(1)
+#	if parsedString != "":
+#		var http_request = HTTPRequest.new()
+#		add_child(http_request)
+#		http_request.connect("request_completed", self, "_load_image_from_http")
+#		var http_error = http_request.request(parsedString)
+#		if http_error != OK:
+#			print_debug("An error occurred in the HTTP request.")

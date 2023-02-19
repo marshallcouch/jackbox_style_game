@@ -25,11 +25,9 @@ func load_deck(_game_name, _deck_name, deck_json) -> void:
 func _on_touch_input_event(_viewport, event, shape_idx):
 	if not event.is_action_pressed("ui_touch"):
 		return
-	print_debug(shape_idx)
 	
 	#shape ID 0 means drag, they clicked the deck
 	if shape_idx == 0:
-		print_debug("draggable:" + event.to_string())
 		get_tree().set_input_as_handled()
 		previous_mouse_position = event.position
 		is_dragging = true
@@ -57,7 +55,6 @@ func _hide_deck_search():
 
 
 func _shuffle_deck() -> void:
-	print_debug("shuffle")
 	if deck_array.size() >1:
 		deck_array.shuffle()
 
@@ -65,7 +62,6 @@ func _shuffle_deck() -> void:
 func _draw_card() -> void:
 	if deck_array.size() >0:
 		emit_signal("draw_card",deck_array.pop_front())
-		print_debug("draw:" )
 		_set_deck_cards_visible()
 
 

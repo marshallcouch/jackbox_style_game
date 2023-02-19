@@ -7,6 +7,7 @@ var full_card_info:String = ""
 signal place_card_back_in_deck(card,location)
 signal place_card_back_in_hand(card)
 # Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
 	$timer.one_shot = true
 	z_index = int(position.y)-2000
@@ -59,10 +60,8 @@ func set_card(card_object):
 func _on_touch_input_event(_viewport, event, shape_idx):
 	if not event.is_action_pressed("ui_touch"):
 		return
-	print_debug(shape_idx)
 	
 	if $timer.is_stopped() == false:
-		print_debug("double click!")
 		play_card()
 		$timer.stop()
 	else:

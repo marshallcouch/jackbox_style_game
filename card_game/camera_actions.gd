@@ -10,7 +10,7 @@ var scroll_zooming_enabled = true
 
 func _ready() -> void:
 	$action_panel/show_hide_hand_button.set_global_position(Vector2(10,get_viewport().size.y - 70))
-	$player_hand.transform = Transform2D(0,Vector2(20,150))
+	$player_hand.transform = Transform2D(0,Vector2(10,140))
 	var ip_address:String = ""
 	for address in IP.get_local_addresses():
 		if (address.split('.').size() == 4):
