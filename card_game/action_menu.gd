@@ -11,6 +11,7 @@ func _ready() -> void:
 	add_item("Clear Tokens/Counters")
 	add_item("About")
 	add_item("Close Menu")
+	
 
 
 
@@ -46,3 +47,4 @@ func _on_action_menu_index_pressed(index: int) -> void:
 
 func _on_confirm_button_pressed() -> void:
 	emit_signal("json_pasted",$deck_json_popup/json_text_edit.text)
+	$deck_json_popup.hide()

@@ -11,28 +11,10 @@ var client_id:int = -1
 
 func _ready() -> void:
 	if testing:
-		var deck_file = File.new()
-		deck_file.open("res://assets/preloaded_decks/pokemon_lugia_deck.tres",File.READ)
-		_on_action_menu_json_pasted(deck_file.get_as_text().replace("[gd_resource type=\"Resource\" format=2]","").replace("[resource]",""))
-		deck_file.close()
+		_load_preloaded_deck("pokemon_lugia_deck.tres")
 	#setup_about()
 	setup_server()
 	#get_image_from_google("llanowar elves")
-	
-	
-
-	
-	
-func _load_image_from_http(result, response_code, header,body):
-	var image = Image.new()
-	var image_error = image.load_png_from_buffer(body)
-	if image_error != OK:
-		print_debug("An error occurred while trying to display the image.")
-	var texture = ImageTexture.new()
-	texture.create_from_image(image)
-	$Sprite.texture = texture
-	
-	
 	
 	
 	
@@ -71,6 +53,12 @@ func _place_card_in_hand(card_scene):
 	if is_connected:
 		_server.get_peer(client_id).put_packet("card~".to_utf8() + String(JSON.print(card_scene.card)).to_utf8())
 
+func _load_preloaded_deck(filename: String) -> void:
+	print_debug("loading...")
+	var deck_file = File.new()
+	deck_file.open("res://assets/preloaded_decks/" + filename,File.READ)
+	_on_action_menu_json_pasted(deck_file.get_as_text().replace("[gd_resource type=\"Resource\" format=2]","").replace("[resource]",""))
+	deck_file.close()
 
 func _on_action_menu_json_pasted(json_text) -> void:
 	var json_result = JSON.parse(json_text).result
@@ -173,14 +161,13 @@ func _process(_delta):
 
 
 
-
 	
 #func get_image_from_google(search_term: String):
 #	var http_request = HTTPRequest.new()
 #	add_child(http_request)
 #	http_request.connect("request_completed", self, "_http_request_completed")
 #
-#
+#	#var http_error = http_request.request("https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Felis_silvestris_silvestris_small_gradual_decrease_of_quality.png/200px-Felis_silvestris_silvestris_small_gradual_decrease_of_quality.png")
 #	var http_error = http_request.request("https://www.bing.com/images/search?q=llanowar")
 #	if http_error != OK:
 #		print_debug("An error occurred in the HTTP request.")
@@ -190,14 +177,20 @@ func _process(_delta):
 #	var parser: XMLParser = XMLParser.new()
 #	parser.open_buffer(body)
 #
-#	var parsedString: String = ""
-#	while parser.read():
-#		if "jpg" in parser.get_attribute_value(1):
-#			parsedString = parser.get_attribute_value(1)
-#	if parsedString != "":
-#		var http_request = HTTPRequest.new()
-#		add_child(http_request)
-#		http_request.connect("request_completed", self, "_load_image_from_http")
-#		var http_error = http_request.request(parsedString)
-#		if http_error != OK:
-#			print_debug("An error occurred in the HTTP request.")
+#	parsedString: String = parser.
+#	var http_request = HTTPRequest.new()
+#	add_child(http_request)
+#	http_request.connect("request_completed", self, "_load_image_from_http")
+#	var http_error = http_request.request(parsedString)
+#	if http_error != OK:
+#		print_debug("An error occurred in the HTTP request.")
+#
+#
+#func _load_image_from_http(result, response_code, header,body):
+#	var image = Image.new()
+#	var image_error = image.load_png_from_buffer(body)
+#	if image_error != OK:
+#		print_debug("An error occurred while trying to display the image.")
+#	var texture = ImageTexture.new()
+#	texture.create_from_image(image)
+#	$Sprite.texture = texture

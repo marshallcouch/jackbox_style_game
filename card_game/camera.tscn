@@ -92,10 +92,12 @@ margin_bottom = 374.0
 window_title = "Paste Deck JSON"
 
 [node name="json_text_edit" type="TextEdit" parent="action_panel/action_menu_button/action_menu/deck_json_popup"]
-margin_left = 17.0
-margin_top = 14.0
-margin_right = 697.0
-margin_bottom = 446.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 6.0
+margin_right = -4.0
+margin_bottom = -48.0
 
 [node name="confirm_button" type="Button" parent="action_panel/action_menu_button/action_menu/deck_json_popup"]
 margin_left = 617.0
@@ -103,6 +105,13 @@ margin_top = 470.0
 margin_right = 697.0
 margin_bottom = 490.0
 text = "Confirm"
+
+[node name="PreloadedDecksButton" type="MenuButton" parent="action_panel/action_menu_button/action_menu/deck_json_popup"]
+margin_left = 12.0
+margin_top = 470.0
+margin_right = 135.0
+margin_bottom = 490.0
+text = "Pre-Loaded Decks"
 
 [node name="about_popup" type="Popup" parent="action_panel/action_menu_button/action_menu"]
 anchor_left = 0.5

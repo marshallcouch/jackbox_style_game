@@ -7,6 +7,7 @@ var previous_mouse_position = Vector2()
 var is_dragging = false
 var over_something = false
 var scroll_zooming_enabled = true
+signal load_preloaded_deck(file_name)
 
 func _ready() -> void:
 	$action_panel/show_hide_hand_button.set_global_position(Vector2(10,get_viewport().size.y - 70))
@@ -16,6 +17,20 @@ func _ready() -> void:
 		if (address.split('.').size() == 4):
 			ip_address+=address + '\n'
 	$action_panel/action_menu_button/action_menu/about_popup/about_label.text = ip_address
+	
+	var dir = Directory.new()
+	if dir.open("res://assets/preloaded_decks/") == OK:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if "tres" in file_name:
+				$action_panel/action_menu_button/action_menu/deck_json_popup/PreloadedDecksButton.get_popup().add_item(file_name)
+			file_name = dir.get_next()
+	else:
+		print("An error occurred when trying to access the path.")
+		
+	$action_panel/action_menu_button/action_menu/deck_json_popup/PreloadedDecksButton.get_popup().connect("index_pressed",self,"_preloaded_id_pressed")
+	self.connect("load_preloaded_deck",get_parent(),"_load_preloaded_deck")
 
 		
 func _input(event):
@@ -80,5 +95,9 @@ func _on_recenter_button_pressed() -> void:
 
 
 func _on_close_about_window_button_pressed() -> void:
-	$action_panel/action_menu_button/about_popup.hide()
+	$action_panel/action_menu_button/action_menu/about_popup.hide()
 
+func _preloaded_id_pressed(idx: int) -> void:
+	var item:String = $action_panel/action_menu_button/action_menu/deck_json_popup/PreloadedDecksButton.get_popup().get_item_text(idx)
+	print_debug(item)
+	emit_signal("load_preloaded_deck",item)
