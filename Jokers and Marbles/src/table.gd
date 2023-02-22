@@ -77,14 +77,30 @@ func _on_DebugButton_pressed() -> void:
 	discard(draw_card())
 
 
-func _on_start_menu_button_pressed(extra_arg_0: String) -> void:
-	if extra_arg_0 == "start_game":
-		pass
-	elif extra_arg_0 == "join_game":
-		pass
-	elif extra_arg_0 == "return_to_game":
+func _on_start_menu_button_pressed(button_pressed: String) -> void:
+	if button_pressed == "start_game":
+		networking.start_game()
+		_set_start_button_visibility(false)
+	elif button_pressed == "join_game":
+		networking.join_game()
+		_set_start_button_visibility(false)
+	elif button_pressed == "disconnect":
+		networking.disconnect_game()
+		_set_start_button_visibility(true)
+		return
+	elif button_pressed == "return_to_game":
 		$Controls/StartMenu.hide()
-		pass
-	elif extra_arg_0 == "quit":
+		return
+	elif button_pressed == "quit":
 		get_tree().quit()
-		pass
+		return
+		
+func _set_start_button_visibility(visible:bool = true):
+	if visible:
+		$Controls/StartMenu/StartMenuPanel/StartMenuVbox/JoinGameButton.show()
+		$Controls/StartMenu/StartMenuPanel/StartMenuVbox/StartGameButton.show()
+		$Controls/StartMenu/StartMenuPanel/StartMenuVbox/DisconnectGameButton.hide()
+	else:
+		$Controls/StartMenu/StartMenuPanel/StartMenuVbox/JoinGameButton.hide()
+		$Controls/StartMenu/StartMenuPanel/StartMenuVbox/StartGameButton.hide()
+		$Controls/StartMenu/StartMenuPanel/StartMenuVbox/DisconnectGameButton.show()
