@@ -10,7 +10,9 @@ var networking:Networking = Networking.new()
 func _ready() -> void:
 	_setup_deck()
 	_setup_start_menu()
-	print("done")
+	add_child(networking)
+	networking.start_game()
+	print_debug("done")
 
 
 func _on_viewport_size_changed():
