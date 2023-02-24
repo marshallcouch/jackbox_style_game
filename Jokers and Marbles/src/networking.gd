@@ -78,15 +78,15 @@ func disconnect_game(error = 0):
 
 
 #when the game client has connected to the server
-func _server_connected(id, proto):
+func _server_connected(proto):
 	print_debug("This client is now connected to server")
-	send_packet("test packet from client",id)
+	send_packet("test packet from client")
 
 #server has peer connected
 func _peer_connected(id):
 	print_debug("player connected to server:" + String(id))
 	player_list.append({"player_id":id,"player_name":"default"})
-	send_packet("test packet from server",id)
+	send_packet("test packet from server",0)
 
 #server has a peer disconnected
 func _peer_disconnected(id):
@@ -112,7 +112,7 @@ func _process(_delta):
 		
 func _on_data(id) -> void:
 	var pkt = peer.get_peer(id).get_packet().get_string_from_utf8()
-	print_debug("Got data from client %d: %s ... echoing" % [id, pkt])
+	print_debug("Got data from client %d: %s " % [id, pkt])
 #	if is_server:
 #		print_debug("server got data")
 #		peer.get_peer(id).get_packet().get_string_from_utf8()
