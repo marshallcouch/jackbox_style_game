@@ -83,10 +83,10 @@ func _server_connected(proto):
 	send_packet("test packet from client")
 
 #server has peer connected
-func _peer_connected(id):
+func _peer_connected(id,proto):
 	print_debug("player connected to server:" + String(id))
 	player_list.append({"player_id":id,"player_name":"default"})
-	send_packet("test packet from server",0)
+	send_packet("test packet from server",id)
 
 #server has a peer disconnected
 func _peer_disconnected(id):
@@ -106,11 +106,11 @@ func send_packet(packet_content:String,peer_id:int = 1) -> void:
 	
 	
 func _process(_delta):
-	if peer:
+	if is_client or is_server:
 		peer.poll()
 		
 		
-func _on_data(id) -> void:
+func _on_data(id:int = 0) -> void:
 	var pkt = peer.get_peer(id).get_packet().get_string_from_utf8()
 	print_debug("Got data from client %d: %s " % [id, pkt])
 #	if is_server:
