@@ -16,7 +16,6 @@ func start_game(port:int = DEFAULT_PORT):
 	print_debug("hosting_game on port " + String(port) + "...")
 	is_server = true
 	peer = WebSocketServer.new()
-	
 	peer.connect("client_connected", self, "_peer_connected")
 	peer.connect("client_disconnected", self, "_peer_disconnected")
 	peer.connect("client_close_request", self, "_peer_disconnected")
@@ -24,7 +23,7 @@ func start_game(port:int = DEFAULT_PORT):
 	var err = peer.listen(port, ['my-protocol'], false)
 	if err != OK:
 		set_process(false)
-		print_debug("error starting server")
+		print_debug("error starting server " + String(err))
 
 
 func join_game(server:String = DEFAULT_SERVER, port:int = DEFAULT_PORT):
@@ -32,13 +31,13 @@ func join_game(server:String = DEFAULT_SERVER, port:int = DEFAULT_PORT):
 	print_debug("joining game " + ws_url + "...")
 	is_client = true
 	peer = WebSocketClient.new()
-	peer.connect("connection_closed", self, "_disconnect_game")
-	peer.connect("connection_error", self, "_disconnect_game")
+	peer.connect("connection_closed", self, "disconnect_game")
+	peer.connect("connection_error", self, "disconnect_game")
 	peer.connect("connection_established", self, "_server_connected")
 	peer.connect("data_received", self, "_on_data")
 	var err = peer.connect_to_url(ws_url,['my-protocol'], false)
 	if err != OK:
-		print_debug("Unable to connect")
+		print_debug("Unable to connect " + String(err))
 		set_process(false)
 	else:
 		print_debug("connecting...")
@@ -49,7 +48,7 @@ func stop_game():
 	disconnect_game()
 	
 #both
-func disconnect_game():
+func disconnect_game(error = 0):
 	
 	#server
 	if is_server:

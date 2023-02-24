@@ -66,7 +66,7 @@ func _on_card_list_item_selected(_index: int) -> void:
 	pass
 
 
-export var websocket_url = "ws://localhost:9080/test"
+export var websocket_url = "ws://localhost:8181/test"
 
 # Our WebSocketClient instance
 var _client = WebSocketClient.new()

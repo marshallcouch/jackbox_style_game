@@ -4,7 +4,7 @@ var testing = true
 var password:String = ""
 var is_connected:bool = false
 # The port we will listen to
-const PORT = 9080
+const PORT = 8181
 # Our WebSocketServer instance
 var _server = WebSocketServer.new()
 var client_id:int = -1

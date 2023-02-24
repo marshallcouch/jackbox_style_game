@@ -83,7 +83,7 @@ func _on_start_menu_button_pressed(button_pressed: String) -> void:
 		networking.join_game()
 		_set_start_button_visibility(false)
 	elif button_pressed == "disconnect":
-		networking.disconnect_game()
+		networking.disconnect_game(0)
 		_set_start_button_visibility(true)
 		return
 	elif button_pressed == "return_to_game":
