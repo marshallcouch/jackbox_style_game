@@ -76,15 +76,12 @@ func setup_client():
 	_client.connect("connection_closed", self, "_closed")
 	_client.connect("connection_error", self, "_closed")
 	_client.connect("connection_established", self, "_connected")
-	# This signal is emitted when not using the Multiplayer API every time
-	# a full packet is received.
-	# Alternatively, you could check get_peer(1).get_available_packets() in a loop.
 	_client.connect("data_received", self, "_on_data")
 
 	
 func connect_client():
 	# Initiate connection to the given URL.
-	websocket_url = "ws://" + $disconnected_popup/ip_address_box.text + ":9080"
+	websocket_url = "ws://" + $disconnected_popup/ip_address_box.text + ":8181"
 	var err = _client.connect_to_url(websocket_url, ["my-protocol"],false)
 	if err != OK:
 		print_debug("Unable to connect")

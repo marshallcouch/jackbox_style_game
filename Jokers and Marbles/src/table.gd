@@ -3,22 +3,28 @@ extends Node2D
 var decks: Array = []
 var discard_pile: Array = []
 var player_hands: Array = []
-
-onready var _discard_pile_list = $Cards/DiscardPile
+onready var start_panel = $Controls/StartMenu/StartMenuPanel
+onready var start_menu_vbox = $Controls/StartMenu/StartMenuPanel/StartMenuVbox
+onready var discard_pile_list = $Cards/DiscardPile
 var networking:Networking = Networking.new()
 
 func _ready() -> void:
+	var _connected = get_tree().root.connect("size_changed", self, "_on_viewport_resized")
 	_setup_deck()
 	_setup_start_menu()
+	_on_viewport_resized()
 	add_child(networking)
-	networking.start_game()
 	print_debug("done")
 
 
-func _on_viewport_size_changed():
+func _on_viewport_resized():
 	# Do whatever you need to do when the window changes!
-	_setup_start_menu()
-
+	start_panel.rect_size = get_viewport().size
+	start_menu_vbox.rect_size \
+		= Vector2(get_viewport().size.x *.8 \
+		,get_viewport().size.y  )
+	start_menu_vbox.rect_position \
+		= Vector2(get_viewport().size.x *.1,0)
 
 func _input(event) -> void:
 	if event.is_action_pressed("ui_menu"):
@@ -26,15 +32,7 @@ func _input(event) -> void:
 
 
 func _setup_start_menu():
-	var start_panel = $Controls/StartMenu/StartMenuPanel
-	start_panel.rect_size = get_viewport().size
-	var vbox = $Controls/StartMenu/StartMenuPanel/StartMenuVbox
-	vbox.rect_size \
-		= Vector2(get_viewport().size.x *.8 \
-		,get_viewport().size.y  )
-	vbox.rect_position \
-		= Vector2(get_viewport().size.x *.1,0)
-	for button in vbox.get_children():
+	for button in start_menu_vbox.get_children():
 		button.rect_min_size.y = 40
 
 
@@ -64,8 +62,8 @@ func draw_card(deck_to_draw_from: String = "") -> Dictionary:
 
 
 func discard(card_to_discard:Dictionary) -> void:
-	_discard_pile_list.add_item(card_to_discard["name"])
-	_discard_pile_list.move_item(discard_pile.size(),0)
+	discard_pile_list.add_item(card_to_discard["name"])
+	discard_pile_list.move_item(discard_pile.size(),0)
 	discard_pile.push_front(card_to_discard)
 
 
