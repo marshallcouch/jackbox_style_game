@@ -15,6 +15,7 @@ func _ready() -> void:
 	_on_viewport_resized()
 	add_child(networking)
 	print_debug("done")
+	$Controls/Camera.connect("show_hand",self,"_show_hand")
 
 
 func _on_viewport_resized():
@@ -25,6 +26,8 @@ func _on_viewport_resized():
 		,get_viewport().size.y  )
 	start_menu_vbox.rect_position \
 		= Vector2(get_viewport().size.x *.1,0)
+	
+
 
 func _input(event) -> void:
 	if event.is_action_pressed("ui_menu"):
@@ -60,6 +63,8 @@ func draw_card(deck_to_draw_from: String = "") -> Dictionary:
 					return deck["cards"].pop_front()
 	return decks[0]["cards"].pop_front()
 
+func _show_hand():
+	pass
 
 func discard(card_to_discard:Dictionary) -> void:
 	discard_pile_list.add_item(card_to_discard["name"])

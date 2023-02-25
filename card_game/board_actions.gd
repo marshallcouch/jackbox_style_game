@@ -10,8 +10,7 @@ var _server = WebSocketServer.new()
 var client_id:int = -1
 
 func _ready() -> void:
-	if testing:
-		_load_preloaded_deck("pokemon_lugia_deck.tres")
+	_load_preloaded_deck("pokemon_lugia_deck.tres")
 	#setup_about()
 	setup_server()
 	#get_image_from_google("llanowar elves")

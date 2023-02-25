@@ -23,6 +23,13 @@ margin_right = 96.0
 margin_bottom = 96.0
 text = "]["
 
+[node name="HandButton" type="Button" parent="ActionPanel"]
+margin_left = 103.0
+margin_top = 104.0
+margin_right = 143.0
+margin_bottom = 144.0
+text = "H"
+
 [node name="DownButton" type="Button" parent="ActionPanel"]
 margin_left = 56.0
 margin_top = 104.0
@@ -68,7 +75,7 @@ margin_left = 8.0
 margin_top = 104.0
 margin_right = 48.0
 margin_bottom = 144.0
-rect_pivot_offset = Vector2( 20, 20 )
+rect_pivot_offset = Vector2( 62, 20 )
 text = "..."
 
 [node name="AboutPopup" type="Popup" parent="ActionPanel/ActionButtonMenu"]
@@ -116,3 +123,4 @@ margin_right = 20.0
 margin_bottom = 20.0
 
 [connection signal="pressed" from="ActionPanel/RecenterButton" to="." method="_on_recenter_button_pressed"]
+[connection signal="pressed" from="ActionPanel/HandButton" to="." method="_on_HandButton_pressed"]
