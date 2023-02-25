@@ -14,9 +14,8 @@ var networking:Networking = Networking.new()
 
 
 func _ready() -> void:
-	var _connected = get_tree().root.connect("size_changed", self, "_on_viewport_resized")
+	#var _connected = get_tree().root.connect("size_changed", self, "_on_viewport_resized")
 	_setup_deck()
-	_on_viewport_resized()
 	add_child(networking)
 	print_debug("done")
 	$Controls/Camera.connect("show_hand",self,"_show_hand")
@@ -24,24 +23,16 @@ func _ready() -> void:
 
 
 func _show_start_menu():
+	if get_viewport().size.x *.8 != start_menu_vbox.rect_size.x:
+		start_panel.rect_size = get_viewport().size
+		start_menu_vbox.rect_size \
+			= Vector2(get_viewport().size.x *.8 \
+			,get_viewport().size.y  )
+		start_menu_vbox.rect_position \
+			= Vector2(get_viewport().size.x *.1,0)
 	$Controls/StartMenu.show()
 
 
-func _on_viewport_resized():
-	# Do whatever you need to do when the window changes!
-	start_panel.rect_size = get_viewport().size
-	start_menu_vbox.rect_size \
-		= Vector2(get_viewport().size.x *.8 \
-		,get_viewport().size.y  )
-	start_menu_vbox.rect_position \
-		= Vector2(get_viewport().size.x *.1,0)
-		
-
-	hand_container.set_position(Vector2(get_viewport().size.x *.05,get_viewport().size.y *.05 ))
-	hand_container.set_size( Vector2(get_viewport().size.x *.9,get_viewport().size.y *.5 ))
-	cards_in_hand_list.rect_min_size = Vector2(get_viewport().size.x *.9,get_viewport().size.y *.5)
-	hand_panel.set_position(hand_container.rect_position)
-	hand_panel.rect_size = Vector2(get_viewport().size.x *.9,get_viewport().size.y *.6 )
 
 func _input(event) -> void:
 	if event.is_action_pressed("ui_menu"):
@@ -74,10 +65,18 @@ func draw_card(deck_to_draw_from: String = "") -> Dictionary:
 
 
 func _show_hand():
+	#if get_viewport().size.x *.9 != hand_panel.rect_size.x:
+	hand_container.set_position(Vector2(get_viewport().size.x *.05,get_viewport().size.y *.05 ))
+	hand_container.set_size( Vector2(get_viewport().size.x *.9,get_viewport().size.y *.5 ))
+	cards_in_hand_list.rect_min_size = Vector2(get_viewport().size.x *.9,get_viewport().size.y *.45)
+	hand_panel.set_position(hand_container.rect_position)
+	hand_panel.rect_size = Vector2(get_viewport().size.x *.9,get_viewport().size.y *.55 )
 	if hand_canvas.visible:
 		hand_canvas.hide()
 	else:
 		hand_canvas.show()
+	
+
 
 
 func discard(card_to_discard:Dictionary) -> void:
