@@ -6,16 +6,25 @@ var player_hands: Array = []
 onready var start_panel = $Controls/StartMenu/StartMenuPanel
 onready var start_menu_vbox = $Controls/StartMenu/StartMenuPanel/StartMenuVbox
 onready var discard_pile_list = $Cards/DiscardPile
+onready var cards_in_hand_list = $Controls/Camera/HandCanvas/HandContainer/CardsInHand
+onready var hand_container = $Controls/Camera/HandCanvas/HandContainer
+onready var hand_panel = $Controls/Camera/HandCanvas/HandPanel
+onready var hand_canvas = $Controls/Camera/HandCanvas
 var networking:Networking = Networking.new()
+
 
 func _ready() -> void:
 	var _connected = get_tree().root.connect("size_changed", self, "_on_viewport_resized")
 	_setup_deck()
-	_setup_start_menu()
 	_on_viewport_resized()
 	add_child(networking)
 	print_debug("done")
 	$Controls/Camera.connect("show_hand",self,"_show_hand")
+	$Controls/Camera.connect("menu",self,"_show_start_menu")
+
+
+func _show_start_menu():
+	$Controls/StartMenu.show()
 
 
 func _on_viewport_resized():
@@ -26,17 +35,17 @@ func _on_viewport_resized():
 		,get_viewport().size.y  )
 	start_menu_vbox.rect_position \
 		= Vector2(get_viewport().size.x *.1,0)
-	
+		
 
+	hand_container.set_position(Vector2(get_viewport().size.x *.05,get_viewport().size.y *.05 ))
+	hand_container.set_size( Vector2(get_viewport().size.x *.9,get_viewport().size.y *.5 ))
+	cards_in_hand_list.rect_min_size = Vector2(get_viewport().size.x *.9,get_viewport().size.y *.5)
+	hand_panel.set_position(hand_container.rect_position)
+	hand_panel.rect_size = Vector2(get_viewport().size.x *.9,get_viewport().size.y *.6 )
 
 func _input(event) -> void:
 	if event.is_action_pressed("ui_menu"):
 		$Controls/StartMenu.show()
-
-
-func _setup_start_menu():
-	for button in start_menu_vbox.get_children():
-		button.rect_min_size.y = 40
 
 
 func _setup_deck() -> void:
@@ -63,8 +72,13 @@ func draw_card(deck_to_draw_from: String = "") -> Dictionary:
 					return deck["cards"].pop_front()
 	return decks[0]["cards"].pop_front()
 
+
 func _show_hand():
-	pass
+	if hand_canvas.visible:
+		hand_canvas.hide()
+	else:
+		hand_canvas.show()
+
 
 func discard(card_to_discard:Dictionary) -> void:
 	discard_pile_list.add_item(card_to_discard["name"])

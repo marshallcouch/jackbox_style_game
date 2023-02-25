@@ -46,8 +46,43 @@ shape = SubResource( 1 )
 [node name="Camera" parent="Controls" instance=ExtResource( 2 )]
 position = Vector2( 3, -9 )
 
+[node name="HandCanvas" type="CanvasLayer" parent="Controls/Camera"]
+visible = false
+
+[node name="HandPanel" type="Panel" parent="Controls/Camera/HandCanvas"]
+
+[node name="HandContainer" type="VSplitContainer" parent="Controls/Camera/HandCanvas"]
+margin_left = 3.0
+margin_top = -9.0
+margin_right = 89.0
+margin_bottom = 23.0
+
+[node name="CardsInHand" type="ItemList" parent="Controls/Camera/HandCanvas/HandContainer"]
+margin_right = 86.0
+items = [ "card 1", null, false, "card 2", null, false ]
+
+[node name="HandActionsContainer" type="HBoxContainer" parent="Controls/Camera/HandCanvas/HandContainer"]
+margin_top = 12.0
+margin_right = 86.0
+margin_bottom = 52.0
+alignment = 1
+
+[node name="PlayButton" type="Button" parent="Controls/Camera/HandCanvas/HandContainer/HandActionsContainer"]
+margin_right = 38.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 0, 40 )
+text = "Play"
+
+[node name="DrawButton" type="Button" parent="Controls/Camera/HandCanvas/HandContainer/HandActionsContainer"]
+margin_left = 50.0
+margin_right = 94.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 0, 40 )
+text = "Draw"
+
 [node name="StartMenu" type="CanvasLayer" parent="Controls"]
 layer = 2
+visible = false
 
 [node name="StartMenuPanel" type="Panel" parent="Controls/StartMenu"]
 modulate = Color( 1, 1, 1, 0.752941 )
@@ -72,26 +107,29 @@ text = "Start Game"
 [node name="JoinGameButton" type="Button" parent="Controls/StartMenu/StartMenuPanel/StartMenuVbox"]
 margin_top = 44.0
 margin_right = 115.0
-margin_bottom = 64.0
+margin_bottom = 84.0
+rect_min_size = Vector2( 0, 40 )
 text = "Join Game"
 
 [node name="DisconnectGameButton" type="Button" parent="Controls/StartMenu/StartMenuPanel/StartMenuVbox"]
 visible = false
 margin_top = 68.0
 margin_right = 115.0
-margin_bottom = 88.0
+margin_bottom = 108.0
 text = "Disconnect"
 
 [node name="ReturnToGameButton" type="Button" parent="Controls/StartMenu/StartMenuPanel/StartMenuVbox"]
-margin_top = 68.0
+margin_top = 88.0
 margin_right = 115.0
-margin_bottom = 88.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 0, 40 )
 text = "Return To Game"
 
 [node name="QuitButton" type="Button" parent="Controls/StartMenu/StartMenuPanel/StartMenuVbox"]
-margin_top = 92.0
+margin_top = 132.0
 margin_right = 115.0
-margin_bottom = 112.0
+margin_bottom = 172.0
+rect_min_size = Vector2( 0, 40 )
 text = "Quit"
 
 [node name="_debug" type="Node" parent="."]

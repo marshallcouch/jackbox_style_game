@@ -124,3 +124,4 @@ margin_bottom = 20.0
 
 [connection signal="pressed" from="ActionPanel/RecenterButton" to="." method="_on_recenter_button_pressed"]
 [connection signal="pressed" from="ActionPanel/HandButton" to="." method="_on_HandButton_pressed"]
+[connection signal="pressed" from="ActionPanel/ActionButtonMenu" to="." method="_on_ActionButtonMenu_pressed"]

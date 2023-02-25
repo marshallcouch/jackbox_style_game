@@ -10,6 +10,7 @@ var scroll_zooming_enabled = true
 const PANEL_WIDTH = 140
 const PAN_SPEED = 10
 signal show_hand
+signal menu
 
 func _ready() -> void:
 	get_tree().root.connect("size_changed", self, "_on_viewport_size_changed")
@@ -50,3 +51,7 @@ func _on_recenter_button_pressed() -> void:
 
 func _on_HandButton_pressed() -> void:
 	emit_signal("show_hand")
+
+
+func _on_ActionButtonMenu_pressed() -> void:
+	emit_signal("menu") # Replace with function body.
