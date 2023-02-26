@@ -34,12 +34,11 @@ text = "Discard Pile"
 [node name="Piece" type="Area2D" parent="Pieces"]
 script = ExtResource( 5 )
 
-[node name="PieceSprite" type="Sprite" parent="Pieces/Piece"]
-modulate = Color( 0.670588, 0.533333, 0.533333, 1 )
-texture = ExtResource( 3 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Pieces/Piece"]
+[node name="PieceBase" type="CollisionShape2D" parent="Pieces/Piece"]
 shape = SubResource( 1 )
+
+[node name="PieceSprite" type="Sprite" parent="Pieces/Piece"]
+texture = ExtResource( 3 )
 
 [node name="Controls" type="Node" parent="."]
 
@@ -52,7 +51,7 @@ visible = false
 
 [node name="HandPanel" type="Panel" parent="Controls/Camera/HandCanvas"]
 
-[node name="HandContainer" type="VSplitContainer" parent="Controls/Camera/HandCanvas"]
+[node name="HandContainer" type="VBoxContainer" parent="Controls/Camera/HandCanvas"]
 margin_left = 3.0
 margin_top = -9.0
 margin_right = 89.0
