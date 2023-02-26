@@ -30,6 +30,10 @@ config/name="Jokers and Marbles"
 run/main_scene="res://scenes/Table.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Clicker="*res://src/clicker.gd"
+
 [display]
 
 window/size/width=1920

@@ -44,7 +44,7 @@ func _process(delta):
 func _on_recenter_button_pressed() -> void:
 	offset_v = 0
 	offset_h = 0
-	zoom = Vector2(1,1)
+	zoom = Vector2(1080/get_viewport().size.y,1080/get_viewport().size.y)
 
 
 
