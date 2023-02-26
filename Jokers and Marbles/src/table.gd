@@ -10,6 +10,7 @@ onready var cards_in_hand_list = $Controls/Camera/HandCanvas/HandContainer/Cards
 onready var hand_container = $Controls/Camera/HandCanvas/HandContainer
 onready var hand_panel = $Controls/Camera/HandCanvas/HandPanel
 onready var hand_canvas = $Controls/Camera/HandCanvas
+onready var pieces = $Pieces
 var networking:Networking = Networking.new()
 
 
@@ -20,6 +21,21 @@ func _ready() -> void:
 	print_debug("done")
 	$Controls/Camera.connect("show_hand",self,"_show_hand")
 	$Controls/Camera.connect("menu",self,"_show_start_menu")
+	var color_array = []
+	color_array.append(Color(0,0,0))
+	color_array.append(Color(1,0,0))
+	color_array.append(Color(0,1,0))
+	color_array.append(Color(1,1,0))
+	color_array.append(Color(0,0,1))
+	color_array.append(Color(1,0,1))
+	color_array.append(Color(0,1,1))
+	color_array.append(Color(1,1,1))
+	for i in 8:
+		for j in 5:
+			var piece = create_piece(color_array[i],Color(1,1,1),i+1,Vector2(1,1))
+			piece.position = Vector2((1+i)*20,(1+j)*20)
+			
+	
 
 
 func _show_start_menu():
@@ -31,6 +47,16 @@ func _show_start_menu():
 		start_menu_vbox.rect_position \
 			= Vector2(get_viewport().size.x *.1,0)
 	$Controls/StartMenu.show()
+
+
+func create_piece(base_color = Color(1,1,1), icon_color = Color(0,0,0), icon:int = 1, piece_scale:Vector2 = Vector2(1,1)) -> Object:
+	var piece = load("res://scenes/pieces/Piece.tscn").instance()
+	pieces.add_child(piece)
+	piece.set_base_color(base_color)
+	piece.set_icon_color(icon_color)
+	piece.set_icon_image(icon)
+	piece.scale_piece(piece_scale)
+	return piece
 
 
 

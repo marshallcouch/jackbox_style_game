@@ -6,10 +6,11 @@ onready var icon_sprite = $PieceIconSprite
 onready var piece_base = $PieceBase
 
 func _ready() -> void:
-	set_base_color()
-	set_icon_color()
-	scale_piece(Vector2(.4,.4))
-	set_icon_image(2)
+	pass
+#	set_base_color()
+#	set_icon_color()
+#	scale_piece(Vector2(.4,.4))
+#	set_icon_image(2)
 
 func on_click():
 	print_debug("I've been clicked! piece")
@@ -21,9 +22,10 @@ func set_icon_color (color = Color(0,0,0,1)):
 	icon_sprite.modulate = color
 
 func scale_piece(new_scale:Vector2 = Vector2(1,1)):
-	piece_base.scale = new_scale
-	base_sprite.scale = new_scale
-	icon_sprite.scale = new_scale
+	scale = new_scale
+#	piece_base.scale = new_scale
+#	base_sprite.scale = new_scale
+#	icon_sprite.scale = new_scale
 
 func set_icon_image(index_of_image:int  = 1):
 	var dir = Directory.new()

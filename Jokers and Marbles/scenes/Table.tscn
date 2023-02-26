@@ -1,14 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://src/table.gd" type="Script" id=1]
 [ext_resource path="res://scenes/Camera.tscn" type="PackedScene" id=2]
-[ext_resource path="res://assets/sprites/Marble.png" type="Texture" id=3]
 [ext_resource path="res://assets/sprites/JokerBoard.jpg" type="Texture" id=4]
-[ext_resource path="res://src/piece.gd" type="Script" id=5]
-[ext_resource path="res://assets/sprites/piece_icon/1.png" type="Texture" id=6]
-
-[sub_resource type="CircleShape2D" id=1]
-radius = 20.0998
 
 [node name="Table" type="Node2D"]
 script = ExtResource( 1 )
@@ -31,18 +25,6 @@ text = "Discard Pile"
 [node name="Boards" type="Node" parent="."]
 
 [node name="Pieces" type="Node" parent="."]
-
-[node name="Piece" type="Area2D" parent="Pieces"]
-script = ExtResource( 5 )
-
-[node name="PieceBase" type="CollisionShape2D" parent="Pieces/Piece"]
-shape = SubResource( 1 )
-
-[node name="PieceSprite" type="Sprite" parent="Pieces/Piece"]
-texture = ExtResource( 3 )
-
-[node name="PieceIconSprite" type="Sprite" parent="Pieces/Piece"]
-texture = ExtResource( 6 )
 
 [node name="Controls" type="Node" parent="."]
 
