@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://src/table.gd" type="Script" id=1]
 [ext_resource path="res://scenes/Camera.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/sprites/Marble.png" type="Texture" id=3]
 [ext_resource path="res://assets/sprites/JokerBoard.jpg" type="Texture" id=4]
 [ext_resource path="res://src/piece.gd" type="Script" id=5]
+[ext_resource path="res://assets/sprites/piece_icon/path5984-4-3-7-8.png" type="Texture" id=6]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 20.0998
@@ -39,6 +40,9 @@ shape = SubResource( 1 )
 
 [node name="PieceSprite" type="Sprite" parent="Pieces/Piece"]
 texture = ExtResource( 3 )
+
+[node name="PieceIconSprite" type="Sprite" parent="Pieces/Piece"]
+texture = ExtResource( 6 )
 
 [node name="Controls" type="Node" parent="."]
 
