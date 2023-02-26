@@ -20,13 +20,15 @@ func _input(event):
 				break # Thus stops on the first shape
 		previous_mouse_position = event.position
 		is_dragging = true
-
-	if is_dragging and event is InputEventMouseMotion:
+		
+	if event is InputEventMouseButton and !event.pressed and event.button_index == 1: 
+		dragging_shape = null
+		is_dragging = false
+		
+	if is_dragging and event is InputEventMouseMotion and dragging_shape:
 		var shapes = get_world_2d().direct_space_state.intersect_point(get_global_mouse_position(), 32, [], 0x7FFFFFFF, true, true) # The last 'true' enables Area2D intersections, previous four values are all defaults
 		dragging_shape.position += (event.position - previous_mouse_position) # * get_tree().get_root().find_node("Camera2D").
 		previous_mouse_position = event.position
 	
-	if event is InputEventMouseButton and !event.pressed and event.button_index == 1: 
-		dragging_shape = null
-		is_dragging = false
+
 
