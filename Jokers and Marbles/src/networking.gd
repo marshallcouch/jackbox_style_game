@@ -95,7 +95,10 @@ func _peer_disconnected(id):
 		if id == player_list[i]["player_id"]:
 			player_list.remove(i)
 
-func broadcast(broadcast_content:String) -> void:
+func broadcast_to_peers(broadcast_content:String) -> void:
+	pass
+
+func broadcast():
 	pass
 
 func send_packet(packet_content:String,peer_id:int = 1) -> void:

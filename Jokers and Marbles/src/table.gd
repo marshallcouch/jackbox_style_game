@@ -1,16 +1,17 @@
 extends Node2D
 
 var decks: Array = []
-var discard_pile: Array = []
 var player_hands: Array = []
+onready var start_menu = $Controls/StartMenu
 onready var start_panel = $Controls/StartMenu/StartMenuPanel
 onready var start_menu_vbox = $Controls/StartMenu/StartMenuPanel/StartMenuVbox
-onready var discard_pile_list = $Cards/DiscardPile
+onready var discard_pile = $Cards/DiscardArea
 onready var cards_in_hand_list = $Controls/Camera/HandCanvas/HandContainer/CardsInHand
 onready var hand_container = $Controls/Camera/HandCanvas/HandContainer
 onready var hand_panel = $Controls/Camera/HandCanvas/HandPanel
 onready var hand_canvas = $Controls/Camera/HandCanvas
 onready var pieces = $Pieces
+onready var camera = $Controls/Camera
 var networking:Networking = Networking.new()
 
 
@@ -19,8 +20,8 @@ func _ready() -> void:
 	_setup_deck()
 	add_child(networking)
 	print_debug("done")
-	$Controls/Camera.connect("show_hand",self,"_show_hand")
-	$Controls/Camera.connect("menu",self,"_show_start_menu")
+	camera.connect("show_hand",self,"_show_hand")
+	camera.connect("menu",self,"_show_start_menu")
 	var color_array = []
 	color_array.append(Color(0,0,0))
 	color_array.append(Color(1,0,0))
@@ -33,9 +34,7 @@ func _ready() -> void:
 	for i in 8:
 		for j in 5:
 			var piece = create_piece(color_array[i],Color(1,1,1),i+1,Vector2(1,1))
-			piece.position = Vector2((1+i)*20,(1+j)*20)
-			
-	
+			piece.position = Vector2(-100+(1+i)*20,-100+(1+j)*20)
 
 
 func _show_start_menu():
@@ -46,7 +45,7 @@ func _show_start_menu():
 			,get_viewport().size.y  )
 		start_menu_vbox.rect_position \
 			= Vector2(get_viewport().size.x *.1,0)
-	$Controls/StartMenu.show()
+	start_menu.show()
 
 
 func create_piece(base_color = Color(1,1,1), icon_color = Color(0,0,0), icon:int = 1, piece_scale:Vector2 = Vector2(1,1)) -> Object:
@@ -59,10 +58,9 @@ func create_piece(base_color = Color(1,1,1), icon_color = Color(0,0,0), icon:int
 	return piece
 
 
-
 func _input(event) -> void:
 	if event.is_action_pressed("ui_menu"):
-		$Controls/StartMenu.show()
+		start_menu.show()
 
 
 func _setup_deck() -> void:
@@ -101,14 +99,6 @@ func _show_hand():
 		hand_canvas.hide()
 	else:
 		hand_canvas.show()
-	
-
-
-
-func discard(card_to_discard:Dictionary) -> void:
-	discard_pile_list.add_item(card_to_discard["name"])
-	discard_pile_list.move_item(discard_pile.size(),0)
-	discard_pile.push_front(card_to_discard)
 
 
 func play_card(card_to_play:Dictionary) -> void:
@@ -116,7 +106,7 @@ func play_card(card_to_play:Dictionary) -> void:
 
 
 func _on_DebugButton_pressed() -> void:
-	discard(draw_card())
+	discard_pile.discard(draw_card())
 
 
 func _on_start_menu_button_pressed(button_pressed: String) -> void:
@@ -136,7 +126,8 @@ func _on_start_menu_button_pressed(button_pressed: String) -> void:
 	elif button_pressed == "quit":
 		get_tree().quit()
 		return
-		
+
+
 func _set_start_button_visibility(visible:bool = true):
 	if visible:
 		$Controls/StartMenu/StartMenuPanel/StartMenuVbox/JoinGameButton.show()

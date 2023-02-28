@@ -13,17 +13,19 @@ signal show_hand
 signal menu
 
 func _ready() -> void:
+	
 	get_tree().root.connect("size_changed", self, "_on_viewport_size_changed")
 	_on_viewport_size_changed()
-	if get_viewport().size.x < 1000:
-		zoom = Vector2(.5,.5)
+	
 	
 func _on_viewport_size_changed():
-	# Do whatever you need to do when the window changes!
-	$ActionPanel.transform = Transform2D(0,Vector2(
-		get_viewport().size.x *.5 - (.5*PANEL_WIDTH)\
-		,get_viewport().size.y - 180))
-	zoom = Vector2(1080/get_viewport().size.y,1080/get_viewport().size.y)
+	if get_viewport().size.x < 1000:
+		$ActionPanel.transform = Transform2D(0,Vector2(
+			get_viewport().size.x *.5 - (.5*PANEL_WIDTH)\
+			,get_viewport().size.y - 180))
+		zoom = Vector2(1080/get_viewport().size.y,1080/get_viewport().size.y)
+	else:
+		$ActionPanel.transform = Transform2D(0,Vector2(20,20))
 
 func _process(delta):
 	if $ActionPanel/LeftButton.pressed:
