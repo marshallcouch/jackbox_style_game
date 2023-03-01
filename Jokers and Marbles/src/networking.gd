@@ -26,7 +26,7 @@ func start_game(port:int = DEFAULT_PORT):
 		print_debug("error starting server " + String(err))
 
 
-func join_game(server:String = DEFAULT_SERVER, port:int = DEFAULT_PORT):
+func join_game(server:String = DEFAULT_SERVER, port:int = DEFAULT_PORT, player_name:String = "player"):
 	var ws_url = "ws://" + server + ":" + String(port)
 	print_debug("joining game " + ws_url + "...")
 	is_client = true

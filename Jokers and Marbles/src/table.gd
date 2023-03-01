@@ -45,7 +45,10 @@ func _show_start_menu():
 			,get_viewport().size.y  )
 		start_menu_vbox.rect_position \
 			= Vector2(get_viewport().size.x *.1,0)
-	start_menu.show()
+	if start_menu.visible:
+		start_menu.hide()
+	else:
+		start_menu.show()
 
 
 func create_piece(base_color = Color(1,1,1), icon_color = Color(0,0,0), icon:int = 1, piece_scale:Vector2 = Vector2(1,1)) -> Object:
@@ -60,7 +63,7 @@ func create_piece(base_color = Color(1,1,1), icon_color = Color(0,0,0), icon:int
 
 func _input(event) -> void:
 	if event.is_action_pressed("ui_menu"):
-		start_menu.show()
+		_show_start_menu()
 
 
 func _setup_deck() -> void:
@@ -79,7 +82,7 @@ func _place_card_in_players_hand(player, card) -> void:
 	player_hands[player].append(card)
 
 
-func draw_card(deck_to_draw_from: String = "") -> Dictionary:
+func server_draw_card(deck_to_draw_from: String = "") -> Dictionary:
 	if deck_to_draw_from != "":
 		for deck in decks:
 			if "name" in deck:
@@ -87,6 +90,12 @@ func draw_card(deck_to_draw_from: String = "") -> Dictionary:
 					return deck["cards"].pop_front()
 	return decks[0]["cards"].pop_front()
 
+func _client_draw_card(deck_to_draw_from: String = ""):
+	networking.send_packet(JSON.print({"action":"draw","deck":deck_to_draw_from}))
+	
+func _client_move_piece(pieceid, position:Vector2):
+	networking.send_packet(JSON.print({"action":"move_piece","piece_id":pieceid,"position":position}))
+	
 
 func _show_hand():
 	#if get_viewport().size.x *.9 != hand_panel.rect_size.x:
@@ -109,12 +118,35 @@ func _on_DebugButton_pressed() -> void:
 	discard_pile.discard(draw_card())
 
 
+onready var server_label = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/ServerLabel
+onready var server_text_box = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/ServerTextBox
+onready var player_name_label = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/PlayerNameLabel
+onready var player_name_text_box = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/PlayerNameTextBox
+onready var connect_button = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/ConnectGameButton
 func _on_start_menu_button_pressed(button_pressed: String) -> void:
 	if button_pressed == "start_game":
 		networking.start_game()
 		_set_start_button_visibility(false)
 	elif button_pressed == "join_game":
-		networking.join_game()
+		if server_label.visible:
+			server_label.hide()
+			server_text_box.hide()
+			player_name_label.hide()
+			player_name_text_box.hide()
+			connect_button.hide()
+		else:
+			server_label.show()
+			server_text_box.show()
+			player_name_label.show()
+			player_name_text_box.show()
+			connect_button.show()
+	elif button_pressed == "connect":
+		server_label.hide()
+		server_text_box.hide()
+		player_name_label.hide()
+		player_name_text_box.hide()
+		connect_button.hide()
+		networking.join_game(server_text_box.text,8181,player_name_text_box.text)
 		_set_start_button_visibility(false)
 	elif button_pressed == "disconnect":
 		networking.disconnect_game(0)
@@ -127,13 +159,15 @@ func _on_start_menu_button_pressed(button_pressed: String) -> void:
 		get_tree().quit()
 		return
 
-
+onready var join_button = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/JoinGameButton
+onready var start_game_button = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/StartGameButton
+onready var disconnect_game_button = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/DisconnectGameButton
 func _set_start_button_visibility(visible:bool = true):
 	if visible:
-		$Controls/StartMenu/StartMenuPanel/StartMenuVbox/JoinGameButton.show()
-		$Controls/StartMenu/StartMenuPanel/StartMenuVbox/StartGameButton.show()
-		$Controls/StartMenu/StartMenuPanel/StartMenuVbox/DisconnectGameButton.hide()
+		join_button.show()
+		start_game_button.show()
+		disconnect_game_button.hide()
 	else:
-		$Controls/StartMenu/StartMenuPanel/StartMenuVbox/JoinGameButton.hide()
-		$Controls/StartMenu/StartMenuPanel/StartMenuVbox/StartGameButton.hide()
-		$Controls/StartMenu/StartMenuPanel/StartMenuVbox/DisconnectGameButton.show()
+		join_button.hide()
+		start_game_button.hide()
+		disconnect_game_button.show()

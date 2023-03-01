@@ -5,7 +5,10 @@ onready var base_sprite = $PieceSprite
 onready var icon_sprite = $PieceIconSprite
 onready var piece_base = $PieceBase
 
+var piece_id = null
+
 func _ready() -> void:
+	piece_id = uuid.v4()
 	pass
 #	set_base_color()
 #	set_icon_color()

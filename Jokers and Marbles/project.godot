@@ -18,10 +18,16 @@ _global_script_classes=[ {
 "class": "Utils",
 "language": "GDScript",
 "path": "res://src/utils.gd"
+}, {
+"base": "Node",
+"class": "uuid",
+"language": "GDScript",
+"path": "res://src/uuid.gd"
 } ]
 _global_script_class_icons={
 "Networking": "",
-"Utils": ""
+"Utils": "",
+"uuid": ""
 }
 
 [application]
