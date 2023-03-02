@@ -15,7 +15,7 @@ func load_deck(_game_name, _deck_name, deck_json) -> void:
 	for card in deck_json:
 		for _j in range(0,card["count"]):
 			deck_array.push_front(card)
-	$card_count_label.text = String(deck_array.size())
+	$card_count_label.text = str(deck_array.size())
 	self.game_name = _game_name
 	self.deck_name = _deck_name
 	$deck_name_label.text = deck_name
@@ -28,7 +28,7 @@ func _on_touch_input_event(_viewport, event, shape_idx):
 	
 	#shape ID 0 means drag, they clicked the deck
 	if shape_idx == 0:
-		get_tree().set_input_as_handled()
+		get_viewport().set_input_as_handled()
 		previous_mouse_position = event.position
 		is_dragging = true
 	
@@ -38,10 +38,10 @@ func _on_touch_input_event(_viewport, event, shape_idx):
 func _search_deck() -> void:
 	if $deck_search_box.visible == false:
 		for card in deck_array:
-			var card_in_deck = load("res://cards/card_in_deck.tscn").instance()
+			var card_in_deck = load("res://cards/card_in_deck.tscn").instantiate()
 			card_in_deck._set_label(card["top_left"])
 			$deck_search_box/deck_search/deck_list.add_child(card_in_deck)
-			card_in_deck.connect("draw_card_from_deck",self,"_draw_card_from_deck")
+			card_in_deck.connect("draw_card_from_deck",Callable(self,"_draw_card_from_deck"))
 		$deck_search_box.show()
 	else:
 		_hide_deck_search()
@@ -68,7 +68,7 @@ func _draw_card() -> void:
 func _draw_card_from_deck(card_to_draw):
 	for card in deck_array:
 		if card["top_left"] == card_to_draw:
-			deck_array.remove(deck_array.find(card))
+			deck_array.remove_at(deck_array.find(card))
 			emit_signal("draw_card",card)
 			break
 	_set_deck_cards_visible()
@@ -76,7 +76,7 @@ func _draw_card_from_deck(card_to_draw):
 
 
 func _set_deck_cards_visible():
-	$card_count_label.text = String(deck_array.size())
+	$card_count_label.text = str(deck_array.size())
 	if deck_array.size() == 2:
 		$card_back_sprite3.visible = false
 	elif deck_array.size() == 1:
@@ -102,7 +102,7 @@ func _input(event):
 		is_dragging = false
 	
 	if is_dragging and event is InputEventMouseMotion:
-		position += (event.position - previous_mouse_position) # * get_tree().get_root().find_node("Camera2D").
+		position += (event.position - previous_mouse_position) # * get_tree().get_root().find_child("Camera2D").
 		previous_mouse_position = event.position
 
 

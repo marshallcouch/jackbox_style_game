@@ -75,7 +75,7 @@ func play_card():
 			var new_parent = get_node("/root/board/cards")
 			get_parent().remove_child(self)
 			new_parent.add_child(self)
-			position = Vector2(0-rand_range(0,100),0-rand_range(0,100))
+			position = Vector2(0-randf_range(0,100),0-randf_range(0,100))
 			
 func _input(event):
 	if not is_dragging:
@@ -86,7 +86,7 @@ func _input(event):
 		is_dragging = false
 	
 	if is_dragging and event is InputEventMouseMotion:
-		position += (event.position - previous_mouse_position) # * get_tree().get_root().find_node("Camera2D").
+		position += (event.position - previous_mouse_position) # * get_tree().get_root().find_child("Camera2D").
 		previous_mouse_position = event.position
 	z_index = int(position.y)-2000
 

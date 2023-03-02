@@ -18,9 +18,9 @@ func _ready() -> void:
 		if (address.split('.').size() == 4):
 			ip_address+=address + '\n'
 	$action_panel/action_menu_button/action_menu/about_popup/about_label.text = ip_address
-	
-	var dir = Directory.new()
-	if dir.open("res://assets/preloaded_decks/") == OK:
+
+	var dir = DirAccess.open("res://assets/preloaded_decks/")
+	if dir:
 		dir.list_dir_begin()
 		var file_name = dir.get_next()
 		while file_name != "":
@@ -30,9 +30,9 @@ func _ready() -> void:
 	else:
 		print("An error occurred when trying to access the path.")
 		
-	$action_panel/action_menu_button/action_menu/deck_json_popup/PreloadedDecksButton.get_popup().connect("index_pressed",self,"_preloaded_id_pressed")
-	self.connect("load_preloaded_deck",get_parent(),"_load_preloaded_deck")
-	self.connect("load_deck",get_parent(),"_load_deck")
+	$action_panel/action_menu_button/action_menu/deck_json_popup/PreloadedDecksButton.get_popup().connect("index_pressed",Callable(self,"_preloaded_id_pressed"))
+	self.connect("load_preloaded_deck",Callable(get_parent(),"_load_preloaded_deck"))
+	self.connect("load_deck",Callable(get_parent(),"_load_deck"))
 
 		
 func _input(event):
@@ -61,16 +61,16 @@ func _on_deck_change_camera_scroll(enabled) -> void:
 	scroll_zooming_enabled = enabled
 
 func _on_right_button_pressed() -> void:
-	offset_h += 1
+	drag_horizontal_offset += 1
 
 func _on_left_button_pressed() -> void:
-	offset_h -= 1
+	drag_horizontal_offset -= 1
 
 func _on_down_button_pressed() -> void:
-	offset_v += 1
+	drag_vertical_offset += 1
 
 func _on_up_button_pressed() -> void:
-	offset_v -= 1
+	drag_vertical_offset -= 1
 
 func _on_zoom_out_pressed() -> void:
 	if zoom < zoom_max:
@@ -91,8 +91,8 @@ func _on_show_hide_hand_button_pressed() -> void:
 
 
 func _on_recenter_button_pressed() -> void:
-	offset_v = 0
-	offset_h = 0
+	drag_vertical_offset = 0
+	drag_horizontal_offset = 0
 	zoom = Vector2(1,1)
 
 

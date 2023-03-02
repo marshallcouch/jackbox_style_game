@@ -1,0 +1,8 @@
+res://default_env.tres
+res://board.tscn
+res://camera_actions.gd
+res://player_hand.gd
+res://board_actions.gd
+res://cards/deck_actions.gd
+res://camera.tscn
+res://cards/counter.tscn

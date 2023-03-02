@@ -21,7 +21,7 @@ func _on_touch_input_event(_viewport, event, shape_idx):
 	#shape ID 0 means drag, they clicked the card
 	if shape_idx == 0:
 		print_debug("draggable:" + event.to_string())
-		get_tree().set_input_as_handled()
+		get_viewport().set_input_as_handled()
 		previous_mouse_position = event.position
 		is_dragging = true
 		
@@ -51,7 +51,7 @@ func _input(event):
 		is_dragging = false
 	
 	if is_dragging and event is InputEventMouseMotion:
-		position += (event.position - previous_mouse_position) # * get_tree().get_root().find_node("Camera2D").
+		position += (event.position - previous_mouse_position) # * get_tree().get_root().find_child("Camera2D").
 		previous_mouse_position = event.position
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
