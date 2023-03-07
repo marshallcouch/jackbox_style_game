@@ -14,8 +14,7 @@ func _ready() -> void:
 	_load_preloaded_deck("pokemon_lugia_deck.tres")
 	#setup_about()
 	setup_server()
-	#get_image_from_google("llanowar elves")
-	
+	#get_image_from_google("llanowar elves"
 	
 	
 func setup_about():
@@ -88,27 +87,25 @@ func _on_close_about_window_button_pressed() -> void:
 	$camera/action_panel/action_menu_button/about_popup.hide() # Replace with function body.
 
 
-
-
 func setup_server():
 	# Connect base signals to get notified of new client connections,
 	# disconnections, and disconnect requests.
-	_server.connect("client_connected",Callable(self,"_connected"))
-	_server.connect("client_disconnected",Callable(self,"_disconnected"))
-	_server.connect("client_close_request",Callable(self,"_close_request"))
+	var err = _server.create_server(PORT)
+	if err != OK:
+		set_process(false)
+		print("error with server")
+	_server.connect("peer_connected",Callable(self,"_setup_player_hand"))
+	_server.connect("peer_disconnected",Callable(self,"_disconnect"))
 	# This signal is emitted when not using the Multiplayer API every time a
 	# full packet is received.
 	# Alternatively, you could check get_peer(PEER_ID).get_available_packets()
 	# in a loop for each connected peer.
 	_server.connect("data_received",Callable(self,"_on_data"))
 	# Start listening on the given port.
-	var err = _server.create_server(PORT)
-	if err != OK:
-		set_process(false)
-		print("error with server")
+
 	
 
-func _connected(id, proto):
+func _setup_player_hand(id, proto):
 	# This is called when a new peer connects, "id" will be the assigned peer id,
 	# "proto" will be the selected WebSocket sub-protocol (which is optional)
 	print_debug("Client %d connected with protocol: %s" % [id, proto])
@@ -118,12 +115,7 @@ func _connected(id, proto):
 		_server.get_peer(client_id).put_packet("card~".to_utf8_buffer() + String(JSON.stringify(cards.card)).to_utf8_buffer())
 
 
-func _close_request(id, code, reason):
-	# This is called when a client notifies that it wishes to close the connection,
-	# providing a reason string and close code.
-	print_debug("Client %d disconnecting with code: %d, reason: %s" % [id, code, reason])
-
-func _disconnected(id, was_clean = false):
+func _disconnect(id, was_clean = false):
 	# This is called when a client disconnects, "id" will be the one of the
 	# disconnecting client, "was_clean" will tell you if the disconnection
 	# was correctly notified by the remote peer before closing the socket.

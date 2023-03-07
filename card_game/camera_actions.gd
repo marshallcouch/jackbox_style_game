@@ -74,11 +74,11 @@ func _on_up_button_pressed() -> void:
 
 func _on_zoom_out_pressed() -> void:
 	if zoom < zoom_max:
-			zoom += zoom_speed
+			zoom -= zoom_speed
 
 func _on_zoom_in_pressed() -> void:
 	if zoom > zoom_min:
-			zoom -= zoom_speed
+			zoom += zoom_speed
 
 
 func _on_show_hide_hand_button_pressed() -> void:
@@ -112,3 +112,7 @@ func _on_LoadFileButton_pressed() -> void:
 func _on_OpenDeckDialog_file_selected(path: String) -> void:
 	$action_panel/action_menu_button/action_menu/deck_json_popup.hide()
 	emit_signal("load_deck",path)
+
+
+func _on_deck_json_popup_close_requested():
+	$action_panel/action_menu_button/action_menu/deck_json_popup.hide() # Replace with function body.

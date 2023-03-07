@@ -179,6 +179,7 @@ script = ExtResource("3")
 [connection signal="pressed" from="action_panel/action_menu_button" to="action_panel/action_menu_button/action_menu" method="_on_action_menu_button_pressed"]
 [connection signal="index_pressed" from="action_panel/action_menu_button/action_menu" to="action_panel/action_menu_button/action_menu" method="_on_action_menu_index_pressed"]
 [connection signal="pressed" from="action_panel/action_menu_button/action_menu/about_popup/close_about_window_button" to="." method="_on_close_about_window_button_pressed"]
+[connection signal="close_requested" from="action_panel/action_menu_button/action_menu/deck_json_popup" to="." method="_on_deck_json_popup_close_requested"]
 [connection signal="pressed" from="action_panel/action_menu_button/action_menu/deck_json_popup/confirm_button" to="action_panel/action_menu_button/action_menu" method="_on_confirm_button_pressed"]
 [connection signal="pressed" from="action_panel/action_menu_button/action_menu/deck_json_popup/LoadFileButton" to="." method="_on_LoadFileButton_pressed"]
 [connection signal="file_selected" from="action_panel/action_menu_button/action_menu/deck_json_popup/OpenDeckDialog" to="." method="_on_OpenDeckDialog_file_selected"]
