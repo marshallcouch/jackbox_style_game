@@ -96,7 +96,7 @@ func _closed(was_clean = false):
 	set_process(false)
 	hand_array.clear()
 	$card_list.clear()
-	_client = WebSocketClient.new()
+	_client.disconnect_from_host(0)
 	$disconnected_popup.popup()
 
 func _connected(proto = ""):

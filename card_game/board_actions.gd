@@ -7,7 +7,7 @@ var is_connected:bool = false
 const PORT = 8181
 # Our WebSocketServer instance
 
-var _server = WebSocketMultiplayerPeer.new()
+var _server = WebSocketServer.new()
 var client_id:int = -1
 
 func _ready() -> void:
@@ -50,7 +50,8 @@ func _place_card_in_hand(card_scene):
 		card_scene.get_parent().remove_child(card_scene)
 	$camera/player_hand.add_child(card_scene)
 	if is_connected:
-		_server.get_peer(client_id).put_packet("card~".to_utf8_buffer() + String(JSON.stringify(card_scene.card)).to_utf8_buffer())
+		#_server.get_peer(client_id).put_packet("card~".to_utf8_buffer() + String(JSON.stringify(card_scene.card)).to_utf8_buffer())
+		_server.send(client_id,"card~" +String(JSON.stringify(card_scene.card)))
 
 func _load_preloaded_deck(filename: String) -> void:
 	print_debug("loading...")
@@ -90,25 +91,21 @@ func _on_close_about_window_button_pressed() -> void:
 func setup_server():
 	# Connect base signals to get notified of new client connections,
 	# disconnections, and disconnect requests.
-	var err = _server.create_server(PORT)
+	var err = _server.listen(PORT)
 	if err != OK:
 		set_process(false)
 		print("error with server")
-	_server.connect("peer_connected",Callable(self,"_setup_player_hand"))
-	_server.connect("peer_disconnected",Callable(self,"_disconnect"))
-	# This signal is emitted when not using the Multiplayer API every time a
-	# full packet is received.
-	# Alternatively, you could check get_peer(PEER_ID).get_available_packets()
-	# in a loop for each connected peer.
-	_server.connect("data_received",Callable(self,"_on_data"))
+	_server.connect("client_connected",Callable(self,"_setup_player_hand"))
+	_server.connect("client_disconnected",Callable(self,"_disconnect"))
+	_server.connect("message_received",Callable(self,"_on_data"))
 	# Start listening on the given port.
 
 	
 
-func _setup_player_hand(id, proto):
+func _setup_player_hand(id):
 	# This is called when a new peer connects, "id" will be the assigned peer id,
 	# "proto" will be the selected WebSocket sub-protocol (which is optional)
-	print_debug("Client %d connected with protocol: %s" % [id, proto])
+	print_debug("Client %d connected with protocol" % [id])
 	is_connected = true
 	client_id = id
 	for cards in $camera/player_hand.get_children():
@@ -122,10 +119,9 @@ func _disconnect(id, was_clean = false):
 	print_debug("Client %d disconnected, clean: %s" % [id, str(was_clean)])
 	is_connected = false
 
-func _on_data(id):
+func _on_data(id,pkt):
 	# Print the received packet, you MUST always use get_peer(id).get_packet to receive data,
 	# and not get_packet directly when not using the MultiplayerAPI.
-	var pkt = _server.get_peer(id).get_packet().get_string_from_utf8()
 	print_debug("Got data from client %d: %s ... echoing" % [id, pkt])
 	if "draw" == pkt.left(5):
 		$decks.get_child(0)._draw_card()
@@ -153,10 +149,9 @@ func _on_data(id):
 		
 
 func _process(_delta):
+	_server.poll()
 	# Call this in _process or _physics_process.
 	# Data transfer, and signals emission will only happen when calling this function.
-	_server.poll()
-
 
 
 	
