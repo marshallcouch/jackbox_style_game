@@ -1,7 +1,7 @@
 extends Area2D
 
 var discard_pile: Array = []
-onready var discard_pile_list = $DiscardPile
+@onready var discard_pile_list = $DiscardPile
 
 func _ready() -> void:
 	pass

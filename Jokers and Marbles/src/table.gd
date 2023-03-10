@@ -2,26 +2,26 @@ extends Node2D
 
 var decks: Array = []
 var player_hands: Array = []
-onready var start_menu = $Controls/StartMenu
-onready var start_panel = $Controls/StartMenu/StartMenuPanel
-onready var start_menu_vbox = $Controls/StartMenu/StartMenuPanel/StartMenuVbox
-onready var discard_pile = $Cards/DiscardArea
-onready var cards_in_hand_list = $Controls/Camera/HandCanvas/HandContainer/CardsInHand
-onready var hand_container = $Controls/Camera/HandCanvas/HandContainer
-onready var hand_panel = $Controls/Camera/HandCanvas/HandPanel
-onready var hand_canvas = $Controls/Camera/HandCanvas
-onready var pieces = $Pieces
-onready var camera = $Controls/Camera
+@onready var start_menu = $Controls/StartMenu
+@onready var start_panel = $Controls/StartMenu/StartMenuPanel
+@onready var start_menu_vbox = $Controls/StartMenu/StartMenuPanel/StartMenuVbox
+@onready var discard_pile = $Cards/DiscardArea
+@onready var cards_in_hand_list = $Controls/Camera3D/HandCanvas/HandContainer/CardsInHand
+@onready var hand_container = $Controls/Camera3D/HandCanvas/HandContainer
+@onready var hand_panel = $Controls/Camera3D/HandCanvas/HandPanel
+@onready var hand_canvas = $Controls/Camera3D/HandCanvas
+@onready var pieces = $Pieces
+@onready var camera = $Controls/Camera3D
 var networking:Networking = Networking.new()
 
 
 func _ready() -> void:
-	#var _connected = get_tree().root.connect("size_changed", self, "_on_viewport_resized")
+	#var _connected = get_tree().root.connect("size_changed",Callable(self,"_on_viewport_resized"))
 	_setup_deck()
 	add_child(networking)
 	print_debug("done")
-	camera.connect("show_hand",self,"_show_hand")
-	camera.connect("menu",self,"_show_start_menu")
+	camera.connect("show_hand",Callable(self,"_show_hand"))
+	camera.connect("menu",Callable(self,"_show_start_menu"))
 	var color_array = []
 	color_array.append(Color(0,0,0))
 	color_array.append(Color(1,0,0))
@@ -38,12 +38,12 @@ func _ready() -> void:
 
 
 func _show_start_menu():
-	if get_viewport().size.x *.8 != start_menu_vbox.rect_size.x:
-		start_panel.rect_size = get_viewport().size
-		start_menu_vbox.rect_size \
+	if get_viewport().size.x *.8 != start_menu_vbox.size.x:
+		start_panel.size = get_viewport().size
+		start_menu_vbox.size \
 			= Vector2(get_viewport().size.x *.8 \
 			,get_viewport().size.y  )
-		start_menu_vbox.rect_position \
+		start_menu_vbox.position \
 			= Vector2(get_viewport().size.x *.1,0)
 	if start_menu.visible:
 		start_menu.hide()
@@ -52,7 +52,7 @@ func _show_start_menu():
 
 
 func create_piece(base_color = Color(1,1,1), icon_color = Color(0,0,0), icon:int = 1, piece_scale:Vector2 = Vector2(1,1)) -> Object:
-	var piece = load("res://scenes/pieces/Piece.tscn").instance()
+	var piece = load("res://scenes/pieces/Piece.tscn").instantiate()
 	pieces.add_child(piece)
 	piece.set_base_color(base_color)
 	piece.set_icon_color(icon_color)
@@ -91,19 +91,19 @@ func server_draw_card(deck_to_draw_from: String = "") -> Dictionary:
 	return decks[0]["cards"].pop_front()
 
 func _client_draw_card(deck_to_draw_from: String = ""):
-	networking.send_packet(JSON.print({"action":"draw","deck":deck_to_draw_from}))
+	networking.send_packet(JSON.stringify({"action":"draw","deck":deck_to_draw_from}))
 	
 func _client_move_piece(pieceid, position:Vector2):
-	networking.send_packet(JSON.print({"action":"move_piece","piece_id":pieceid,"position":position}))
+	networking.send_packet(JSON.stringify({"action":"move_piece","piece_id":pieceid,"position":position}))
 	
 
 func _show_hand():
-	#if get_viewport().size.x *.9 != hand_panel.rect_size.x:
+	#if get_viewport().size.x *.9 != hand_panel.size.x:
 	hand_container.set_position(Vector2(get_viewport().size.x *.05,get_viewport().size.y *.05 ))
 	hand_container.set_size( Vector2(get_viewport().size.x *.9,get_viewport().size.y *.5 ))
-	cards_in_hand_list.rect_min_size = Vector2(get_viewport().size.x *.9,get_viewport().size.y *.45)
-	hand_panel.set_position(hand_container.rect_position)
-	hand_panel.rect_size = Vector2(get_viewport().size.x *.9,get_viewport().size.y *.55 )
+	cards_in_hand_list.custom_minimum_size = Vector2(get_viewport().size.x *.9,get_viewport().size.y *.45)
+	hand_panel.set_position(hand_container.position)
+	hand_panel.size = Vector2(get_viewport().size.x *.9,get_viewport().size.y *.55 )
 	if hand_canvas.visible:
 		hand_canvas.hide()
 	else:
@@ -118,11 +118,11 @@ func _on_DebugButton_pressed() -> void:
 	discard_pile.discard(draw_card())
 
 
-onready var server_label = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/ServerLabel
-onready var server_text_box = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/ServerTextBox
-onready var player_name_label = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/PlayerNameLabel
-onready var player_name_text_box = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/PlayerNameTextBox
-onready var connect_button = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/ConnectGameButton
+@onready var server_label = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/ServerLabel
+@onready var server_text_box = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/ServerTextBox
+@onready var player_name_label = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/PlayerNameLabel
+@onready var player_name_text_box = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/PlayerNameTextBox
+@onready var connect_button = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/ConnectGameButton
 func _on_start_menu_button_pressed(button_pressed: String) -> void:
 	if button_pressed == "start_game":
 		networking.start_game()
@@ -159,9 +159,9 @@ func _on_start_menu_button_pressed(button_pressed: String) -> void:
 		get_tree().quit()
 		return
 
-onready var join_button = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/JoinGameButton
-onready var start_game_button = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/StartGameButton
-onready var disconnect_game_button = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/DisconnectGameButton
+@onready var join_button = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/JoinGameButton
+@onready var start_game_button = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/StartGameButton
+@onready var disconnect_game_button = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/DisconnectGameButton
 func _set_start_button_visibility(visible:bool = true):
 	if visible:
 		join_button.show()

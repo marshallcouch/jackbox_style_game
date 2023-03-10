@@ -14,7 +14,7 @@ signal menu
 
 func _ready() -> void:
 	
-	get_tree().root.connect("size_changed", self, "_on_viewport_size_changed")
+	get_tree().root.connect("size_changed",Callable(self,"_on_viewport_size_changed"))
 	_on_viewport_size_changed()
 	
 	
@@ -29,13 +29,13 @@ func _on_viewport_size_changed():
 
 func _process(delta):
 	if $ActionPanel/LeftButton.pressed:
-		offset_h -= 1 * delta * PAN_SPEED
+		drag_horizontal_offset -= 1 * delta * PAN_SPEED
 	elif $ActionPanel/RightButton.pressed:
-		offset_h += 1 * delta * PAN_SPEED
+		drag_horizontal_offset += 1 * delta * PAN_SPEED
 	elif $ActionPanel/DownButton.pressed:
-		offset_v += 1 * delta * PAN_SPEED
+		drag_vertical_offset += 1 * delta * PAN_SPEED
 	elif $ActionPanel/UpButton.pressed:
-		offset_v -= 1 * delta * PAN_SPEED
+		drag_vertical_offset -= 1 * delta * PAN_SPEED
 	elif $ActionPanel/ZoomIn.pressed:
 		if zoom > zoom_min:
 			zoom -= zoom_speed * delta
@@ -44,8 +44,8 @@ func _process(delta):
 			zoom += zoom_speed * delta 
 
 func _on_recenter_button_pressed() -> void:
-	offset_v = 0
-	offset_h = 0
+	drag_vertical_offset = 0
+	drag_horizontal_offset = 0
 	zoom = Vector2(1080/get_viewport().size.y,1080/get_viewport().size.y)
 
 

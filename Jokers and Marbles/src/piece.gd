@@ -1,9 +1,9 @@
 extends Node2D
 
 const ICONS_IN_FOLDER = 20
-onready var base_sprite = $PieceSprite
-onready var icon_sprite = $PieceIconSprite
-onready var piece_base = $PieceBase
+@onready var base_sprite = $PieceSprite
+@onready var icon_sprite = $PieceIconSprite
+@onready var piece_base = $PieceBase
 
 var piece_id = null
 
