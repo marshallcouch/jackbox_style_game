@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bvjkdqrqjn8gg"]
+[gd_scene load_steps=11 format=3 uid="uid://bvjkdqrqjn8gg"]
 
 [ext_resource type="Script" path="res://src/table.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://uhpfrrh5wdiu" path="res://scenes/Camera.tscn" id="2"]
@@ -10,6 +10,12 @@
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(131, 69)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_hiqan"]
+blend_mode = 2
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_hk2n4"]
+blend_mode = 2
 
 [node name="Table" type="Node2D"]
 script = ExtResource("1")
@@ -65,6 +71,7 @@ visible = false
 [node name="HandPanel" type="Panel" parent="Controls/Camera3D/HandCanvas"]
 top_level = true
 z_as_relative = false
+material = SubResource("CanvasItemMaterial_hiqan")
 
 [node name="HandContainer" type="VBoxContainer" parent="Controls/Camera3D/HandCanvas"]
 offset_left = 3.0
@@ -98,6 +105,7 @@ visible = false
 
 [node name="StartMenuPanel" type="Panel" parent="Controls/StartMenu"]
 top_level = true
+material = SubResource("CanvasItemMaterial_hk2n4")
 offset_right = 40.0
 offset_bottom = 40.0
 
