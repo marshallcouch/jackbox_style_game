@@ -1,3 +1,9 @@
 res://default_env.tres
 res://scenes/Camera.tscn
 res://scenes/Table.tscn
+res://src/clicker.gd
+res://src/table.gd
+res://src/utils.gd
+res://src/networking.gd
+res://src/piece.gd
+res://scenes/camera.gd

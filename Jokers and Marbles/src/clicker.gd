@@ -13,8 +13,12 @@ func _input(event):
 	if !camera:
 		setup_camera()
 		
+	var parameters = PhysicsPointQueryParameters2D.new()
+	parameters.position = get_global_mouse_position()
+	parameters.collide_with_areas = true
 	if event is InputEventMouseButton and event.pressed and event.button_index == 1: # Left mouse click
-		var shapes = get_world_2d().direct_space_state.intersect_point(get_global_mouse_position(), 32, [], 0x7FFFFFFF, true, true) # The last 'true' enables Area2D intersections, previous four values are all defaults
+			#get_global_mouse_position(), 32, [], 0x7FFFFFFF, true, true
+		var shapes = get_world_2d().direct_space_state.intersect_point(parameters,1) # The last 'true' enables Area2D intersections, previous four values are all defaults
 		for shape in shapes:
 			if shape["collider"].has_method("on_click"):
 				shape["collider"].on_click()
@@ -31,7 +35,7 @@ func _input(event):
 		is_dragging = false
 		
 	if is_dragging and event is InputEventMouseMotion and dragging_shape:
-		var shapes = get_world_2d().direct_space_state.intersect_point(get_global_mouse_position(), 32, [], 0x7FFFFFFF, true, true) # The last 'true' enables Area2D intersections, previous four values are all defaults
+		var shapes = get_world_2d().direct_space_state.intersect_point(parameters,1) # The last 'true' enables Area2D intersections, previous four values are all defaults
 		dragging_shape.position += (event.position - previous_mouse_position) * camera.zoom  # * get_tree().get_root().find_child("Camera2D").
 		previous_mouse_position = event.position
 	
@@ -41,7 +45,7 @@ func setup_camera():
 	var camerasGroupName = "__cameras_%d" % viewport.get_viewport_rid().get_id()
 	var cameras = get_tree().get_nodes_in_group(camerasGroupName)
 	for camera in cameras:
-		if camera is Camera2D and camera.current:
+		if camera is Camera2D:
 			self.camera = camera
 
 

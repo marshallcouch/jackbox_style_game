@@ -13,9 +13,9 @@ func _ready() -> void:
 	print_debug("networking created")
 
 func start_game(port:int = DEFAULT_PORT):
-	print_debug("hosting_game on port " + String(port) + "...")
+	print_debug("hosting_game on port " + str(port) + "...")
 	is_server = true
-	peer = WebSocketServer.new()
+	peer = WebSocketPeer.new()
 	peer.connect("client_connected",Callable(self,"_peer_connected"))
 	peer.connect("client_disconnected",Callable(self,"_peer_disconnected"))
 	peer.connect("client_close_request",Callable(self,"_peer_disconnected"))
@@ -23,21 +23,21 @@ func start_game(port:int = DEFAULT_PORT):
 	var err = peer.listen(port, ['my-protocol'], false)
 	if err != OK:
 		set_process(false)
-		print_debug("error starting server " + String(err))
+		print_debug("error starting server " + str(err))
 
 
 func join_game(server:String = DEFAULT_SERVER, port:int = DEFAULT_PORT, player_name:String = "player"):
-	var ws_url = "ws://" + server + ":" + String(port)
+	var ws_url = "ws://" + server + ":" + str(port)
 	print_debug("joining game " + ws_url + "...")
 	is_client = true
-	peer = WebSocketClient.new()
+	peer = WebSocketPeer.new()
 	peer.connect("connection_closed",Callable(self,"disconnect_game"))
 	peer.connect("connection_error",Callable(self,"disconnect_game"))
 	peer.connect("connection_established",Callable(self,"_server_connected"))
 	peer.connect("data_received",Callable(self,"_on_data"))
 	var err = peer.connect_to_url(ws_url,['my-protocol'], false)
 	if err != OK:
-		print_debug("Unable to connect " + String(err))
+		print_debug("Unable to connect " + str(err))
 		set_process(false)
 	else:
 		print_debug("connecting...")
@@ -93,7 +93,7 @@ func _peer_disconnected(id):
 	print_debug("peer disconnected")
 	for i in player_list.size():
 		if id == player_list[i]["player_id"]:
-			player_list.remove(i)
+			player_list.pop_at(i)
 
 func broadcast_to_peers(broadcast_content:String) -> void:
 	pass

@@ -114,6 +114,18 @@ text = "X"
 
 [node name="ActionMenu" type="PopupMenu" parent="ActionPanel/ActionButtonMenu"]
 
+[connection signal="button_down" from="ActionPanel/LeftButton" to="." method="_on_move_button_pressed" binds= ["left"]]
+[connection signal="button_up" from="ActionPanel/LeftButton" to="." method="_on_move_button_up"]
 [connection signal="pressed" from="ActionPanel/RecenterButton" to="." method="_on_recenter_button_pressed"]
 [connection signal="pressed" from="ActionPanel/HandButton" to="." method="_on_HandButton_pressed"]
+[connection signal="button_down" from="ActionPanel/DownButton" to="." method="_on_move_button_pressed" binds= ["down"]]
+[connection signal="button_up" from="ActionPanel/DownButton" to="." method="_on_move_button_up"]
+[connection signal="button_down" from="ActionPanel/UpButton" to="." method="_on_move_button_pressed" binds= ["up"]]
+[connection signal="button_up" from="ActionPanel/UpButton" to="." method="_on_move_button_up"]
+[connection signal="button_down" from="ActionPanel/RightButton" to="." method="_on_move_button_pressed" binds= ["right"]]
+[connection signal="button_up" from="ActionPanel/RightButton" to="." method="_on_move_button_up"]
+[connection signal="button_down" from="ActionPanel/ZoomIn" to="." method="_on_move_button_pressed" binds= ["zoom_in"]]
+[connection signal="button_up" from="ActionPanel/ZoomIn" to="." method="_on_move_button_up"]
+[connection signal="button_down" from="ActionPanel/ZoomOut" to="." method="_on_move_button_pressed" binds= ["zoom_out"]]
+[connection signal="button_up" from="ActionPanel/ZoomOut" to="." method="_on_move_button_up"]
 [connection signal="pressed" from="ActionPanel/ActionButtonMenu" to="." method="_on_ActionButtonMenu_pressed"]

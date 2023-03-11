@@ -31,12 +31,8 @@ func scale_piece(new_scale:Vector2 = Vector2(1,1)):
 #	icon_sprite.scale = new_scale
 
 func set_icon_image(index_of_image:int  = 1):
-	var dir = Directory.new()
-	dir.open("res://assets/sprites/piece_icon/")
-	if dir.file_exists(String(index_of_image) + ".png"):
-		var image = Image.new()
-		image.load("res://assets/sprites/piece_icon/" + String(index_of_image) + ".png")
-		var texture = ImageTexture.new()
-		texture.create_from_image(image)
-		icon_sprite.texture = texture
+	
+	var dir = DirAccess.open("res://assets/sprites/piece_icon/")
+	if dir.file_exists(str(index_of_image) + ".png"):
+		icon_sprite.texture = load("res://assets/sprites/piece_icon/" + str(index_of_image) + ".png")
 	

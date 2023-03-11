@@ -115,7 +115,7 @@ func play_card(card_to_play:Dictionary) -> void:
 
 
 func _on_DebugButton_pressed() -> void:
-	discard_pile.discard(draw_card())
+	discard_pile.discard(server_draw_card())
 
 
 @onready var server_label = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/ServerLabel

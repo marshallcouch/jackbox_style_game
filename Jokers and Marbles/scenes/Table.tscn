@@ -60,10 +60,11 @@ texture = ExtResource("6")
 position = Vector2(3, -9)
 
 [node name="HandCanvas" type="CanvasLayer" parent="Controls/Camera3D"]
-layer = 0
 visible = false
 
 [node name="HandPanel" type="Panel" parent="Controls/Camera3D/HandCanvas"]
+top_level = true
+z_as_relative = false
 
 [node name="HandContainer" type="VBoxContainer" parent="Controls/Camera3D/HandCanvas"]
 offset_left = 3.0
@@ -96,7 +97,7 @@ layer = 2
 visible = false
 
 [node name="StartMenuPanel" type="Panel" parent="Controls/StartMenu"]
-modulate = Color(1, 1, 1, 0.752941)
+top_level = true
 offset_right = 40.0
 offset_bottom = 40.0
 

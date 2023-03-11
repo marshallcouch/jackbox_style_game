@@ -13,7 +13,7 @@ static func setup_standard_deck(with_jokers:bool = false,unlimited:bool = false)
 			suit_name = "Diamonds"
 			
 		for j in range(2,11):
-			new_deck_cards.append({"name": String(j) + " of " + suit_name})
+			new_deck_cards.append({"name": str(j) + " of " + suit_name})
 		
 		new_deck_cards.append({"name": "Ace" + " of " + suit_name})
 		new_deck_cards.append({"name": "King" + " of " + suit_name})
