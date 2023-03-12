@@ -35,7 +35,7 @@ func _input(event):
 		is_dragging = false
 		
 	if is_dragging and event is InputEventMouseMotion and dragging_shape:
-		var shapes = get_world_2d().direct_space_state.intersect_point(parameters,1) # The last 'true' enables Area2D intersections, previous four values are all defaults
+		#var shapes = get_world_2d().direct_space_state.intersect_point(parameters,1) # The last 'true' enables Area2D intersections, previous four values are all defaults
 		dragging_shape.position += (event.position - previous_mouse_position) * camera.zoom  # * get_tree().get_root().find_child("Camera2D").
 		previous_mouse_position = event.position
 	
@@ -44,9 +44,9 @@ func setup_camera():
 	var viewport = get_viewport()
 	var camerasGroupName = "__cameras_%d" % viewport.get_viewport_rid().get_id()
 	var cameras = get_tree().get_nodes_in_group(camerasGroupName)
-	for camera in cameras:
-		if camera is Camera2D:
-			self.camera = camera
+	for cam in cameras:
+		if cam is Camera2D:
+			self.camera = cam
 
 
 

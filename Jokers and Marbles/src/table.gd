@@ -1,7 +1,7 @@
 extends Node2D
 
 var decks: Array = []
-var player_hands: Array = []
+var players: Array[Player] = []
 @onready var start_menu = $Controls/StartMenu
 @onready var start_panel = $Controls/StartMenu/StartMenuPanel
 @onready var start_menu_vbox = $Controls/StartMenu/StartMenuPanel/StartMenuVbox
@@ -22,6 +22,9 @@ func _ready() -> void:
 	print_debug("done")
 	camera.connect("show_hand",Callable(self,"_show_hand"))
 	camera.connect("menu",Callable(self,"_show_start_menu"))
+	networking.connect("message_received", Callable(self, "_message_received"))
+	networking.connect("player_connected", Callable(self, "_player_connected"))
+	networking.connect("player_disconnected", Callable(self, "_player_disconnected"))
 	var color_array = []
 	color_array.append(Color(0,0,0))
 	color_array.append(Color(1,0,0))
@@ -70,16 +73,22 @@ func _setup_deck() -> void:
 	decks.append(Utils.setup_standard_deck(true,true))
 
 
-func _setup_players(num_players: int = 1) -> void:
-	player_hands.clear()
-	var empty_hand:Array
-	for i in num_players:
-		empty_hand = []
-		player_hands.append(empty_hand)
+func _place_card_in_players_hand(player_id, card) -> void:
+	for player in players:
+		if player.id == player_id:
+			player.hand.append(card)
 
 
-func _place_card_in_players_hand(player, card) -> void:
-	player_hands[player].append(card)
+func _player_connected(peer_id):
+	var new_player = Player.new()
+	new_player.id - peer_id
+	players.append(new_player)
+
+
+func _player_disconnected(peer_id):
+	for i in players.size():
+		if players[i] == peer_id:
+			players.remove_at(i)
 
 
 func server_draw_card(deck_to_draw_from: String = "") -> Dictionary:
@@ -90,12 +99,18 @@ func server_draw_card(deck_to_draw_from: String = "") -> Dictionary:
 					return deck["cards"].pop_front()
 	return decks[0]["cards"].pop_front()
 
+
 func _client_draw_card(deck_to_draw_from: String = ""):
 	networking.send_packet(JSON.stringify({"action":"draw","deck":deck_to_draw_from}))
-	
+
+
 func _client_move_piece(pieceid, position:Vector2):
 	networking.send_packet(JSON.stringify({"action":"move_piece","piece_id":pieceid,"position":position}))
 	
+func _message_received(peer_id: int, message:Dictionary):
+	if message["action"] == "draw":
+		server_draw_card(message["deck"])
+		
 
 func _show_hand():
 	#if get_viewport().size.x *.9 != hand_panel.size.x:
@@ -171,3 +186,5 @@ func _set_start_button_visibility(visible:bool = true):
 		join_button.hide()
 		start_game_button.hide()
 		disconnect_game_button.show()
+		
+

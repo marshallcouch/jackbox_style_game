@@ -5,9 +5,13 @@ var is_server:bool = false
 var is_client:bool = false
 var is_connected:bool = false
 var peer = null
-var player_list:Array = []
 const DEFAULT_PORT = 8181
 const DEFAULT_SERVER = "localhost"
+
+signal message_received(peer_id, message)
+signal player_connected(peer_id)
+signal player_disconnected(peer_id)
+
 
 func _ready() -> void:
 	print_debug("networking created")
@@ -26,17 +30,16 @@ func join_game(server:String = DEFAULT_SERVER, port:int = DEFAULT_PORT, player_n
 	print_debug("joining game " + ws_url + "...")
 	is_client = true
 	peer = WebSocketPeer.new()
-	peer.connect("connection_closed",Callable(self,"disconnect_game"))
-	peer.connect("connection_error",Callable(self,"disconnect_game"))
-	peer.connect("connection_established",Callable(self,"_server_connected"))
-	peer.connect("data_received",Callable(self,"_on_data"))
-	var err = peer.connect_to_url(ws_url,['my-protocol'], false)
+#	peer.connect("connection_closed",Callable(self,"disconnect_game"))
+#	peer.connect("connection_error",Callable(self,"disconnect_game"))
+#	peer.connect("connection_established",Callable(self,"_server_connected"))
+#	peer.connect("data_received",Callable(self,"_on_data"))
+	var err = peer.connect_to_url(ws_url)#ws_url,['my-protocol'], false
 	if err != OK:
 		print_debug("Unable to connect " + str(err))
 		set_process(false)
 	else:
 		print_debug("connecting...")
-	
 
 
 func stop_game():
@@ -44,7 +47,6 @@ func stop_game():
 	
 #both
 func disconnect_game(error = 0):
-	
 	#server
 	if is_server:
 		peer.stop()
@@ -54,49 +56,41 @@ func disconnect_game(error = 0):
 			peer.disconnect("client_disconnected",Callable(self,"_peer_disconnected"))
 		if peer.is_connected("client_close_request",Callable(self,"_peer_disconnected")):
 			peer.disconnect("client_close_request",Callable(self,"_peer_disconnected"))
+		if peer.is_connected("data_received",Callable(self,"_on_data")):
+			peer.disconnect("data_received",Callable(self,"_on_data"))
 		is_server = false
 
 	#client
 	if is_client:
-		if peer.is_connected("connection_closed",Callable(self,"_disconnect_game")):
-			peer.disconnect("connection_closed",Callable(self,"_disconnect_game"))
-		if peer.is_connected("connection_error",Callable(self,"_disconnect_game")):
-			peer.disconnect("connection_error",Callable(self,"_disconnect_game"))
-		if peer.is_connected("connection_established",Callable(self,"_server_connected")):
-			peer.disconnect("connection_established",Callable(self,"_server_connected"))
 		is_client = false
 	#both
-	if peer.is_connected("data_received",Callable(self,"_on_data")):
-		peer.disconnect("data_received",Callable(self,"_on_data"))
-		
+	
 	print_debug("Disconnected")
 
 
 #when the game client has connected to the server
 func _server_connected(proto):
 	print_debug("This client is now connected to server")
-	send_packet("test packet from client")
+	_message_players("test packet from client")
 
 #server has peer connected
 func _peer_connected(id,proto):
 	print_debug("player connected to server:" + String(id))
-	player_list.append({"player_id":id,"player_name":"default"})
-	send_packet("test packet from server",id)
+	_message_players("test packet from server",id)
+	emit_signal("player_connected",id)
 
 #server has a peer disconnected
 func _peer_disconnected(id):
 	print_debug("peer disconnected")
-	for i in player_list.size():
-		if id == player_list[i]["player_id"]:
-			player_list.pop_at(i)
+	emit_signal("player_disconnected",id)
 
-func broadcast_to_peers(broadcast_content:String) -> void:
+func broadcast_to_peers(broadcast_content:String,originator_player:int) -> void:
 	pass
 
 func broadcast():
 	pass
 
-func send_packet(packet_content:String,peer_id:int = 1) -> void:
+func _message_players(packet_content:String,peer_id:int = 1) -> void:
 	if is_client:
 		peer.get_peer(peer_id).put_packet(packet_content.to_utf8_buffer())
 	if is_server:
@@ -106,15 +100,12 @@ func send_packet(packet_content:String,peer_id:int = 1) -> void:
 func _process(_delta):
 	if is_client or is_server:
 		peer.poll()
+			
 		
 		
 func _on_data(id:int = 0) -> void:
 	var pkt = peer.get_peer(id).get_packet().get_string_from_utf8()
+	emit_signal("message_received", id, JSON.parse_string(pkt))
 	print_debug("Got data from client %d: %s " % [id, pkt])
-#	if is_server:
-#		print_debug("server got data")
-#		peer.get_peer(id).get_packet().get_string_from_utf8()
-#	elif is_client:
-#		print_debug("client got data")
-#		 String(peer.get_peer(1).get_packet().get_string_from_utf8())
+
 

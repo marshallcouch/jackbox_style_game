@@ -109,7 +109,6 @@ func poll() -> void:
 	to_remove.clear()
 	for id in peers:
 		var p : WebSocketPeer = peers[id]
-		var packets = p.get_available_packet_count()
 		p.poll()
 		if p.get_ready_state() != WebSocketPeer.STATE_OPEN:
 			client_disconnected.emit(id)
@@ -160,5 +159,5 @@ func _connect_pending(p: PendingPeer) -> bool:
 			return true # Failure.
 		return false
 
-func _process(delta):
+func _process(_delta):
 	poll()
