@@ -12,19 +12,14 @@ var players: Array[Player] = []
 @onready var hand_canvas = $Controls/Camera3D/HandCanvas
 @onready var pieces = $Pieces
 @onready var camera = $Controls/Camera3D
-var networking:Networking = Networking.new()
 
 
 func _ready() -> void:
 	#var _connected = get_tree().root.connect("size_changed",Callable(self,"_on_viewport_resized"))
 	_setup_deck()
-	add_child(networking)
 	print_debug("done")
 	camera.connect("show_hand",Callable(self,"_show_hand"))
 	camera.connect("menu",Callable(self,"_show_start_menu"))
-	networking.connect("message_received", Callable(self, "_message_received"))
-	networking.connect("player_connected", Callable(self, "_player_connected"))
-	networking.connect("player_disconnected", Callable(self, "_player_disconnected"))
 	var color_array = []
 	color_array.append(Color(0,0,0))
 	color_array.append(Color(1,0,0))
@@ -101,11 +96,11 @@ func server_draw_card(deck_to_draw_from: String = "") -> Dictionary:
 
 
 func _client_draw_card(deck_to_draw_from: String = ""):
-	networking.send_packet(JSON.stringify({"action":"draw","deck":deck_to_draw_from}))
+	pass
 
 
 func _client_move_piece(pieceid, position:Vector2):
-	networking.send_packet(JSON.stringify({"action":"move_piece","piece_id":pieceid,"position":position}))
+	pass
 	
 func _message_received(peer_id: int, message:Dictionary):
 	if message["action"] == "draw":
@@ -140,7 +135,7 @@ func _on_DebugButton_pressed() -> void:
 @onready var connect_button = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/ConnectGameButton
 func _on_start_menu_button_pressed(button_pressed: String) -> void:
 	if button_pressed == "start_game":
-		networking.host_game()
+		
 		_set_start_button_visibility(false)
 		start_menu.hide()
 	elif button_pressed == "join_game":
@@ -162,11 +157,11 @@ func _on_start_menu_button_pressed(button_pressed: String) -> void:
 		player_name_label.hide()
 		player_name_text_box.hide()
 		connect_button.hide()
-		networking.join_game(server_text_box.text,8181,player_name_text_box.text)
+		
 		start_menu.hide()
 		_set_start_button_visibility(false)
 	elif button_pressed == "disconnect":
-		networking.disconnect_game(0)
+		
 		_set_start_button_visibility(true)
 	elif button_pressed == "return_to_game":
 		start_menu.hide()
