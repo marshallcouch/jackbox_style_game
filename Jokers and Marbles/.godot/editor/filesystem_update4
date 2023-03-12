@@ -7,3 +7,4 @@ res://src/utils.gd
 res://src/networking.gd
 res://src/piece.gd
 res://scenes/camera.gd
+res://src/WebSocketServer.gd

@@ -12,18 +12,13 @@ const DEFAULT_SERVER = "localhost"
 func _ready() -> void:
 	print_debug("networking created")
 
-func start_game(port:int = DEFAULT_PORT):
+func host_game(port:int = DEFAULT_PORT):
 	print_debug("hosting_game on port " + str(port) + "...")
 	is_server = true
-	peer = WebSocketPeer.new()
+	peer = WebSocketServer.new()
 	peer.connect("client_connected",Callable(self,"_peer_connected"))
 	peer.connect("client_disconnected",Callable(self,"_peer_disconnected"))
-	peer.connect("client_close_request",Callable(self,"_peer_disconnected"))
-	peer.connect("data_received",Callable(self,"_on_data"))
-	var err = peer.listen(port, ['my-protocol'], false)
-	if err != OK:
-		set_process(false)
-		print_debug("error starting server " + str(err))
+	peer.connect("message_received",Callable(self,"_on_data"))
 
 
 func join_game(server:String = DEFAULT_SERVER, port:int = DEFAULT_PORT, player_name:String = "player"):

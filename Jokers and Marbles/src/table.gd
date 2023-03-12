@@ -125,8 +125,9 @@ func _on_DebugButton_pressed() -> void:
 @onready var connect_button = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/ConnectGameButton
 func _on_start_menu_button_pressed(button_pressed: String) -> void:
 	if button_pressed == "start_game":
-		networking.start_game()
+		networking.host_game()
 		_set_start_button_visibility(false)
+		start_menu.hide()
 	elif button_pressed == "join_game":
 		if server_label.visible:
 			server_label.hide()
@@ -147,17 +148,16 @@ func _on_start_menu_button_pressed(button_pressed: String) -> void:
 		player_name_text_box.hide()
 		connect_button.hide()
 		networking.join_game(server_text_box.text,8181,player_name_text_box.text)
+		start_menu.hide()
 		_set_start_button_visibility(false)
 	elif button_pressed == "disconnect":
 		networking.disconnect_game(0)
 		_set_start_button_visibility(true)
-		return
 	elif button_pressed == "return_to_game":
-		$Controls/StartMenu.hide()
-		return
+		start_menu.hide()
 	elif button_pressed == "quit":
 		get_tree().quit()
-		return
+	
 
 @onready var join_button = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/JoinGameButton
 @onready var start_game_button = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/StartGameButton
