@@ -1,11 +1,10 @@
 res://default_env.tres
-res://scenes/Camera.tscn
 res://scenes/Table.tscn
-res://src/clicker.gd
+res://src/server.gd
+res://scenes/camera.gd
 res://src/table.gd
 res://src/utils.gd
+res://src/uuid.gd
 res://src/networking.gd
-res://src/piece.gd
-res://scenes/camera.gd
-res://src/WebSocketServer.gd
-res://src/player.gd
+res://scenes/Camera.tscn
+res://src/web_socket_server.gd

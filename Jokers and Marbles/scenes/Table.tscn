@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bvjkdqrqjn8gg"]
+[gd_scene load_steps=12 format=3 uid="uid://m8ddivxv6ga7"]
 
 [ext_resource type="Script" path="res://src/table.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://uhpfrrh5wdiu" path="res://scenes/Camera.tscn" id="2"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cakvpoj0uxotq" path="res://assets/sprites/background.jpg" id="5"]
 [ext_resource type="Texture2D" uid="uid://bi8o6cvbal0av" path="res://assets/sprites/JokerBoard6.svg" id="6"]
 [ext_resource type="Script" path="res://src/discardPile.gd" id="7"]
+[ext_resource type="Script" path="res://src/networking.gd" id="8_i4qmc"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(131, 69)
@@ -201,6 +202,9 @@ offset_top = -130.0
 offset_right = 486.0
 offset_bottom = -104.0
 text = "0.0.2"
+
+[node name="Networking" type="Node" parent="."]
+script = ExtResource("8_i4qmc")
 
 [connection signal="pressed" from="Controls/StartMenu/StartMenuPanel/StartMenuVbox/StartGameButton" to="." method="_on_start_menu_button_pressed" binds= ["start_game"]]
 [connection signal="pressed" from="Controls/StartMenu/StartMenuPanel/StartMenuVbox/JoinGameButton" to="." method="_on_start_menu_button_pressed" binds= ["join_game"]]

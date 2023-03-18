@@ -12,12 +12,12 @@ var players: Array[Player] = []
 @onready var hand_canvas = $Controls/Camera3D/HandCanvas
 @onready var pieces = $Pieces
 @onready var camera = $Controls/Camera3D
-
+@onready var networking = $Networking
 
 func _ready() -> void:
 	#var _connected = get_tree().root.connect("size_changed",Callable(self,"_on_viewport_resized"))
 	_setup_deck()
-	print_debug("done")
+	#networking.connect("data_received",Callable(self,"_update_from_network_player"))
 	camera.connect("show_hand",Callable(self,"_show_hand"))
 	camera.connect("menu",Callable(self,"_show_start_menu"))
 	var color_array = []
@@ -135,9 +135,9 @@ func _on_DebugButton_pressed() -> void:
 @onready var connect_button = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/ConnectGameButton
 func _on_start_menu_button_pressed(button_pressed: String) -> void:
 	if button_pressed == "start_game":
-		
 		_set_start_button_visibility(false)
 		start_menu.hide()
+		_setup_server()
 	elif button_pressed == "join_game":
 		if server_label.visible:
 			server_label.hide()
@@ -157,9 +157,9 @@ func _on_start_menu_button_pressed(button_pressed: String) -> void:
 		player_name_label.hide()
 		player_name_text_box.hide()
 		connect_button.hide()
-		
 		start_menu.hide()
 		_set_start_button_visibility(false)
+		_setup_client()
 	elif button_pressed == "disconnect":
 		
 		_set_start_button_visibility(true)
@@ -183,3 +183,19 @@ func _set_start_button_visibility(visible:bool = true):
 		disconnect_game_button.show()
 		
 
+func _setup_server():
+	networking.start_server()
+
+
+func _setup_client():
+	#networking.connect("data_received",Callable(self,"_update_table"))
+	networking.join_game(server_text_box.text)
+
+
+func _update_from_network_player(updated_info: Dictionary):
+	print("got data!")
+	pass
+	
+func process(delta):
+	pass
+	
