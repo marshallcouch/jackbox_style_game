@@ -28,15 +28,15 @@ func start_server(port:int = DEFAULT_PORT):
 func join_game(server:String = DEFAULT_SERVER, port:int = DEFAULT_PORT):
 	var ws_url = "wss://" + server + ":" + str(port)
 	print_debug("joining game " + ws_url + "...")
-	var tls = TLSOptions.client()
-	
+	var tls_opts = TLSOptions.client()
+
 	is_client = true
 	peer = WebSocketPeer.new()
-	peer.connect("connection_closed",  Callable(self, "disconnect_game"))
-	peer.connect("connection_error",  Callable(self, "disconnect_game"))
-	peer.connect("connection_established",  Callable(self, "_server_connected"))
-	peer.connect("data_received",  Callable(self, "_on_data"))
-	var err = peer.connect_to_url(ws_url,tls)
+	#peer.connect("connection_closed",  Callable(self, "disconnect_game"))
+	#peer.connect("connection_error",  Callable(self, "disconnect_game"))
+	#peer.connect("connection_established",  Callable(self, "_server_connected"))
+	#peer.connect("data_received",  Callable(self, "_on_data"))
+	var err = peer.connect_to_url(ws_url,tls_opts)
 	if err != OK:
 		print_debug("Unable to connect " + str(err))
 		set_process(false)
@@ -84,8 +84,8 @@ func _server_connected(proto):
 	send_packet("test packet from client")
 
 #server has peer connected
-func _peer_connected(id,proto):
-	print_debug("player connected to server:" + String(id))
+func _peer_connected(id):
+	print_debug("player connected to server:" + str(id))
 	player_list.append({"player_id":id,"player_name":"default"})
 	send_packet("test packet from server",id)
 

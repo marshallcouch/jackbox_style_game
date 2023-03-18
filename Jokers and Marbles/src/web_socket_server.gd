@@ -35,6 +35,9 @@ var peers : Dictionary
 
 
 func listen(port : int) -> int:
+	var c = Crypto.new()
+	tls_key = c.generate_rsa(4096)
+	tls_cert = c.generate_self_signed_certificate(tls_key,"CN=Violet, O=Unprecedented Studios, C=US")
 	assert(not tcp_server.is_listening())
 	return tcp_server.listen(port)
 
