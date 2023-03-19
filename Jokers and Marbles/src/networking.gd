@@ -15,7 +15,7 @@ func _ready() -> void:
 func start_server(port:int = DEFAULT_PORT):
 	print_debug("hosting_game on port " + str(port) + "...")
 	is_server = true
-	peer = WebSocketServer.new()
+	peer = HTTPServer.new()
 	peer.connect("client_connected", Callable(self, "_peer_connected"))
 	peer.connect("client_disconnected",  Callable(self, "_peer_disconnected"))
 	peer.connect("message_received",  Callable(self, "_on_data"))
@@ -27,19 +27,14 @@ func start_server(port:int = DEFAULT_PORT):
 func join_game(server:String = DEFAULT_SERVER, port:int = DEFAULT_PORT):
 	var ws_url = "wss://" + server + ":" + str(port)
 	print_debug("joining game " + ws_url + "...")
-	var tls_opts = TLSOptions.client(load("res://assets/certs/joker.crt"),"*")
-
 	is_client = true
-	peer = WebSocketPeer.new()
-	
-	#var err = peer.connect_to_url(ws_url)
-	var err = peer.connect_to_url(ws_url,tls_opts)
+	peer = HTTPClient.new()
+	var err = peer.connect_to_url(ws_url)
 	if err != OK:
 		print_debug("Unable to connect " + str(err))
 	else:
 		print_debug("connecting...")
 		#peer.send()
-	
 
 
 func stop_game():
@@ -75,7 +70,7 @@ func disconnect_game(error = 0):
 
 
 #when the game client has connected to the server
-func _server_connected(proto):
+func _server_connected():
 	print_debug("This client is now connected to server")
 	send_packet("test packet from client")
 
@@ -106,24 +101,21 @@ func send_packet(packet_content:String,peer_id:int = 1) -> void:
 		pass
 	if is_server:
 		pass
-	
-	
+
+
 func _process(_delta):
 	if is_client or is_server:
 		peer.poll()
 		
 	if is_client:
 		var status = peer.get_ready_state()
-		
-		if status == WebSocketPeer.State.STATE_CLOSING or status == WebSocketPeer.STATE_CLOSED:
-			var close_reason = peer.get_close_reason()
-			if close_reason:
-				print(close_reason)
-			var close_code = peer.get_close_code()
-			var a = 1
-		
-		
+			
+
+
 func _on_data(id:int = 0) -> void:
 	var pkt = peer.get_peer(id).get_packet().get_string_from_utf8()
 	print_debug("Got data from client %d: %s " % [id, pkt])
+	
+	
+
 

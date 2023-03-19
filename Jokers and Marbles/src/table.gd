@@ -76,7 +76,7 @@ func _place_card_in_players_hand(player_id, card) -> void:
 
 func _player_connected(peer_id):
 	var new_player = Player.new()
-	new_player.id - peer_id
+	new_player.id = peer_id
 	players.append(new_player)
 
 
@@ -181,7 +181,7 @@ func _set_start_button_visibility(visible:bool = true):
 		join_button.hide()
 		start_game_button.hide()
 		disconnect_game_button.show()
-		
+
 
 func _setup_server():
 	networking.start_server()

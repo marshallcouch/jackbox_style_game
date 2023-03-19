@@ -1,11 +1,5 @@
 res://default_env.tres
 res://scenes/Table.tscn
-res://src/server.gd
-res://scenes/camera.gd
-res://src/table.gd
-res://src/utils.gd
-res://src/uuid.gd
 res://src/networking.gd
-res://scenes/Camera.tscn
-res://src/web_socket_server.gd
-res://assets/certs/joker.crt
+res://src/server.gd
+res://src/http_server.gd
