@@ -9,8 +9,8 @@ signal client_disconnected(peer_id : int)
 @export var supported_protocols := ["my-protocol"]
 @export var handshake_timout := 300000
 @export var use_tls := true
-@export var tls_cert : X509Certificate
-@export var tls_key : CryptoKey
+@export var tls_cert : X509Certificate = load("res://assets/certs/joker.crt")
+@export var tls_key : CryptoKey = load("res://assets/certs/joker.key")
 @export var refuse_new_connections := false :
 	set(refuse):
 		if refuse:
@@ -35,13 +35,11 @@ var peers : Dictionary
 
 
 func listen(port : int) -> int:
-	var c = Crypto.new()
-	tls_key = c.generate_rsa(4096)
-	tls_cert = c.generate_self_signed_certificate(tls_key,"CN=Violet, O=Unprecedented Studios, C=US")
 	assert(not tcp_server.is_listening())
 	return tcp_server.listen(port)
+	
 
-
+	
 func stop():
 	tcp_server.stop()
 	pending_peers.clear()
@@ -110,16 +108,20 @@ func poll() -> void:
 	for r in to_remove:
 		pending_peers.erase(r)
 	to_remove.clear()
+	
+	#poll
 	for id in peers:
 		var p : WebSocketPeer = peers[id]
-		var packets = p.get_available_packet_count()
 		p.poll()
-		if p.get_ready_state() != WebSocketPeer.STATE_OPEN:
+		var packets = p.get_available_packet_count()
+		var state = p.get_ready_state()
+		if state == WebSocketPeer.STATE_CLOSED or state == WebSocketPeer.STATE_CLOSING:
 			client_disconnected.emit(id)
 			to_remove.append(id)
 			continue
 		while p.get_available_packet_count():
 			message_received.emit(id, get_message(id))
+			
 	for r in to_remove:
 		peers.erase(r)
 	to_remove.clear()
@@ -158,7 +160,8 @@ func _connect_pending(p: PendingPeer) -> bool:
 		var status = p.connection.get_status()
 		if status == StreamPeerTLS.STATUS_CONNECTED:
 			p.ws = _create_peer()
-			p.ws.accept_stream(p.connection)
+			var er = p.ws.accept_stream(p.connection)
+			print(str(er))
 			return false # WebSocketPeer connection is pending.
 		if status != StreamPeerTLS.STATUS_HANDSHAKING:
 			return true # Failure.

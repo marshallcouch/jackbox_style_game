@@ -21,27 +21,24 @@ func start_server(port:int = DEFAULT_PORT):
 	peer.connect("message_received",  Callable(self, "_on_data"))
 	var err = peer.listen(port)
 	if err != OK:
-		set_process(false)
 		print_debug("error starting server " + str(err))
 
 
 func join_game(server:String = DEFAULT_SERVER, port:int = DEFAULT_PORT):
 	var ws_url = "wss://" + server + ":" + str(port)
 	print_debug("joining game " + ws_url + "...")
-	var tls_opts = TLSOptions.client()
+	var tls_opts = TLSOptions.client(load("res://assets/certs/joker.crt"),"*")
 
 	is_client = true
 	peer = WebSocketPeer.new()
-	#peer.connect("connection_closed",  Callable(self, "disconnect_game"))
-	#peer.connect("connection_error",  Callable(self, "disconnect_game"))
-	#peer.connect("connection_established",  Callable(self, "_server_connected"))
-	#peer.connect("data_received",  Callable(self, "_on_data"))
+	
+	#var err = peer.connect_to_url(ws_url)
 	var err = peer.connect_to_url(ws_url,tls_opts)
 	if err != OK:
 		print_debug("Unable to connect " + str(err))
-		set_process(false)
 	else:
 		print_debug("connecting...")
+		#peer.send()
 	
 
 
@@ -50,7 +47,6 @@ func stop_game():
 	
 #both
 func disconnect_game(error = 0):
-	
 	#server
 	if is_server:
 		peer.stop()
@@ -85,13 +81,19 @@ func _server_connected(proto):
 
 #server has peer connected
 func _peer_connected(id):
-	print_debug("player connected to server:" + str(id))
+	print_debug( get_time() + "player connected to server: " + str(id))
 	player_list.append({"player_id":id,"player_name":"default"})
 	send_packet("test packet from server",id)
 
+func get_time()-> String:
+	var t = Time.get_datetime_dict_from_system()
+	var mt = Time.get_ticks_msec()
+	return str(t["hour"]) +":" + str(t["minute"]) +":"+ str(t["second"]) + " - " + str(mt) + " - "
+	
+	
 #server has a peer disconnected
 func _peer_disconnected(id):
-	print_debug("peer disconnected")
+	print_debug( get_time() + "peer disconnected: " + str(id))
 	for i in player_list.size():
 		if id == player_list[i]["player_id"]:
 			player_list.pop_at(i)
@@ -110,13 +112,18 @@ func _process(_delta):
 	if is_client or is_server:
 		peer.poll()
 		
+	if is_client:
+		var status = peer.get_ready_state()
+		
+		if status == WebSocketPeer.State.STATE_CLOSING or status == WebSocketPeer.STATE_CLOSED:
+			var close_reason = peer.get_close_reason()
+			if close_reason:
+				print(close_reason)
+			var close_code = peer.get_close_code()
+			var a = 1
+		
 		
 func _on_data(id:int = 0) -> void:
 	var pkt = peer.get_peer(id).get_packet().get_string_from_utf8()
 	print_debug("Got data from client %d: %s " % [id, pkt])
-#	if is_server:
-#		print_debug("server got data")
-#		peer.get_peer(id).get_packet().get_string_from_utf8()
-#	elif is_client:
-#		print_debug("client got data")
-#		 String(peer.get_peer(1).get_packet().get_string_from_utf8())
+

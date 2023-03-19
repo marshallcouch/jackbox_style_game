@@ -8,3 +8,4 @@ res://src/uuid.gd
 res://src/networking.gd
 res://scenes/Camera.tscn
 res://src/web_socket_server.gd
+res://assets/certs/joker.crt

@@ -201,7 +201,7 @@ offset_left = 446.0
 offset_top = -130.0
 offset_right = 486.0
 offset_bottom = -104.0
-text = "0.0.2"
+text = "0.0.3"
 
 [node name="Networking" type="Node" parent="."]
 script = ExtResource("8_i4qmc")
