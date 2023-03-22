@@ -6,12 +6,13 @@ var is_client:bool = false
 var is_connected:bool = false
 var http_server:HTTPServer = null
 var http_client:HTTPClient = null
-var player_list:Array[Player] = []
 const DEFAULT_PORT = 8282
 const DEFAULT_SERVER = "localhost"
 var HEADERS = [ "User-Agent: Pirulo/1.0 (Godot)", "Accept: */*"]
 
 var WaitBetweenHTTP: Timer = Timer.new()
+
+
 
 	
 func _ready() -> void:
@@ -56,9 +57,6 @@ func get_time()-> String:
 #server has a peer disconnected
 func _peer_disconnected(id):
 	print_debug( get_time() + "peer disconnected: " + str(id))
-	for i in player_list.size():
-		if id == player_list[i]["player_id"]:
-			player_list.pop_at(i)
 
 
 func send_packet(packet_content:String,peer_id:int = 1) -> void:
@@ -72,41 +70,42 @@ func _process(_delta):
 	if is_server:
 		http_server.poll()
 		
-		
 	if is_client:
-		http_client.poll()
-		print(str(http_client.get_status()))
-		if WaitBetweenHTTP.is_stopped() and http_client.get_status() == HTTPClient.STATUS_CONNECTED:
-			var err = http_client.request(HTTPClient.METHOD_POST, "/", HEADERS) # Request a page from the site (this one was chunked..)
-			assert(err == OK) # Make sure all is OK.
-			WaitBetweenHTTP.start(.25)
-			
+		client_poll()
+		
+func client_poll():
+	http_client.poll()
+	print(str(http_client.get_status()))
+	if WaitBetweenHTTP.is_stopped() and http_client.get_status() == HTTPClient.STATUS_CONNECTED:
+		var err = http_client.request(HTTPClient.METHOD_POST, "/", HEADERS) # Request a page from the site (this one was chunked..)
+		assert(err == OK) # Make sure all is OK.
+		WaitBetweenHTTP.start(.25)
+		
+	if http_client.has_response():
+		# If there is a response...
+		var headers = http_client.get_response_headers() # Get response headers.
+		print("headers: ", headers)
+		print("code: ", http_client.get_response_code()) # Show response code.
+		# Getting the HTTP Body
+		if !http_client.is_response_chunked():
+			# Or just plain Content-Length
+			var bl = http_client.get_response_body_length()
 
-		if http_client.has_response():
-			# If there is a response...
-			var headers = http_client.get_response_headers() # Get response headers.
-			print("headers: ", headers)
-			print("code: ", http_client.get_response_code()) # Show response code.
-			# Getting the HTTP Body
-			if !http_client.is_response_chunked():
-				# Or just plain Content-Length
-				var bl = http_client.get_response_body_length()
-
-			# This method works for both anyway
-			var rb = PackedByteArray() # Array that will hold the data.
-			if http_client.get_status() == HTTPClient.STATUS_BODY:
-				var chunk = http_client.read_response_body_chunk()
-				if chunk.size() == 0:
-					if not OS.has_feature("web"):
-						OS.delay_usec(20)
-					else:
-						await(Engine.get_main_loop())
+		# This method works for both anyway
+		var rb = PackedByteArray() # Array that will hold the data.
+		if http_client.get_status() == HTTPClient.STATUS_BODY:
+			var chunk = http_client.read_response_body_chunk()
+			if chunk.size() == 0:
+				if not OS.has_feature("web"):
+					OS.delay_usec(20)
 				else:
-					rb = rb + chunk # Append to read buffer.
+					await(Engine.get_main_loop())
+			else:
+				rb = rb + chunk # Append to read buffer.
 
-			print("bytes got: ", rb.size())
-			var text = rb.get_string_from_ascii()
-			print("Text: ", text)
+		print("bytes got: ", rb.size())
+		var text = rb.get_string_from_ascii()
+		print("Text: ", text)
 		
 	
 
@@ -141,7 +140,7 @@ class HTTPServer:
 				pass
 
 	func write_http_message(body:String) -> PackedByteArray:
-		var msg = "HTTP/1.1 200 OK\r\nAccess-Control-Allow-Origin: *\r\nContent-Type: text/html\r\nContent-Length:" 
+		var msg = "HTTP/1.1 200 OK\r\nAccess-Control-Allow-Origin: *\r\nContent-Type: application/json\r\nContent-Length:" 
 		msg += str(body.to_ascii_buffer().size())
 		msg += "\r\n\r\n"
 		msg += body

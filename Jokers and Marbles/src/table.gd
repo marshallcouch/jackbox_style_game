@@ -14,6 +14,16 @@ var players: Array[Player] = []
 @onready var camera = $Controls/Camera3D
 @onready var networking = $Networking
 
+
+class Player:
+	var id:String
+	var hand: Array[String]
+	var name:String
+	var stream: StreamPeerTCP
+	func set_id():
+		id = uuid.v4()
+		
+		
 func _ready() -> void:
 	#var _connected = get_tree().root.connect("size_changed",Callable(self,"_on_viewport_resized"))
 	_setup_deck()
