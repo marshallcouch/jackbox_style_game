@@ -30,21 +30,8 @@ func _ready() -> void:
 	#networking.connect("data_received",Callable(self,"_update_from_network_player"))
 	camera.connect("show_hand",Callable(self,"_show_hand"))
 	camera.connect("menu",Callable(self,"_show_start_menu"))
-	var color_array = []
-	color_array.append(Color(0,0,0))
-	color_array.append(Color(1,0,0))
-	color_array.append(Color(0,1,0))
-	color_array.append(Color(1,1,0))
-	color_array.append(Color(0,0,1))
-	color_array.append(Color(1,0,1))
-	color_array.append(Color(0,1,1))
-	color_array.append(Color(1,1,1))
-	for i in 8:
-		for j in 5:
-			var p_info = PieceInfo.new()
-			var piece = create_piece(\
-			p_info.set_base_color(color_array[i]).set_icon_color(Color(1,1,1)).set_icon(i+1).set_scale(Vector2(1,1)))
-			piece.position = Vector2(-100+(1+i)*20,-100+(1+j)*20)
+	create_pieces()
+	
 
 
 func _show_start_menu():
@@ -60,38 +47,25 @@ func _show_start_menu():
 	else:
 		start_menu.show()
 
-
-class PieceInfo:
-	var base_color: Color= Color(1,1,1)
-	var icon_color: Color = Color(0,0,0)
-	var icon: int = 1
-	var scale: Vector2 = Vector2(1,1)
-	
-	func set_base_color(c:Color) -> PieceInfo:
-		base_color = c
-		return self
-		
-	func set_icon_color(c:Color) -> PieceInfo:
-		icon_color = c
-		return self
-	
-	func set_icon(i:int) -> PieceInfo:
-		icon = i
-		return self
-	
-	func set_scale(v:Vector2)->PieceInfo:
-		scale = v
-		return self
+func create_pieces():
+	var color_array = []
+	color_array.append(Color(0,0,0))
+	color_array.append(Color(1,0,0))
+	color_array.append(Color(0,1,0))
+	color_array.append(Color(1,1,0))
+	color_array.append(Color(0,0,1))
+	color_array.append(Color(1,0,1))
+	color_array.append(Color(0,1,1))
+	color_array.append(Color(1,1,1))
+	for i in 8:
+		for j in 5:
+			var piece = load("res://scenes/pieces/Piece.tscn").instantiate()
+			pieces.add_child(piece)
+			piece.set_base_color(color_array[i]).set_icon_color(Color(1,1,1)).scale_piece(Vector2(1,1)).set_icon(i+1)
+			piece.position = Vector2(-100+(1+i)*20,-100+(1+j)*20)
 		
 
-func create_piece(piece_info:PieceInfo) -> Object:
-	var piece = load("res://scenes/pieces/Piece.tscn").instantiate()
-	pieces.add_child(piece)
-	piece.set_base_color(piece_info.base_color)
-	piece.set_icon_color(piece_info.icon_color)
-	piece.set_icon_image(piece_info.icon)
-	piece.scale_piece(piece_info.scale)
-	return piece
+
 
 
 func _input(event) -> void:
@@ -235,4 +209,16 @@ func _update_from_network_player(updated_info: Dictionary):
 	
 func process(delta):
 	pass
-	
+
+
+func _on_hand_button_pressed(action):
+	match action:
+		"play":
+			pass
+		"draw":
+			pass
+		"discard":
+			pass
+		"close":
+			hand_canvas.hide()
+		

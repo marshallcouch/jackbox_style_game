@@ -218,6 +218,10 @@ text = "0.0.3"
 [node name="Networking" type="Node" parent="."]
 script = ExtResource("8_i4qmc")
 
+[connection signal="pressed" from="Controls/Camera3D/HandCanvas/HandContainer/HandActionsContainer/PlayButton" to="." method="_on_hand_button_pressed" binds= ["play"]]
+[connection signal="pressed" from="Controls/Camera3D/HandCanvas/HandContainer/HandActionsContainer/DiscardButton" to="." method="_on_hand_button_pressed"]
+[connection signal="pressed" from="Controls/Camera3D/HandCanvas/HandContainer/HandActionsContainer/DrawButton" to="." method="_on_hand_button_pressed" binds= ["draw"]]
+[connection signal="pressed" from="Controls/Camera3D/HandCanvas/HandContainer/HandActionsContainer/CloseButton" to="." method="_on_hand_button_pressed" binds= ["close"]]
 [connection signal="pressed" from="Controls/StartMenu/StartMenuPanel/StartMenuVbox/StartGameButton" to="." method="_on_start_menu_button_pressed" binds= ["start_game"]]
 [connection signal="pressed" from="Controls/StartMenu/StartMenuPanel/StartMenuVbox/JoinGameButton" to="." method="_on_start_menu_button_pressed" binds= ["join_game"]]
 [connection signal="pressed" from="Controls/StartMenu/StartMenuPanel/StartMenuVbox/ConnectGameButton" to="." method="_on_start_menu_button_pressed" binds= ["connect"]]

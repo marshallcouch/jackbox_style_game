@@ -3,3 +3,4 @@ res://scenes/Table.tscn
 res://src/networking.gd
 res://scenes/camera.gd
 res://src/table.gd
+res://src/piece.gd
