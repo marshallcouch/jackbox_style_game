@@ -14,7 +14,6 @@ signal menu
 var camera_action: String = ""
 
 func _ready() -> void:
-	
 	get_tree().root.connect("size_changed",Callable(self,"_on_viewport_size_changed"))
 	_on_viewport_size_changed()
 	

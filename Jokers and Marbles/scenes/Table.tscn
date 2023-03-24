@@ -13,7 +13,6 @@
 size = Vector2(131, 69)
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_hiqan"]
-blend_mode = 2
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_hk2n4"]
 
@@ -69,8 +68,10 @@ texture = ExtResource("6")
 position = Vector2(3, -9)
 
 [node name="HandCanvas" type="CanvasLayer" parent="Controls/Camera3D"]
+visible = false
 
 [node name="HandPanel" type="Panel" parent="Controls/Camera3D/HandCanvas"]
+self_modulate = Color(0, 0, 0, 1)
 top_level = true
 z_as_relative = false
 material = SubResource("CanvasItemMaterial_hiqan")
@@ -96,10 +97,20 @@ custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "Play"
 
+[node name="DiscardButton" type="Button" parent="Controls/Camera3D/HandCanvas/HandContainer/HandActionsContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Discard"
+
 [node name="DrawButton" type="Button" parent="Controls/Camera3D/HandCanvas/HandContainer/HandActionsContainer"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "Draw"
+
+[node name="CloseButton" type="Button" parent="Controls/Camera3D/HandCanvas/HandContainer/HandActionsContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Close Hand"
 
 [node name="StartMenu" type="CanvasLayer" parent="Controls"]
 layer = 2

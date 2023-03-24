@@ -32,4 +32,5 @@ static func setup_standard_deck(with_jokers:bool = false,unlimited:bool = false)
 	else:
 		new_deck_cards.shuffle()
 	
-	return {"type":"standard","name":"standard","cards":new_deck_cards, "jokers":with_jokers, "unlimited":unlimited}
+	return {"type":"standard","name":"standard","cards":new_deck_cards, \
+	"jokers":with_jokers, "unlimited":unlimited}

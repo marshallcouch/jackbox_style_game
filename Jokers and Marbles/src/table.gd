@@ -41,7 +41,9 @@ func _ready() -> void:
 	color_array.append(Color(1,1,1))
 	for i in 8:
 		for j in 5:
-			var piece = create_piece(color_array[i],Color(1,1,1),i+1,Vector2(1,1))
+			var p_info = PieceInfo.new()
+			var piece = create_piece(\
+			p_info.set_base_color(color_array[i]).set_icon_color(Color(1,1,1)).set_icon(i+1).set_scale(Vector2(1,1)))
 			piece.position = Vector2(-100+(1+i)*20,-100+(1+j)*20)
 
 
@@ -59,19 +61,36 @@ func _show_start_menu():
 		start_menu.show()
 
 
-class piece_info:
-	base_color: Color
-	icon_color: Color
-	icon: int
-	scale: Vector2
+class PieceInfo:
+	var base_color: Color= Color(1,1,1)
+	var icon_color: Color = Color(0,0,0)
+	var icon: int = 1
+	var scale: Vector2 = Vector2(1,1)
+	
+	func set_base_color(c:Color) -> PieceInfo:
+		base_color = c
+		return self
+		
+	func set_icon_color(c:Color) -> PieceInfo:
+		icon_color = c
+		return self
+	
+	func set_icon(i:int) -> PieceInfo:
+		icon = i
+		return self
+	
+	func set_scale(v:Vector2)->PieceInfo:
+		scale = v
+		return self
+		
 
-func create_piece(base_color = Color(1,1,1), icon_color = Color(0,0,0), icon:int = 1, piece_scale:Vector2 = Vector2(1,1)) -> Object:
+func create_piece(piece_info:PieceInfo) -> Object:
 	var piece = load("res://scenes/pieces/Piece.tscn").instantiate()
 	pieces.add_child(piece)
-	piece.set_base_color(base_color)
-	piece.set_icon_color(icon_color)
-	piece.set_icon_image(icon)
-	piece.scale_piece(piece_scale)
+	piece.set_base_color(piece_info.base_color)
+	piece.set_icon_color(piece_info.icon_color)
+	piece.set_icon_image(piece_info.icon)
+	piece.scale_piece(piece_info.scale)
 	return piece
 
 
