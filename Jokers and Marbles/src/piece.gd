@@ -34,5 +34,6 @@ func set_icon_image(index_of_image:int  = 1):
 	
 	var dir = DirAccess.open("res://assets/sprites/piece_icon/")
 	if dir.file_exists(str(index_of_image) + ".png"):
-		icon_sprite.texture = load("res://assets/sprites/piece_icon/" + str(index_of_image) + ".png")
+		icon_sprite.texture = \
+		load("res://assets/sprites/piece_icon/" + str(index_of_image) + ".png")
 	
