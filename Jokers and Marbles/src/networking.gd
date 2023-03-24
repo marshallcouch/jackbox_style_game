@@ -10,15 +10,10 @@ const DEFAULT_PORT = 8282
 const DEFAULT_SERVER = "localhost"
 var HEADERS = [ "User-Agent: Pirulo/1.0 (Godot)", "Accept: */*"]
 
-var WaitBetweenHTTP: Timer = Timer.new()
-
-
-
+signal data_received(Dictionary)
 	
 func _ready() -> void:
 	print_debug("networking created")
-	self.add_child(WaitBetweenHTTP)
-	WaitBetweenHTTP.one_shot = true
 
 func start_server(port:int = DEFAULT_PORT):
 	print_debug("hosting_game on port " + str(port) + "...")
@@ -76,15 +71,7 @@ func _process(_delta):
 		client_poll()
 		
 func client_poll():
-	http_client.poll()
-	print(str(http_client.get_status()))
-	if WaitBetweenHTTP.is_stopped() and \
-		http_client.get_status() == HTTPClient.STATUS_CONNECTED:
-		# Request a page from the site (this one was chunked..)
-		var err = http_client.request(HTTPClient.METHOD_POST, "/", HEADERS) 
-		assert(err == OK) # Make sure all is OK.
-		WaitBetweenHTTP.start(.25)
-		
+	http_client.poll()	
 	if http_client.has_response():
 		# If there is a response...
 		var headers = http_client.get_response_headers() # Get response headers.
@@ -116,7 +103,8 @@ func client_poll():
 class HTTPServer:
 	var server: TCPServer
 	var clients: Array[StreamPeerTCP] = []
-
+	signal data_recieved(Dictionary)
+	
 	func listen(port:int) -> Error:
 		server = TCPServer.new()
 		var err = server.listen(port)
@@ -138,6 +126,8 @@ class HTTPServer:
 					var message = client.get_string(data)
 					print("Received message: ", message)
 					client.put_data(write_http_message("Got it!"))
+					var json_data:String = JSON.parse_string(data)
+					emit_signal("data_received",json_data)
 
 		for client in clients:
 			if client.get_connected_host():

@@ -63,9 +63,6 @@ func create_pieces():
 			pieces.add_child(piece)
 			piece.set_base_color(color_array[i]).set_icon_color(Color(1,1,1)).scale_piece(Vector2(1,1)).set_icon(i+1)
 			piece.position = Vector2(-100+(1+i)*20,-100+(1+j)*20)
-		
-
-
 
 
 func _input(event) -> void:
