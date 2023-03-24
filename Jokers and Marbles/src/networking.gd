@@ -51,7 +51,8 @@ func stop_game():
 func get_time()-> String:
 	var t = Time.get_datetime_dict_from_system()
 	var mt = Time.get_ticks_msec()
-	return str(t["hour"]) +":" + str(t["minute"]) +":"+ str(t["second"]) + " - " + str(mt) + " - "
+	return str(t["hour"]) +":" + str(t["minute"]) +":"+ \
+	str(t["second"]) + " - " + str(mt) + " - "
 
 
 #server has a peer disconnected
@@ -76,8 +77,10 @@ func _process(_delta):
 func client_poll():
 	http_client.poll()
 	print(str(http_client.get_status()))
-	if WaitBetweenHTTP.is_stopped() and http_client.get_status() == HTTPClient.STATUS_CONNECTED:
-		var err = http_client.request(HTTPClient.METHOD_POST, "/", HEADERS) # Request a page from the site (this one was chunked..)
+	if WaitBetweenHTTP.is_stopped() and \
+		http_client.get_status() == HTTPClient.STATUS_CONNECTED:
+		# Request a page from the site (this one was chunked..)
+		var err = http_client.request(HTTPClient.METHOD_POST, "/", HEADERS) 
 		assert(err == OK) # Make sure all is OK.
 		WaitBetweenHTTP.start(.25)
 		
@@ -140,7 +143,8 @@ class HTTPServer:
 				pass
 
 	func write_http_message(body:String) -> PackedByteArray:
-		var msg = "HTTP/1.1 200 OK\r\nAccess-Control-Allow-Origin: *\r\nContent-Type: application/json\r\nContent-Length:" 
+		var msg = "HTTP/1.1 200 OK\r\nAccess-Control-Allow-Origin: *"
+		msg += "\r\nContent-Type: application/json\r\nContent-Length:" 
 		msg += str(body.to_ascii_buffer().size())
 		msg += "\r\n\r\n"
 		msg += body
