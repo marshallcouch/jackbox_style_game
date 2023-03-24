@@ -65,6 +65,7 @@ func send_packet(packet_content:String,peer_id:int = 1) -> void:
 		pass
 	if is_server:
 		pass
+#update
 
 
 func _process(_delta):

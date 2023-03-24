@@ -1,2 +1,3 @@
 res://default_env.tres
 res://scenes/Table.tscn
+res://src/networking.gd
