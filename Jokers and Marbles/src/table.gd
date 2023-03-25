@@ -17,17 +17,18 @@ var players: Array[Player] = []
 
 class Player:
 	var id:String
-	var hand: Array[String]
+	var hand: Array[Dictionary]
 	var name:String
 	var stream: StreamPeerTCP
 	func set_id():
 		id = uuid.v4()
 		
-		
 func _ready() -> void:
 	#var _connected = get_tree().root.connect("size_changed",Callable(self,"_on_viewport_resized"))
 	_setup_deck()
-	#networking.connect("data_received",Callable(self,"_update_from_network_player"))
+	networking.connect("data_received",Callable(self,"_data_received"))
+	networking.connect("peer_connected",Callable(self,"_player_connected"))
+	networking.connect("peer_disconnected",Callable(self,"_player_disconnected"))
 	camera.connect("show_hand",Callable(self,"_show_hand"))
 	camera.connect("menu",Callable(self,"_show_start_menu"))
 	create_pieces()
@@ -74,12 +75,6 @@ func _setup_deck() -> void:
 	decks.append(Utils.setup_standard_deck(true,true))
 
 
-func _place_card_in_players_hand(player_id, card) -> void:
-	for player in players:
-		if player.id == player_id:
-			player.hand.append(card)
-
-
 func _player_connected(peer_id):
 	var new_player = Player.new()
 	new_player.id = peer_id
@@ -92,7 +87,7 @@ func _player_disconnected(peer_id):
 			players.remove_at(i)
 
 
-func server_draw_card(deck_to_draw_from: String = "") -> Dictionary:
+func _draw_card(deck_to_draw_from:String = "")->Dictionary:
 	if deck_to_draw_from != "":
 		for deck in decks:
 			if "name" in deck:
@@ -101,16 +96,28 @@ func server_draw_card(deck_to_draw_from: String = "") -> Dictionary:
 	return decks[0]["cards"].pop_front()
 
 
-func _client_draw_card(deck_to_draw_from: String = ""):
-	pass
-
-
 func _client_move_piece(pieceid, position:Vector2):
 	pass
 	
-func _message_received(peer_id: int, message:Dictionary):
-	if message["action"] == "draw":
-		server_draw_card(message["deck"])
+func _data_received(message:String,peer_id):
+	var message_dict = {}
+	message_dict = JSON.parse_string(message)
+	if !message_dict.has("action"):
+		return
+	if message_dict["action"] == "draw":
+		if networking.is_server:
+			var card = _draw_card(message_dict["deck"])
+			for player in players:
+				if player.id == peer_id:
+					player.hand.append(card)
+			var response:Dictionary = {"action":"draw", "card":card}
+			networking.send_packet(JSON.stringify(response),peer_id)
+		if networking.is_client:
+			cards_in_hand_list.add_item(message_dict["card"]["name"])
+
+
+	if message_dict["action"] == "piece_update":
+		pass
 		
 
 func _show_hand():
@@ -133,8 +140,8 @@ func play_card(card_to_play:Dictionary) -> void:
 
 
 func _on_DebugButton_pressed() -> void:
-	discard_pile.discard(server_draw_card())
-
+	#discard_pile.discard(server_draw_card())
+	pass
 
 @onready var server_label = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/ServerLabel
 @onready var server_text_box = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/ServerTextBox
@@ -196,14 +203,9 @@ func _setup_server():
 
 
 func _setup_client():
-	#networking.connect("data_received",Callable(self,"_update_table"))
 	networking.join_game(server_text_box.text)
-
-
-func _update_from_network_player(updated_info: Dictionary):
-	print("got data!")
-	pass
 	
+
 func process(delta):
 	pass
 
@@ -213,7 +215,9 @@ func _on_hand_button_pressed(action):
 		"play":
 			pass
 		"draw":
-			pass
+			if networking.is_client:
+				var d:Dictionary = {"action":"draw","deck":""}
+				networking.send_packet(JSON.stringify(d))
 		"discard":
 			pass
 		"close":

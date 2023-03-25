@@ -49,8 +49,6 @@ func _on_recenter_button_pressed() -> void:
 	zoom = Vector2(1080/get_viewport().size.y,1080/get_viewport().size.y)
 
 
-
-
 func _on_HandButton_pressed() -> void:
 	emit_signal("show_hand")
 

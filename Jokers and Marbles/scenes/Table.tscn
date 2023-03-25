@@ -53,7 +53,7 @@ text = "Discard Pile"
 
 [node name="Boards" type="Node" parent="."]
 
-[node name="BoardSprite" type="Sprite2D" parent="Boards"]
+[node name="JokerBoard4" type="Sprite2D" parent="Boards"]
 texture = ExtResource("3")
 
 [node name="JokerBoard6" type="Sprite2D" parent="Boards"]
