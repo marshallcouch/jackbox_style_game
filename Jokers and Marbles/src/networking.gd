@@ -4,11 +4,17 @@ class_name Networking
 var is_server:bool = false
 var is_client:bool = false
 var is_connected:bool = false
-var http_server:HTTPServer = null
+var server: TCPServer
+var server_clients: Array[Client] = []
+signal data_recieved(Dictionary)
 var http_client:HTTPClient = null
 const DEFAULT_PORT = 8282
 const DEFAULT_SERVER = "localhost"
 var HEADERS = [ "User-Agent: Pirulo/1.0 (Godot)", "Accept: */*"]
+
+class Client:
+	var stream_peer: StreamPeerTCP
+	var id: String
 
 signal data_received(Dictionary)
 	
@@ -18,8 +24,8 @@ func _ready() -> void:
 func start_server(port:int = DEFAULT_PORT):
 	print_debug("hosting_game on port " + str(port) + "...")
 	is_server = true
-	http_server = HTTPServer.new()
-	var err = http_server.listen(port)
+	server = TCPServer.new()
+	var err = server.listen(port)
 	if err != OK:
 		print_debug("error starting server " + str(err))
 
@@ -39,8 +45,8 @@ func stop_game():
 		is_client = false
 	
 	if is_server:
-		http_server.free()
-		http_server = null
+		server.free()
+		server = null
 		is_server = false
 
 func get_time()-> String:
@@ -65,11 +71,12 @@ func send_packet(packet_content:String,peer_id:int = 1) -> void:
 
 func _process(_delta):
 	if is_server:
-		http_server.poll()
+		server_poll()
 		
 	if is_client:
 		client_poll()
-		
+
+
 func client_poll():
 	http_client.poll()	
 	if http_client.has_response():
@@ -97,49 +104,40 @@ func client_poll():
 		print("bytes got: ", rb.size())
 		var text = rb.get_string_from_ascii()
 		print("Text: ", text)
-		
+
+
+func server_poll() -> void:
+	if server.is_connection_available():
+		var client = Client.new()
+		client.stream_peer = server.take_connection()
+		client.id = uuid.v4()
+		server_clients.append(client)
+		client.stream_peer.set_no_delay(true)
+		print("Client connected: " + client.id)
+		client.stream_peer.put_data(write_server_http_message("You have Connected."))
+		#client.disconnect_from_host()
+
+	for client in server_clients:
+		if client.stream_peer.get_connected_host():
+			var data = client.stream_peer.get_available_bytes()
+			if data > 0:
+				var message = client.stream_peer.get_string(data)
+				print("Received message: ", message)
+				client.stream_peer.put_data(write_server_http_message("Got it!"))
+				var json_data:String = JSON.parse_string(data)
+				emit_signal("data_received",json_data)
+
+	for client in server_clients:
+		if client.stream_peer.get_connected_host():
+			pass
+
+func write_server_http_message(body:String) -> PackedByteArray:
+	var msg = "HTTP/1.1 200 OK\r\nAccess-Control-Allow-Origin: *"
+	msg += "\r\nContent-Type: application/json\r\nContent-Length:" 
+	msg += str(body.to_ascii_buffer().size())
+	msg += "\r\n\r\n"
+	msg += body
+	return msg.to_ascii_buffer()
 	
-
-class HTTPServer:
-	var server: TCPServer
-	var clients: Array[StreamPeerTCP] = []
-	signal data_recieved(Dictionary)
-	
-	func listen(port:int) -> Error:
-		server = TCPServer.new()
-		var err = server.listen(port)
-		return err
-
-	func poll() -> void:
-		if server.is_connection_available():
-			var client = server.take_connection()
-			clients.append(client)
-			client.set_no_delay(true)
-			print("Client connected: ")
-			client.put_data(write_http_message("You have Connected."))
-			#client.disconnect_from_host()
-
-		for client in clients:
-			if client.get_connected_host():
-				var data = client.get_available_bytes()
-				if data > 0:
-					var message = client.get_string(data)
-					print("Received message: ", message)
-					client.put_data(write_http_message("Got it!"))
-					var json_data:String = JSON.parse_string(data)
-					emit_signal("data_received",json_data)
-
-		for client in clients:
-			if client.get_connected_host():
-				pass
-
-	func write_http_message(body:String) -> PackedByteArray:
-		var msg = "HTTP/1.1 200 OK\r\nAccess-Control-Allow-Origin: *"
-		msg += "\r\nContent-Type: application/json\r\nContent-Length:" 
-		msg += str(body.to_ascii_buffer().size())
-		msg += "\r\n\r\n"
-		msg += body
-		return msg.to_ascii_buffer()
-		
 		
 
