@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://m8ddivxv6ga7"]
+[gd_scene load_steps=13 format=3 uid="uid://m8ddivxv6ga7"]
 
 [ext_resource type="Script" path="res://src/table.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://uhpfrrh5wdiu" path="res://scenes/Camera.tscn" id="2"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bpu8kq7ipsuot" path="res://assets/sprites/JokerBoard.jpg" id="4"]
 [ext_resource type="Texture2D" uid="uid://cakvpoj0uxotq" path="res://assets/sprites/background.jpg" id="5"]
 [ext_resource type="Texture2D" uid="uid://bi8o6cvbal0av" path="res://assets/sprites/JokerBoard6.svg" id="6"]
+[ext_resource type="Texture2D" uid="uid://eigwelp6vpmw" path="res://assets/sprites/boards/joker_8.png" id="6_xlmll"]
 [ext_resource type="Script" path="res://src/discardPile.gd" id="7"]
 [ext_resource type="Script" path="res://src/networking.gd" id="8_i4qmc"]
 
@@ -59,6 +60,11 @@ texture = ExtResource("3")
 [node name="JokerBoard6" type="Sprite2D" parent="Boards"]
 position = Vector2(408, -183)
 texture = ExtResource("6")
+
+[node name="JokerBoard8" type="Sprite2D" parent="Boards"]
+visible = false
+position = Vector2(-1, 0)
+texture = ExtResource("6_xlmll")
 
 [node name="Pieces" type="Node" parent="."]
 
@@ -219,7 +225,7 @@ text = "0.0.3"
 script = ExtResource("8_i4qmc")
 
 [connection signal="pressed" from="Controls/Camera3D/HandCanvas/HandContainer/HandActionsContainer/PlayButton" to="." method="_on_hand_button_pressed" binds= ["play"]]
-[connection signal="pressed" from="Controls/Camera3D/HandCanvas/HandContainer/HandActionsContainer/DiscardButton" to="." method="_on_hand_button_pressed"]
+[connection signal="pressed" from="Controls/Camera3D/HandCanvas/HandContainer/HandActionsContainer/DiscardButton" to="." method="_on_hand_button_pressed" binds= ["discard"]]
 [connection signal="pressed" from="Controls/Camera3D/HandCanvas/HandContainer/HandActionsContainer/DrawButton" to="." method="_on_hand_button_pressed" binds= ["draw"]]
 [connection signal="pressed" from="Controls/Camera3D/HandCanvas/HandContainer/HandActionsContainer/CloseButton" to="." method="_on_hand_button_pressed" binds= ["close"]]
 [connection signal="pressed" from="Controls/StartMenu/StartMenuPanel/StartMenuVbox/StartGameButton" to="." method="_on_start_menu_button_pressed" binds= ["start_game"]]

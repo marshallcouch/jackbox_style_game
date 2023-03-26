@@ -32,7 +32,6 @@ func _ready() -> void:
 	camera.connect("show_hand",Callable(self,"_show_hand"))
 	camera.connect("menu",Callable(self,"_show_start_menu"))
 	create_pieces()
-	
 
 
 func _show_start_menu():
@@ -64,83 +63,6 @@ func create_pieces():
 			pieces.add_child(piece)
 			piece.set_base_color(color_array[i]).set_icon_color(Color(1,1,1)).scale_piece(Vector2(1,1)).set_icon(i+1)
 			piece.position = Vector2(-100+(1+i)*20,-100+(1+j)*20)
-
-
-func _input(event) -> void:
-	if event.is_action_pressed("ui_menu"):
-		_show_start_menu()
-
-
-func _setup_deck() -> void:
-	decks.append(Utils.setup_standard_deck(true,true))
-
-
-func _player_connected(peer_id):
-	var new_player = Player.new()
-	new_player.id = peer_id
-	players.append(new_player)
-
-
-func _player_disconnected(peer_id):
-	for i in players.size():
-		if players[i] == peer_id:
-			players.remove_at(i)
-
-
-func _client_move_piece(pieceid, position:Vector2):
-	pass
-	
-	
-func _data_received(message:String,peer_id):
-	var message_dict = {}
-	message_dict = JSON.parse_string(message)
-	if !message_dict.has("action"):
-		return
-	if message_dict["action"] == "draw":
-		_draw_card(message_dict,peer_id)
-	if message_dict["action"] == "discard":
-		_discard_card(message_dict,peer_id)
-	if message_dict["action"] == "piece_update":
-		pass
-		
-func _draw_card(message_dict:Dictionary,peer_id):
-	if networking.is_server:
-		var card = ""
-		if message_dict["deck"] != "":
-			for deck in decks:
-				if "name" in deck:
-					if message_dict["deck"] == deck["name"]:
-						card = deck["cards"].pop_front()
-		else:
-			card = decks[0]["cards"].pop_front()
-		for player in players:
-			if player.id == peer_id:
-				player.hand.append(card)
-		var response:Dictionary = {"action":"draw", "card":card}
-		networking.send_packet(JSON.stringify(response),peer_id)
-	if networking.is_client:
-		cards_in_hand_list.add_item(message_dict["card"]["name"])
-
-func _discard_card(message_dict:Dictionary,peer_id):
-	pass
-
-func _show_hand():
-	#if get_viewport().size.x *.9 != hand_panel.size.x:
-	hand_container.set_position(Vector2(get_viewport().size.x *.05,get_viewport().size.y *.05 ))
-	hand_container.set_size( Vector2(get_viewport().size.x *.9,get_viewport().size.y *.5 ))
-	cards_in_hand_list.custom_minimum_size = \
-	Vector2(get_viewport().size.x *.9,get_viewport().size.y *.45)
-	
-	hand_panel.set_position(hand_container.position)
-	hand_panel.size = Vector2(get_viewport().size.x *.9,get_viewport().size.y *.55 )
-	if hand_canvas.visible:
-		hand_canvas.hide()
-	else:
-		hand_canvas.show()
-
-
-func play_card(card_to_play:Dictionary) -> void:
-	pass
 
 
 func _on_DebugButton_pressed() -> void:
@@ -180,7 +102,7 @@ func _on_start_menu_button_pressed(button_pressed: String) -> void:
 		_set_start_button_visibility(false)
 		_setup_client()
 	elif button_pressed == "disconnect":
-		
+		networking.stop_game()
 		_set_start_button_visibility(true)
 	elif button_pressed == "return_to_game":
 		start_menu.hide()
@@ -208,12 +130,31 @@ func _setup_server():
 
 func _setup_client():
 	networking.join_game(server_text_box.text)
-	
 
-func process(delta):
+func _input(event) -> void:
+	if event.is_action_pressed("ui_menu"):
+		_show_start_menu()
+
+
+func _setup_deck() -> void:
+	decks.append(Utils.setup_standard_deck(true,true))
+
+
+func _player_connected(peer_id):
+	var new_player = Player.new()
+	new_player.id = peer_id
+	players.append(new_player)
+
+
+func _player_disconnected(peer_id):
+	for i in players.size():
+		if players[i] == peer_id:
+			players.remove_at(i)
+
+
+func _update_pieces(pieceid, position:Vector2):
 	pass
-
-
+	
 func _on_hand_button_pressed(action):
 	match action:
 		"play":
@@ -223,7 +164,83 @@ func _on_hand_button_pressed(action):
 				var d:Dictionary = {"action":"draw","deck":""}
 				networking.send_packet(JSON.stringify(d))
 		"discard":
-			pass
+			if networking.is_client:
+				var selected_card_idx:int = -1
+				for c in cards_in_hand_list.get_selected_items():
+					selected_card_idx = c
+				var selected_card: String = cards_in_hand_list.get_item_text(selected_card_idx)
+				if selected_card_idx > -1:
+					cards_in_hand_list.remove_item(selected_card_idx)
+				var d:Dictionary = {"action":"discard","card":selected_card}
+				networking.send_packet(JSON.stringify(d))
 		"close":
 			hand_canvas.hide()
+	
+func _data_received(message:String,peer_id):
+	var message_dict = {}
+	message_dict = JSON.parse_string(message)
+	if !message_dict.has("action"):
+		return
+	if message_dict["action"] == "draw":
+		_draw_card(message_dict,peer_id)
+	if message_dict["action"] == "discard":
+		_discard_card(message_dict,peer_id)
+	if message_dict["action"] == "piece_update":
+		pass
 		
+func _draw_card(message_dict:Dictionary,peer_id):
+	if networking.is_server:
+		var card = ""
+		if message_dict["deck"] != "":
+			for deck in decks:
+				if "name" in deck:
+					if message_dict["deck"] == deck["name"]:
+						card = deck["cards"].pop_front()
+		else:
+			card = decks[0]["cards"].pop_front()
+		for player in players:
+			if player.id == peer_id:
+				player.hand.append(card)
+		var response:Dictionary = {"action":"draw", "card":card}
+		networking.send_packet(JSON.stringify(response),peer_id)
+	elif networking.is_client:
+		cards_in_hand_list.add_item(message_dict["card"]["name"])
+
+func _discard_card(message_dict:Dictionary,peer_id):
+	if networking.is_server:
+		for player in players:
+			var idx:int = -1
+			if player.id == peer_id:
+				for i in player.hand.size()-1:
+					if message_dict["card"] == player.hand[i]["name"]:
+						idx = i
+						break
+				if idx > -1:
+					discard_pile.discard(player.hand.pop_at(idx))
+	var response:Dictionary = {"status":"success", "requested_action":"discard"}
+	networking.send_packet(JSON.stringify(response),peer_id)
+		
+
+
+func play_card(card_to_play:Dictionary) -> void:
+	pass
+
+
+func _show_hand():
+	#if get_viewport().size.x *.9 != hand_panel.size.x:
+	hand_container.set_position(Vector2(get_viewport().size.x *.05,get_viewport().size.y *.05 ))
+	hand_container.set_size( Vector2(get_viewport().size.x *.9,get_viewport().size.y *.5 ))
+	cards_in_hand_list.custom_minimum_size = \
+	Vector2(get_viewport().size.x *.9,get_viewport().size.y *.45)
+	
+	hand_panel.set_position(hand_container.position)
+	hand_panel.size = Vector2(get_viewport().size.x *.9,get_viewport().size.y *.55 )
+	if hand_canvas.visible:
+		hand_canvas.hide()
+	else:
+		hand_canvas.show()
+
+
+
+
+	
