@@ -98,6 +98,8 @@ func _data_received(message:String,peer_id):
 		return
 	if message_dict["action"] == "draw":
 		_draw_card(message_dict,peer_id)
+	if message_dict["action"] == "discard":
+		_discard_card(message_dict,peer_id)
 	if message_dict["action"] == "piece_update":
 		pass
 		
@@ -119,6 +121,8 @@ func _draw_card(message_dict:Dictionary,peer_id):
 	if networking.is_client:
 		cards_in_hand_list.add_item(message_dict["card"]["name"])
 
+func _discard_card(message_dict:Dictionary,peer_id):
+	pass
 
 func _show_hand():
 	#if get_viewport().size.x *.9 != hand_panel.size.x:
