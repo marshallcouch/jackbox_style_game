@@ -87,17 +87,9 @@ func _player_disconnected(peer_id):
 			players.remove_at(i)
 
 
-func _draw_card(deck_to_draw_from:String = "")->Dictionary:
-	if deck_to_draw_from != "":
-		for deck in decks:
-			if "name" in deck:
-				if deck_to_draw_from == deck["name"]:
-					return deck["cards"].pop_front()
-	return decks[0]["cards"].pop_front()
-
-
 func _client_move_piece(pieceid, position:Vector2):
 	pass
+	
 	
 func _data_received(message:String,peer_id):
 	var message_dict = {}
@@ -105,20 +97,28 @@ func _data_received(message:String,peer_id):
 	if !message_dict.has("action"):
 		return
 	if message_dict["action"] == "draw":
-		if networking.is_server:
-			var card = _draw_card(message_dict["deck"])
-			for player in players:
-				if player.id == peer_id:
-					player.hand.append(card)
-			var response:Dictionary = {"action":"draw", "card":card}
-			networking.send_packet(JSON.stringify(response),peer_id)
-		if networking.is_client:
-			cards_in_hand_list.add_item(message_dict["card"]["name"])
-
-
+		_draw_card(message_dict,peer_id)
 	if message_dict["action"] == "piece_update":
 		pass
 		
+func _draw_card(message_dict:Dictionary,peer_id):
+	if networking.is_server:
+		var card = ""
+		if message_dict["deck"] != "":
+			for deck in decks:
+				if "name" in deck:
+					if message_dict["deck"] == deck["name"]:
+						card = deck["cards"].pop_front()
+		else:
+			card = decks[0]["cards"].pop_front()
+		for player in players:
+			if player.id == peer_id:
+				player.hand.append(card)
+		var response:Dictionary = {"action":"draw", "card":card}
+		networking.send_packet(JSON.stringify(response),peer_id)
+	if networking.is_client:
+		cards_in_hand_list.add_item(message_dict["card"]["name"])
+
 
 func _show_hand():
 	#if get_viewport().size.x *.9 != hand_panel.size.x:
