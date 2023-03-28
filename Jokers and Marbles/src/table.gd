@@ -12,7 +12,7 @@ var players: Array[Player] = []
 @onready var hand_canvas = $Controls/Camera3D/HandCanvas
 @onready var pieces = $Pieces
 @onready var camera = $Controls/Camera3D
-@onready var networking = $Networking
+@onready var networking:Networking = Networking.new()
 
 
 class Player:
@@ -25,6 +25,7 @@ class Player:
 		
 func _ready() -> void:
 	#var _connected = get_tree().root.connect("size_changed",Callable(self,"_on_viewport_resized"))
+	add_child(networking)
 	_setup_deck()
 	networking.connect("data_received",Callable(self,"_data_received"))
 	networking.connect("peer_connected",Callable(self,"_player_connected"))
@@ -74,6 +75,7 @@ func _on_DebugButton_pressed() -> void:
 @onready var player_name_label = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/PlayerNameLabel
 @onready var player_name_text_box = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/PlayerNameTextBox
 @onready var connect_button = $Controls/StartMenu/StartMenuPanel/StartMenuVbox/ConnectGameButton
+
 func _on_start_menu_button_pressed(button_pressed: String) -> void:
 	if button_pressed == "start_game":
 		_set_start_button_visibility(false)

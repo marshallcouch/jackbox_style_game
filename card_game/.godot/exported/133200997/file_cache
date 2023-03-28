@@ -1,0 +1,7 @@
+res://cards/card.tscn::0fe8c4d43440690952392a8da44c62de::1679966345::res://.godot/exported/133200997/export-288e3a7a1ebc3ce0abb304c2f8df6eb2-card.scn
+res://cards/card_deck.tscn::f5bc7fa6bd098106c56e57d4cfa525bb::1677701707::res://.godot/exported/133200997/export-e7ac7af1cff0f0a84f1209a4a8f5edf1-card_deck.scn
+res://cards/card_in_deck.tscn::a38daeb9d56f0d52bd16b2c493c6c3da::1677701707::res://.godot/exported/133200997/export-2cd88925473376f9b4efe639b0acb6de-card_in_deck.scn
+res://cards/counter.tscn::5166ff14e09fa61e555685096cd025d6::1677728757::res://.godot/exported/133200997/export-7b7f67279a4ccb1332fa29bd0e1425f4-counter.scn
+res://board.tscn::bec7497179e93c79096a214a6466e01a::1679966345::res://.godot/exported/133200997/export-a83cf8f48b1cf9ea574e7f03773d7d43-board.scn
+res://camera.tscn::09798ddfa6c63377052c9bd4e7db2b76::1679966345::res://.godot/exported/133200997/export-728422cfe1d614caead313b61f8a4c67-camera.scn
+res://default_env.tres::2dcc30fcd0767f9c42d6542d787a5ce0::1679966345::res://.godot/exported/133200997/export-7cf3fd67ad9f55210191d77b582b8209-default_env.res

@@ -1,7 +1,4 @@
 res://default_env.tres
+res://cards/card.tscn
 res://board.tscn
 res://camera.tscn
-res://cards/card.tscn
-res://camera_actions.gd
-res://board_actions.gd
-res://WebSocketServer.gd

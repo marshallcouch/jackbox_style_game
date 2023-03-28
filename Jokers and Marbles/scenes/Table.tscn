@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://m8ddivxv6ga7"]
+[gd_scene load_steps=12 format=3 uid="uid://m8ddivxv6ga7"]
 
 [ext_resource type="Script" path="res://src/table.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://uhpfrrh5wdiu" path="res://scenes/Camera.tscn" id="2"]
@@ -8,7 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://bi8o6cvbal0av" path="res://assets/sprites/JokerBoard6.svg" id="6"]
 [ext_resource type="Texture2D" uid="uid://eigwelp6vpmw" path="res://assets/sprites/boards/joker_8.png" id="6_xlmll"]
 [ext_resource type="Script" path="res://src/discardPile.gd" id="7"]
-[ext_resource type="Script" path="res://src/networking.gd" id="8_i4qmc"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(131, 69)
@@ -90,9 +89,6 @@ offset_bottom = 23.0
 
 [node name="CardsInHand" type="ItemList" parent="Controls/Camera3D/HandCanvas/HandContainer"]
 layout_mode = 2
-item_count = 2
-item_0/text = "card 1"
-item_1/text = "card 2"
 
 [node name="HandActionsContainer" type="HBoxContainer" parent="Controls/Camera3D/HandCanvas/HandContainer"]
 layout_mode = 2
@@ -220,9 +216,6 @@ offset_top = -130.0
 offset_right = 486.0
 offset_bottom = -104.0
 text = "0.0.3"
-
-[node name="Networking" type="Node" parent="."]
-script = ExtResource("8_i4qmc")
 
 [connection signal="pressed" from="Controls/Camera3D/HandCanvas/HandContainer/HandActionsContainer/PlayButton" to="." method="_on_hand_button_pressed" binds= ["play"]]
 [connection signal="pressed" from="Controls/Camera3D/HandCanvas/HandContainer/HandActionsContainer/DiscardButton" to="." method="_on_hand_button_pressed" binds= ["discard"]]

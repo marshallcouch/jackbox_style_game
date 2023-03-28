@@ -123,6 +123,9 @@ offset_bottom = 220.0
 [node name="MoreLabel" type="Label" parent="MoreButton/MorePanel/MoreScrollContainer"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+text = "lorem ipsum fal;skjdf;lkasjdf 
+asdjf as'kdjf askldjf a;lsk jdfkl;jsda;jas dlfasl;  gjkh;klg sakl;jsgf has kl;dhjgf l;ijas"
+autowrap_mode = 2
 
 [node name="CloseMoreButton" type="Button" parent="MoreButton/MorePanel"]
 layout_mode = 0
