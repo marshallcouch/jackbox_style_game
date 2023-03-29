@@ -213,9 +213,11 @@ func _discard_card(message_dict:Dictionary,peer_id):
 		for player in players:
 			var idx:int = -1
 			if player.id == peer_id:
-				for i in player.hand.size()-1:
+				for i in player.hand.size():
+					#print(message_dict["card"] + " =? " + player.hand[i]["name"])
 					if message_dict["card"] == player.hand[i]["name"]:
 						idx = i
+						#print ("match found!")
 						break
 				if idx > -1:
 					discard_pile.discard(player.hand.pop_at(idx))
