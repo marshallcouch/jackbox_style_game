@@ -135,6 +135,7 @@ func _setup_server():
 func _setup_client():
 	networking.join_game(server_text_box.text)
 
+
 func _input(event) -> void:
 	if event.is_action_pressed("ui_menu"):
 		_show_start_menu()
@@ -148,7 +149,8 @@ func _player_connected(peer_id):
 	var new_player = Player.new()
 	new_player.id = peer_id
 	players.append(new_player)
-	
+	var response = {"action":"set_game_state"}
+	networking.send_packet(JSON.stringify(response),peer_id)
 	#todo: send gamestate
 
 
@@ -160,7 +162,8 @@ func _player_disconnected(peer_id):
 
 func _update_pieces(pieceid, position:Vector2):
 	pass
-	
+
+
 func _on_hand_button_pressed(action):
 	match action:
 		"play":
@@ -181,7 +184,9 @@ func _on_hand_button_pressed(action):
 				networking.send_packet(JSON.stringify(d))
 		"close":
 			hand_canvas.hide()
-	
+			
+
+
 func _data_received(message:String,peer_id):
 	var message_dict = {}
 	message_dict = JSON.parse_string(message)
@@ -193,7 +198,10 @@ func _data_received(message:String,peer_id):
 		_discard_card(message_dict,peer_id)
 	if message_dict["action"] == "piece_update":
 		pass
-		
+	if message_dict["action"] == "set_game_state":
+		pass
+
+
 func _draw_card(message_dict:Dictionary,peer_id):
 	if networking.is_server:
 		var card = ""
@@ -247,8 +255,4 @@ func _show_hand():
 		hand_canvas.hide()
 	else:
 		hand_canvas.show()
-
-
-
-
 	

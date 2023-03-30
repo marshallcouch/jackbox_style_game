@@ -10,7 +10,7 @@ var icon:String
 var color_array = [Color(0,0,0),Color(1,0,0), Color(0,1,0), Color(1,1,0),\
 Color(0,0,1),Color(1,0,1), Color(0,1,1),Color(1,1,1)]
 
-func _ready() -> void:
+func _init() -> void:
 	piece_id = uuid.v4()
 
 func on_click():
@@ -34,6 +34,11 @@ func set_icon(index_of_image:int  = 1) -> Piece:
 		icon = "res://assets/sprites/piece_icon/" + str(index_of_image) + ".png"
 		icon_sprite.texture = load(icon)
 	return self
+	
+func set_id(new_id:String) -> Piece:
+	piece_id = new_id
+	return self
+	
 	
 func _to_string() -> String:
 	var json_form:Dictionary = \
