@@ -31,6 +31,7 @@ texture = ExtResource("5")
 editor_description = "simple cantainer for cards"
 
 [node name="DiscardArea" type="Area2D" parent="Cards"]
+visible = false
 z_index = 1
 position = Vector2(400, 0)
 script = ExtResource("7")
@@ -54,9 +55,11 @@ text = "Discard Pile"
 [node name="Boards" type="Node" parent="."]
 
 [node name="JokerBoard4" type="Sprite2D" parent="Boards"]
+visible = false
 texture = ExtResource("3")
 
 [node name="JokerBoard6" type="Sprite2D" parent="Boards"]
+visible = false
 position = Vector2(408, -183)
 texture = ExtResource("6")
 
@@ -198,6 +201,7 @@ layout_mode = 2
 [node name="_debug" type="Node" parent="."]
 
 [node name="DebugButton" type="Button" parent="_debug"]
+visible = false
 offset_left = 429.0
 offset_top = -100.0
 offset_right = 575.0
@@ -211,6 +215,7 @@ scale = Vector2(0.756818, 0.740922)
 texture = ExtResource("4")
 
 [node name="version" type="Label" parent="."]
+visible = false
 offset_left = 446.0
 offset_top = -130.0
 offset_right = 486.0

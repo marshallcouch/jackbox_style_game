@@ -32,7 +32,6 @@ func _ready() -> void:
 	networking.connect("peer_disconnected",Callable(self,"_player_disconnected"))
 	camera.connect("show_hand",Callable(self,"_show_hand"))
 	camera.connect("menu",Callable(self,"_show_start_menu"))
-	create_pieces()
 
 
 func _show_start_menu():
@@ -48,22 +47,24 @@ func _show_start_menu():
 	else:
 		start_menu.show()
 
-func create_pieces():
-	var color_array = []
-	color_array.append(Color(0,0,0))
-	color_array.append(Color(1,0,0))
-	color_array.append(Color(0,1,0))
-	color_array.append(Color(1,1,0))
-	color_array.append(Color(0,0,1))
-	color_array.append(Color(1,0,1))
-	color_array.append(Color(0,1,1))
-	color_array.append(Color(1,1,1))
+func _setup_game(player_count:int = 6):
+	match player_count:
+		4:
+			pass
+		6:
+			$Boards/JokerBoard4.show()
+			$Boards/JokerBoard6.show()
+		8: 
+			$Boards/JokerBoard8.show()
+	discard_pile.show()
+		
 	for i in 8:
 		for j in 5:
 			var piece = load("res://scenes/pieces/Piece.tscn").instantiate()
 			pieces.add_child(piece)
-			piece.set_base_color(color_array[i]).set_icon_color(Color(1,1,1)).scale_piece(Vector2(1,1)).set_icon(i+1)
+			piece.set_base_color(i).set_icon_color(7).scale_piece(Vector2(1,1)).set_icon(i+1)
 			piece.position = Vector2(-100+(1+i)*20,-100+(1+j)*20)
+			print(piece)
 
 
 func _on_DebugButton_pressed() -> void:
@@ -81,6 +82,7 @@ func _on_start_menu_button_pressed(button_pressed: String) -> void:
 		_set_start_button_visibility(false)
 		start_menu.hide()
 		_setup_server()
+		_setup_game()
 	elif button_pressed == "join_game":
 		if server_label.visible:
 			server_label.hide()
@@ -146,6 +148,8 @@ func _player_connected(peer_id):
 	var new_player = Player.new()
 	new_player.id = peer_id
 	players.append(new_player)
+	
+	#todo: send gamestate
 
 
 func _player_disconnected(peer_id):
