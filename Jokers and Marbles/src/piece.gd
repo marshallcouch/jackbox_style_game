@@ -45,7 +45,8 @@ func to_dictionary() ->Dictionary:
 	"base_color":str(base_sprite.modulate),\
 	"icon_color":str(icon_sprite.modulate),\
 	"scale":str(scale),\
-	"icon": icon
+	"icon": icon,\
+	"position": "("+ str(self.get_global_transform().x) + "," + str(self.get_global_transform().y) + ")"
 	}
 	
 func _to_string() -> String:
