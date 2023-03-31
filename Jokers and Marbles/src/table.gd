@@ -149,7 +149,11 @@ func _player_connected(peer_id):
 	var new_player = Player.new()
 	new_player.id = peer_id
 	players.append(new_player)
-	var response = {"action":"set_game_state"}
+	var response:Dictionary = {"action":"set_game_state"}
+	var pieces_array:Array[Dictionary] = []
+	for piece in pieces.get_children():
+		pieces_array.append(piece.to_dictionary())
+	response.merge({"pieces":pieces_array})
 	networking.send_packet(JSON.stringify(response),peer_id)
 	#todo: send gamestate
 
@@ -188,6 +192,7 @@ func _on_hand_button_pressed(action):
 
 
 func _data_received(message:String,peer_id):
+	print(message)
 	var message_dict = {}
 	message_dict = JSON.parse_string(message)
 	if !message_dict.has("action"):

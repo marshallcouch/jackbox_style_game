@@ -22,25 +22,28 @@ class Client:
 func _ready() -> void:
 	pass
 
-func start_server(port:int = DEFAULT_PORT):
+func start_server(port:int = DEFAULT_PORT) -> Networking:
 	print_debug("hosting_game on port " + str(port) + "...")
 	is_server = true
 	server = TCPServer.new()
 	var err = server.listen(port)
 	if err != OK:
 		print_debug("error starting server " + str(err))
+	return self
 
 
-func join_game(server:String = DEFAULT_SERVER, port:int = DEFAULT_PORT):
+func join_game(server:String = DEFAULT_SERVER, port:int = DEFAULT_PORT) -> Networking:
 	var url = server + ":" + str(port)
 	is_client = true
 	http_client = HTTPClient.new()
 	var err = http_client.connect_to_host(server, port)
 	client_first_response = false
 	assert(err == OK)
+	
+	return self
 
 
-func stop_game():
+func stop_game() -> Networking:
 	if is_client:
 		http_client.free()
 		http_client = null
@@ -50,6 +53,8 @@ func stop_game():
 		server.free()
 		server = null
 		is_server = false
+		
+	return self
 
 
 func get_time()-> String:
@@ -121,8 +126,8 @@ func server_poll() -> void:
 		server_clients.append(client)
 		client.stream_peer.set_no_delay(true)
 		print("Client connected: " + client.id)
-		var response:Dictionary = {"status":"Connected"}
-		client.stream_peer.put_data(write_server_http_message(JSON.stringify(response)))
+#		var response:Dictionary = {"status":"Connected"}
+#		client.stream_peer.put_data(write_server_http_message(JSON.stringify(response)))
 		peer_connected.emit(client.id)
 		#client.disconnect_from_host()
 

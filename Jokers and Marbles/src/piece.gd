@@ -39,15 +39,17 @@ func set_id(new_id:String) -> Piece:
 	piece_id = new_id
 	return self
 	
-	
-func _to_string() -> String:
-	var json_form:Dictionary = \
+func to_dictionary() ->Dictionary:
+	return \
 	{"id":piece_id,\
 	"base_color":str(base_sprite.modulate),\
 	"icon_color":str(icon_sprite.modulate),\
 	"scale":str(scale),\
 	"icon": icon
 	}
+	
+func _to_string() -> String:
+	var json_form = self.to_dictionary()
 	return JSON.stringify(json_form)
 	
 	

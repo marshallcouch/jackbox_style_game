@@ -3,7 +3,7 @@ class_name uuid
 
 const MODULO_8_BIT = 256
 
-static func getRandomInt():
+static func getRandomInt() -> int:
   # Randomize every time to minimize the risk of collisions
   randomize()
 
@@ -18,7 +18,7 @@ static func uuidbin():
 	getRandomInt(), getRandomInt(), getRandomInt(), getRandomInt(),
   ]
 
-static func v4():
+static func v4() -> String:
   # 16 random bytes with the bytes on index 6 and 8 modified
   var b = uuidbin()
 
