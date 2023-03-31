@@ -42,13 +42,24 @@ func set_id(new_id:String) -> Piece:
 func to_dictionary() ->Dictionary:
 	return \
 	{"id":piece_id,\
-	"base_color":str(base_sprite.modulate),\
-	"icon_color":str(icon_sprite.modulate),\
-	"scale":str(scale),\
+	"base_color": [base_sprite.modulate.r,base_sprite.modulate.g,base_sprite.modulate.b,base_sprite.modulate.a],\
+	"icon_color": [icon_sprite.modulate.r,icon_sprite.modulate.g,icon_sprite.modulate.b,icon_sprite.modulate.a],\
+	"scale":[scale.x,scale.y],\
 	"icon": icon,\
-	"position": "("+ str(self.get_global_transform().x) + "," + str(self.get_global_transform().y) + ")"
+	"position": [self.get_global_transform().x, str(self.get_global_transform().y)]
 	}
 	
+func from_dictionary(piece_info:Dictionary) -> Piece:
+	self.piece_id = piece_info["id"]
+	base_sprite.modulate = Color(piece_info["base_color"][0],piece_info["base_color"][1],piece_info["base_color"][2],piece_info["base_color"][3])
+	icon_sprite.modulate = Color(icon_sprite["icon_color"][0],icon_sprite["icon_color"][1],icon_sprite["icon_color"][2],icon_sprite["icon_color"][3])
+	scale = Vector2(piece_info["scale"][0], piece_info["scale"][0])
+	icon = piece_info["icon"]
+	icon_sprite.texture = load(icon)
+	self.get_global_transform().x = piece_info["position"][0]
+	self.get_global_transform().y = piece_info["position"][1]
+	return self
+
 func _to_string() -> String:
 	var json_form = self.to_dictionary()
 	return JSON.stringify(json_form)

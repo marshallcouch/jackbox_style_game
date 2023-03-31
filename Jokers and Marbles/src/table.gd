@@ -204,7 +204,8 @@ func _data_received(message:String,peer_id):
 	if message_dict["action"] == "piece_update":
 		pass
 	if message_dict["action"] == "set_game_state":
-		pass
+		_set_game_state(message_dict)
+
 
 
 func _draw_card(message_dict:Dictionary,peer_id):
@@ -246,6 +247,11 @@ func _discard_card(message_dict:Dictionary,peer_id):
 func play_card(card_to_play:Dictionary) -> void:
 	pass
 
+
+func _set_game_state(message_dict:Dictionary, peer_id):
+	if message_dict.has("pieces"):
+		for piece in message_dict["pieces"]:
+			if pieces.get_children().find
 
 func _show_hand():
 	#if get_viewport().size.x *.9 != hand_panel.size.x:

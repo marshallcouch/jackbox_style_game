@@ -15,6 +15,8 @@ signal peer_connected(peer_id:String)
 signal peer_disconnected(peer_id:String)
 var client_first_response = false
 var last_status = -1
+var player_name = uuid.v4()
+
 class Client:
 	var stream_peer: StreamPeerTCP
 	var id: String
@@ -31,7 +33,10 @@ func start_server(port:int = DEFAULT_PORT) -> Networking:
 		print_debug("error starting server " + str(err))
 	return self
 
-
+func set_player_name(new_name:String) -> Networking:
+	player_name = new_name
+	return self
+	
 func join_game(server:String = DEFAULT_SERVER, port:int = DEFAULT_PORT) -> Networking:
 	var url = server + ":" + str(port)
 	is_client = true
@@ -39,7 +44,6 @@ func join_game(server:String = DEFAULT_SERVER, port:int = DEFAULT_PORT) -> Netwo
 	var err = http_client.connect_to_host(server, port)
 	client_first_response = false
 	assert(err == OK)
-	
 	return self
 
 
@@ -91,7 +95,7 @@ func client_poll():
 	#after we're in the connected state.
 	if http_client.get_status() == http_client.STATUS_CONNECTED and client_first_response == false:
 		client_first_response = true
-		http_client.request(HTTPClient.METHOD_POST,"/",HEADERS,JSON.stringify({"status":"connected"}))
+		http_client.request(HTTPClient.METHOD_POST,"/",HEADERS,JSON.stringify({"status":"connected", "player_name":player_name}))
 	
 	if http_client.has_response():
 		# If there is a response...
