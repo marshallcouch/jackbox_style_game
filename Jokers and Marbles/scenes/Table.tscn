@@ -60,7 +60,7 @@ texture = ExtResource("3")
 
 [node name="JokerBoard6" type="Sprite2D" parent="Boards"]
 visible = false
-position = Vector2(408, -183)
+position = Vector2(416, -177)
 texture = ExtResource("6")
 
 [node name="JokerBoard8" type="Sprite2D" parent="Boards"]

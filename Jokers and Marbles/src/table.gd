@@ -154,6 +154,15 @@ func _player_connected(peer_id):
 	for piece in pieces.get_children():
 		pieces_array.append(piece.to_dictionary())
 	response.merge({"pieces":pieces_array})
+	var boards:Array[String] = []
+	if $Boards/JokerBoard4.visible:
+		boards.append("JokerBoard4")
+	if $Boards/JokerBoard6.visible:
+		boards.append("JokerBoard6")
+	if $Boards/JokerBoard8.visible:
+		boards.append("JokerBoard8")
+		
+	response.merge({"boards":boards})
 	networking.send_packet(JSON.stringify(response),peer_id)
 	#todo: send gamestate
 
@@ -208,7 +217,7 @@ func _data_received(message:String,peer_id):
 
 
 
-func _draw_card(message_dict:Dictionary,peer_id):
+func _draw_card(message_dict:Dictionary,peer_id) -> void:
 	if networking.is_server:
 		var card = ""
 		if message_dict["deck"] != "":
@@ -226,7 +235,7 @@ func _draw_card(message_dict:Dictionary,peer_id):
 	elif networking.is_client:
 		cards_in_hand_list.add_item(message_dict["card"]["name"])
 
-func _discard_card(message_dict:Dictionary,peer_id):
+func _discard_card(message_dict:Dictionary,peer_id) -> void:
 	if networking.is_server:
 		for player in players:
 			var idx:int = -1
@@ -242,16 +251,31 @@ func _discard_card(message_dict:Dictionary,peer_id):
 	var response:Dictionary = {"status":"success", "requested_action":"discard"}
 	networking.send_packet(JSON.stringify(response),peer_id)
 		
-
-
 func play_card(card_to_play:Dictionary) -> void:
 	pass
 
 
-func _set_game_state(message_dict:Dictionary, peer_id):
+func _set_game_state(message_dict:Dictionary) -> void:
+	#reset state to blank
+	for piece in pieces.get_children():
+		pieces.remove_child(piece)
+	
+	
 	if message_dict.has("pieces"):
 		for piece in message_dict["pieces"]:
-			if pieces.get_children().find
+			var new_piece = load("res://scenes/pieces/Piece.tscn").instantiate()
+			pieces.add_child(new_piece)
+			new_piece.from_dictionary(piece)
+			
+	if message_dict.has("boards"):
+		for board in message_dict["boards"]:
+			if board == "JokerBoard4":
+				$Boards/JokerBoard4.show()
+			elif board == "JokerBoard6":
+				$Boards/JokerBoard6.show()
+			elif board == "JokerBoard8":
+				$Boards/JokerBoard8.show()
+		
 
 func _show_hand():
 	#if get_viewport().size.x *.9 != hand_panel.size.x:
