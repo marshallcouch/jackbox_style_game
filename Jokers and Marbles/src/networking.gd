@@ -69,6 +69,7 @@ func get_time()-> String:
 
 
 func send_packet(packet_content:String,peer_id:String = "", broadcast:bool = false) -> void:
+	print("packet sent:" + packet_content)
 	if is_client:
 		http_client.request(HTTPClient.METHOD_POST,"/",HEADERS,packet_content)
 	if is_server:
@@ -120,6 +121,7 @@ func client_poll():
 				rb = rb + chunk # Append to read buffer.
 		data_received.emit(rb.get_string_from_ascii(),"")
 		
+		
 
 
 func server_poll() -> void:
@@ -140,7 +142,7 @@ func server_poll() -> void:
 			var data = client.stream_peer.get_available_bytes()
 			if data > 0:
 				var message = client.stream_peer.get_string(data)
-				print("Received message: ", message)
+				print("Received message: " + message)
 				#client.stream_peer.put_data(write_server_http_message("Got it!"))
 				data_received.emit(message.substr(message.find("{")),client.id)
 

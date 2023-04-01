@@ -50,9 +50,8 @@ func _show_start_menu():
 func _setup_game(player_count:int = 6):
 	match player_count:
 		4:
-			pass
-		6:
 			$Boards/JokerBoard4.show()
+		6:
 			$Boards/JokerBoard6.show()
 		8: 
 			$Boards/JokerBoard8.show()
@@ -64,6 +63,7 @@ func _setup_game(player_count:int = 6):
 			pieces.add_child(piece)
 			piece.set_base_color(i).set_icon_color(7).scale_piece(Vector2(1,1)).set_icon(i+1)
 			piece.position = Vector2(-100+(1+i)*20,-100+(1+j)*20)
+			piece.connect("new_position",Callable(self,"_update_piece_position"))
 			print(piece)
 
 
@@ -173,8 +173,7 @@ func _player_disconnected(peer_id):
 			players.remove_at(i)
 
 
-func _update_pieces(pieceid, position:Vector2):
-	pass
+
 
 
 func _on_hand_button_pressed(action):
@@ -210,8 +209,8 @@ func _data_received(message:String,peer_id):
 		_draw_card(message_dict,peer_id)
 	if message_dict["action"] == "discard":
 		_discard_card(message_dict,peer_id)
-	if message_dict["action"] == "piece_update":
-		pass
+	if message_dict["action"] == "update_piece_location":
+		_update_piece_position(Vector2(message_dict["pos"][0],message_dict["pos"][1]),message_dict["pid"],false)
 	if message_dict["action"] == "set_game_state":
 		_set_game_state(message_dict)
 
@@ -254,7 +253,18 @@ func _discard_card(message_dict:Dictionary,peer_id) -> void:
 func play_card(card_to_play:Dictionary) -> void:
 	pass
 
-
+func _update_piece_position(new_position:Vector2, piece_id, local:bool = true):
+	#if it's local, send it to the server, if it's not local then we got it from the network and need to update
+	# if we are the server we need to pass it along to the other clients.
+	if local:
+		networking.send_packet(JSON.stringify({"action":"update_piece_location","pid":piece_id,"pos":[new_position.x,new_position.y]}))
+	else:
+		for piece in pieces.get_children():
+			if piece.piece_id == piece_id:
+				piece.update_position(new_position)
+	if networking.is_server:
+		networking.send_packet(JSON.stringify({"action":"update_piece_location","pid":piece_id,"pos":[new_position.x,new_position.y]}),"",true)
+	
 func _set_game_state(message_dict:Dictionary) -> void:
 	#reset state to blank
 	for piece in pieces.get_children():
@@ -266,6 +276,7 @@ func _set_game_state(message_dict:Dictionary) -> void:
 			var new_piece = load("res://scenes/pieces/Piece.tscn").instantiate()
 			pieces.add_child(new_piece)
 			new_piece.from_dictionary(piece)
+			new_piece.connect("new_position",Callable(self, "_update_piece_position"))
 			
 	if message_dict.has("boards"):
 		for board in message_dict["boards"]:

@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://b8ibteymoukt5" path="res://assets/sprites/boards/joker_4.png" id="3"]
 [ext_resource type="Texture2D" uid="uid://bpu8kq7ipsuot" path="res://assets/sprites/JokerBoard.jpg" id="4"]
 [ext_resource type="Texture2D" uid="uid://cakvpoj0uxotq" path="res://assets/sprites/background.jpg" id="5"]
-[ext_resource type="Texture2D" uid="uid://bi8o6cvbal0av" path="res://assets/sprites/JokerBoard6.svg" id="6"]
+[ext_resource type="Texture2D" uid="uid://bmc1mwo4bj4u6" path="res://assets/sprites/boards/joker_6.png" id="5_o2hwk"]
 [ext_resource type="Texture2D" uid="uid://eigwelp6vpmw" path="res://assets/sprites/boards/joker_8.png" id="6_xlmll"]
 [ext_resource type="Script" path="res://src/discardPile.gd" id="7"]
 
@@ -60,8 +60,8 @@ texture = ExtResource("3")
 
 [node name="JokerBoard6" type="Sprite2D" parent="Boards"]
 visible = false
-position = Vector2(416, -177)
-texture = ExtResource("6")
+position = Vector2(-10, 1)
+texture = ExtResource("5_o2hwk")
 
 [node name="JokerBoard8" type="Sprite2D" parent="Boards"]
 visible = false

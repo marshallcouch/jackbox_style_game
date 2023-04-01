@@ -24,15 +24,17 @@ func _input(event):
 		for shape in shapes:
 			if shape["collider"].has_method("on_click"):
 				shape["collider"].on_click()
+				is_dragging = true
 				dragging_shape = shape["collider"]
 				if !click_all and ignore_unclickable:
 					break # Thus clicks only the topmost clickable
 			if !click_all and !ignore_unclickable:
 				break # Thus stops on the first shape
 		previous_mouse_position = event.position
-		is_dragging = true
 		
-	if event is InputEventMouseButton and !event.pressed and event.button_index == 1: 
+		
+	if event is InputEventMouseButton and !event.pressed and event.button_index == 1 and is_dragging: 
+		dragging_shape.on_release()
 		dragging_shape = null
 		is_dragging = false
 		

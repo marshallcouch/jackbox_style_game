@@ -8,6 +8,8 @@ var piece_id:String
 var icon:String
 var icon_index:int = 0
 
+signal new_position(Vector2,String)
+
 var color_array = [Color(0,0,0),Color(1,0,0), Color(0,1,0), Color(1,1,0),\
 Color(0,0,1),Color(1,0,1), Color(0,1,1),Color(1,1,1)]
 
@@ -15,7 +17,11 @@ func _init() -> void:
 	piece_id = uuid.v4()
 
 func on_click():
-	print_debug("I've been clicked! piece")
+	print_debug("I've been selected: " + piece_id)
+
+func on_release():
+	new_position.emit(self.position, piece_id)
+	print_debug("I've been released: " + piece_id)
 
 func set_base_color(color_int:int = 7) -> Piece:
 	base_sprite.modulate = color_array[color_int]
@@ -61,6 +67,10 @@ func from_dictionary(piece_info:Dictionary) -> Piece:
 	self.position.x = piece_info["pos"][0]
 	self.position.y = piece_info["pos"][1]
 	return self
+	
+func update_position(new_position: Vector2) -> void:
+	self.position = new_position
+
 
 func _to_string() -> String:
 	var json_form = self.to_dictionary()
