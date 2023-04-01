@@ -173,9 +173,6 @@ func _player_disconnected(peer_id):
 			players.remove_at(i)
 
 
-
-
-
 func _on_hand_button_pressed(action):
 	match action:
 		"play":
@@ -200,7 +197,6 @@ func _on_hand_button_pressed(action):
 
 
 func _data_received(message:String,peer_id):
-	print(message)
 	var message_dict = {}
 	message_dict = JSON.parse_string(message)
 	if !message_dict.has("action"):
@@ -256,7 +252,7 @@ func play_card(card_to_play:Dictionary) -> void:
 func _update_piece_position(new_position:Vector2, piece_id, local:bool = true):
 	#if it's local, send it to the server, if it's not local then we got it from the network and need to update
 	# if we are the server we need to pass it along to the other clients.
-	if local:
+	if local and networking.is_client:
 		networking.send_packet(JSON.stringify({"action":"update_piece_location","pid":piece_id,"pos":[new_position.x,new_position.y]}))
 	else:
 		for piece in pieces.get_children():
