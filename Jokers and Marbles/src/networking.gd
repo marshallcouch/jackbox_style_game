@@ -15,8 +15,6 @@ signal peer_connected(peer_id:String)
 signal peer_disconnected(peer_id:String)
 var last_status:int = -1
 var player_name:String = uuid.v4()
-const CLIENT_POLL_RATE:float = .1
-var poll_timer: Timer
 var debug_networking = true
 var client_packet_buffer: Array[String] = []
 
@@ -47,10 +45,6 @@ func join_game(server:String = DEFAULT_SERVER, port:int = DEFAULT_PORT) -> Netwo
 	http_client = HTTPClient.new()
 	var err = http_client.connect_to_host(server, port)
 	assert(err == OK)
-	poll_timer = Timer.new()
-	poll_timer.connect("timeout",Callable(self,"client_poll"))
-	self.add_child(poll_timer)
-	poll_timer.start(CLIENT_POLL_RATE)
 	return self
 
 
@@ -59,8 +53,7 @@ func stop_game() -> Networking:
 		http_client.free()
 		http_client = null
 		is_client = false
-		poll_timer.queue_free()
-	
+
 	if is_server:
 		server.free()
 		server = null
@@ -88,11 +81,12 @@ func send_packet(packet_content:String,peer_id:String = "", broadcast:bool = fal
 func _process(_delta):
 	if is_server:
 		server_poll()
+	if is_client:
+		client_poll()
 
 
 func client_poll():
 	http_client.poll()	
-	poll_timer.start(CLIENT_POLL_RATE)
 	if last_status != http_client.get_status():
 		last_status = http_client.get_status()
 		print(http_client.get_status())
