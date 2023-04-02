@@ -8,6 +8,7 @@ var is_dragging:bool = false
 var dragging_shape
 var zoom: = Vector2(1,1)
 var camera = null
+#signal new_position(Vector2,String)
 
 func _input(event):
 	if !camera:
@@ -30,7 +31,11 @@ func _input(event):
 					break # Thus clicks only the topmost clickable
 			if !click_all and !ignore_unclickable:
 				break # Thus stops on the first shape
+				
+		if !dragging_shape:
+			return
 		previous_mouse_position = event.position
+		
 		
 		
 	if event is InputEventMouseButton and !event.pressed and event.button_index == 1 and is_dragging: 

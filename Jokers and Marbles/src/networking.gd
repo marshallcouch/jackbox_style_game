@@ -15,7 +15,7 @@ signal peer_connected(peer_id:String)
 signal peer_disconnected(peer_id:String)
 var last_status:int = -1
 var player_name:String = uuid.v4()
-var debug_networking = true
+var debug_networking = false
 var client_packet_buffer: Array[String] = []
 
 class Client:
@@ -95,7 +95,7 @@ func client_poll():
 		if client_packet_buffer.size() > 0:
 			http_client.request(HTTPClient.METHOD_POST,"/",HEADERS,client_packet_buffer.pop_front())
 		else:
-			http_client.request(HTTPClient.METHOD_POST,"/",HEADERS,JSON.stringify({"action":"request_game_state", "player_name":player_name}))
+			http_client.request(HTTPClient.METHOD_POST,"/",HEADERS,JSON.stringify({"action":"poll", "player_name":player_name}))
 	if http_client.has_response():
 		# If there is a response...
 		var headers = http_client.get_response_headers() # Get response headers.
@@ -117,7 +117,9 @@ func client_poll():
 					await(Engine.get_main_loop())
 			else:
 				rb = rb + chunk # Append to read buffer.
-		data_received.emit(rb.get_string_from_ascii(),"")
+		var message_json:String = rb.get_string_from_ascii()
+		if !message_json.contains('"status":"connected"'):
+			data_received.emit(message_json,"")
 
 
 func server_poll() -> void:
@@ -142,7 +144,9 @@ func server_poll() -> void:
 				if debug_networking:
 					print("Received message: " + message)
 				#client.stream_peer.put_data(write_server_http_message("Got it!"))
-				data_received.emit(message.substr(message.find("{")),client.id)
+				var message_json:String = message.substr(message.find("{"))
+				if !message_json.contains('"action":"poll",'):
+					data_received.emit(message_json,client.id)
 				if client.packet_buffer.size() > 0:
 					client.stream_peer.put_data(write_server_http_message(client.packet_buffer.pop_front()))
 				else:
