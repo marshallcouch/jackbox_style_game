@@ -22,32 +22,31 @@ func _input(event):
 			#get_global_mouse_position(), 32, [], 0x7FFFFFFF, true, true
 			# The last 'true' enables Area2D intersections, previous four values are all defaults
 		var shapes = get_world_2d().direct_space_state.intersect_point(parameters,1) 
+		is_dragging = true
 		for shape in shapes:
 			if shape["collider"].has_method("on_click"):
 				shape["collider"].on_click()
-				is_dragging = true
 				dragging_shape = shape["collider"]
 				if !click_all and ignore_unclickable:
 					break # Thus clicks only the topmost clickable
 			if !click_all and !ignore_unclickable:
 				break # Thus stops on the first shape
-				
-		if !dragging_shape:
-			return
 		previous_mouse_position = event.position
 		
-		
-		
 	if event is InputEventMouseButton and !event.pressed and event.button_index == 1 and is_dragging: 
-		dragging_shape.on_release()
-		dragging_shape = null
+		if dragging_shape:
+			dragging_shape.on_release()
+			dragging_shape = null
 		is_dragging = false
 		
 	if is_dragging and event is InputEventMouseMotion and dragging_shape:
-		
-		dragging_shape.position += (event.position - previous_mouse_position) * camera.zoom  
+		dragging_shape.position += (event.position - previous_mouse_position) / camera.zoom  
 		previous_mouse_position = event.position
-	
+		
+	if is_dragging and event is InputEventMouseMotion and !dragging_shape:
+		camera.position -= (event.position - previous_mouse_position) / camera.zoom  
+		previous_mouse_position = event.position
+
 			
 func setup_camera():
 	var viewport = get_viewport()

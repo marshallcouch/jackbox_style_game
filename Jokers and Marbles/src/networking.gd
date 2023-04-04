@@ -50,12 +50,12 @@ func join_game(server:String = DEFAULT_SERVER, port:int = DEFAULT_PORT) -> Netwo
 
 func stop_game() -> Networking:
 	if is_client:
-		http_client.free()
+		http_client.close()
 		http_client = null
 		is_client = false
 
 	if is_server:
-		server.free()
+		server.stop()
 		server = null
 		is_server = false
 		
