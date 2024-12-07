@@ -157,7 +157,7 @@
 			},
 			{
 			"top_left":"Beatrice, Lady of the Eternal",
-			"top_right": "6* Light3D",
+			"top_right": "6* Light",
 			"type":"creature",
 			"middle":"Fairy/Xyz/Effect\n2 Level 6 monsters\nYou can also Xyz Summon this card by sending 1 \"Burning Abyss\" monster from your hand to the GY, then using 1 \"Dante\" monster you control as material. (Transfer its materials to this card.) If Summoned this way, the following effect cannot be activated this turn. Once per turn (Quick Effect): You can detach 1 material from this card; send 1 card from your Deck to the GY. If this card in your possession is destroyed by your opponent's card and sent to your GY: You can Special Summon 1 \"Burning Abyss\" monster from your Extra Deck, ignoring its Summoning conditions.",
 			"bottom_right":"ATK/2500  DEF/2800",
@@ -183,7 +183,7 @@
 			
 			{
 			"top_left":"Divine Arsenal AA-ZEUS - Sky Thunder",
-			"top_right": "12* Light3D",
+			"top_right": "12* Light",
 			"type":"creature",
 			"middle":"Machine/Xyz/Effect \n2 Level 12 monsters\nOnce per turn, if an Xyz Monster battled this turn, you can also Xyz Summon \"Divine Arsenal AA-ZEUS - Sky Thunder\" by using 1 Xyz Monster you control as material. (Transfer its materials to this card.) (Quick Effect): You can detach 2 materials from this card; send all other cards from the field to the GY. Once per turn, if another card(s) you control is destroyed by battle or an opponent's card effect: You can attach 1 card from your hand, Deck, or Extra Deck to this card as material.",
 			"bottom_right":"ATK/3000  DEF/3000",
