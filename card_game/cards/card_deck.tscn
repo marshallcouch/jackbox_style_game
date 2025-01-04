@@ -1,10 +1,10 @@
 [gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://cards/deck_actions.gd" type="Script" id=1]
-[ext_resource path="res://assets/cards/shuffle.png" type="Texture" id=2]
-[ext_resource path="res://assets/cards/draw.png" type="Texture" id=3]
-[ext_resource path="res://assets/cards/search.png" type="Texture" id=4]
-[ext_resource path="res://assets/cards/cardback.png" type="Texture" id=5]
+[ext_resource path="res://assets/cards/shuffle.png" type="Texture2D" id=2]
+[ext_resource path="res://assets/cards/draw.png" type="Texture2D" id=3]
+[ext_resource path="res://assets/cards/search.png" type="Texture2D" id=4]
+[ext_resource path="res://assets/cards/cardback.png" type="Texture2D" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 64.75, 85.5 )
@@ -33,7 +33,7 @@ position = Vector2( -4, 206 )
 rotation = 1.5708
 shape = SubResource( 3 )
 
-[node name="shuffle_sprite" type="Sprite" parent="shuffle_box"]
+[node name="shuffle_sprite" type="Sprite2D" parent="shuffle_box"]
 position = Vector2( 2.00189, 1.00439 )
 rotation = 4.71239
 scale = Vector2( 0.0890924, 0.0907351 )
@@ -44,7 +44,7 @@ visible = false
 position = Vector2( 56, 208 )
 shape = SubResource( 2 )
 
-[node name="draw_sprite" type="Sprite" parent="draw_box"]
+[node name="draw_sprite" type="Sprite2D" parent="draw_box"]
 position = Vector2( -0.999969, -1 )
 scale = Vector2( 0.230358, 0.237857 )
 texture = ExtResource( 3 )
@@ -54,54 +54,54 @@ visible = false
 position = Vector2( 118, 208 )
 shape = SubResource( 4 )
 
-[node name="search_sprite" type="Sprite" parent="search_box"]
+[node name="search_sprite" type="Sprite2D" parent="search_box"]
 position = Vector2( 1.51618, 1.33704 )
 scale = Vector2( 0.0761087, 0.0785865 )
 texture = ExtResource( 4 )
 
-[node name="card_back_sprite3" type="Sprite" parent="."]
+[node name="card_back_sprite3" type="Sprite2D" parent="."]
 position = Vector2( 52, 79 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 5 )
 
-[node name="card_back_sprite2" type="Sprite" parent="."]
+[node name="card_back_sprite2" type="Sprite2D" parent="."]
 position = Vector2( 57, 84 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 5 )
 
-[node name="card_back_sprite" type="Sprite" parent="."]
+[node name="card_back_sprite" type="Sprite2D" parent="."]
 position = Vector2( 62, 89 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 5 )
 
 [node name="card_count_label" type="Label" parent="."]
-margin_left = 79.0
-margin_top = 6.0
-margin_right = 119.0
-margin_bottom = 20.0
+offset_left = 79.0
+offset_top = 6.0
+offset_right = 119.0
+offset_bottom = 20.0
 text = "60"
 align = 2
 
 [node name="deck_name_label" type="Label" parent="."]
-margin_left = 54.0
-margin_top = 157.0
-margin_right = 121.0
-margin_bottom = 171.0
+offset_left = 54.0
+offset_top = 157.0
+offset_right = 121.0
+offset_bottom = 171.0
 text = "Main Deck"
 
 [node name="deck_search_box" type="ColorRect" parent="."]
 visible = false
-margin_left = -225.0
-margin_top = 6.0
-margin_right = -15.0
-margin_bottom = 172.0
+offset_left = -225.0
+offset_top = 6.0
+offset_right = -15.0
+offset_bottom = 172.0
 color = Color( 0.627451, 0.627451, 0.627451, 1 )
 
 [node name="deck_search" type="ScrollContainer" parent="deck_search_box"]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 209.0
-margin_bottom = 166.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 209.0
+offset_bottom = 166.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 follow_focus = true
@@ -110,24 +110,24 @@ scroll_deadzone = -1
 [node name="deck_list" type="VBoxContainer" parent="deck_search_box/deck_search"]
 
 [node name="ShuffleButton" type="Button" parent="."]
-margin_left = -33.0
-margin_top = 178.0
-margin_right = 22.0
-margin_bottom = 218.0
+offset_left = -33.0
+offset_top = 178.0
+offset_right = 22.0
+offset_bottom = 218.0
 text = "Shuffle"
 
 [node name="DrawButton" type="Button" parent="."]
-margin_left = 35.0
-margin_top = 179.0
-margin_right = 79.0
-margin_bottom = 219.0
+offset_left = 35.0
+offset_top = 179.0
+offset_right = 79.0
+offset_bottom = 219.0
 text = "Draw"
 
 [node name="SearchButton" type="Button" parent="."]
-margin_left = 96.0
-margin_top = 180.0
-margin_right = 150.0
-margin_bottom = 220.0
+offset_left = 96.0
+offset_top = 180.0
+offset_right = 150.0
+offset_bottom = 220.0
 text = "Search"
 
 [connection signal="input_event" from="." to="." method="_on_touch_input_event"]

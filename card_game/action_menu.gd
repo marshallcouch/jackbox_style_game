@@ -11,7 +11,7 @@ func _ready() -> void:
 	add_item("Clear Tokens/Counters")
 	add_item("About")
 	add_item("Close Menu")
-	self.connect("json_pasted",get_node("/root/board"),"_on_action_menu_json_pasted")
+	self.connect("json_pasted", Callable(get_node("/root/board"), "_on_action_menu_json_pasted"))
 	
 
 
@@ -34,7 +34,7 @@ func _on_action_menu_index_pressed(index: int) -> void:
 			get_node("/root/board/camera/player_hand").remove_child(nodes)
 		
 	elif index == 2: #Create Token/Counter
-		var new_counter = load("res://cards/counter.tscn").instance()
+		var new_counter = load("res://cards/counter.tscn").instantiate()
 		new_counter.z_index = 1000
 		get_node("/root/board/counters").add_child(new_counter)
 		
@@ -43,7 +43,7 @@ func _on_action_menu_index_pressed(index: int) -> void:
 			get_node("/root/board/counters").remove_child(nodes)
 
 	elif index == 4: #Create Token/Counter
-		get_parent().find_node("about_popup").popup()
+		get_parent().find_child("about_popup").popup()
 		
 
 func _on_confirm_button_pressed() -> void:
