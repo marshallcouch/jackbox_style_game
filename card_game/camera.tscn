@@ -77,77 +77,39 @@ text = "..."
 script = ExtResource("2")
 
 [node name="deck_json_popup" type="Window" parent="action_panel/action_menu_button/action_menu"]
+initial_position = 2
+size = Vector2i(400, 400)
 visible = false
 
-[node name="json_text_edit" type="TextEdit" parent="action_panel/action_menu_button/action_menu/deck_json_popup"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 4.0
-offset_top = 6.0
-offset_right = -4.0
-offset_bottom = -48.0
+[node name="VBoxContainer" type="VBoxContainer" parent="action_panel/action_menu_button/action_menu/deck_json_popup"]
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="confirm_button" type="Button" parent="action_panel/action_menu_button/action_menu/deck_json_popup"]
-offset_left = 617.0
-offset_top = 470.0
-offset_right = 697.0
-offset_bottom = 490.0
+[node name="json_text_edit" type="TextEdit" parent="action_panel/action_menu_button/action_menu/deck_json_popup/VBoxContainer"]
+custom_minimum_size = Vector2(400, 340)
+layout_mode = 2
+placeholder_text = "Paste your JSON deck here"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="action_panel/action_menu_button/action_menu/deck_json_popup/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="confirm_button" type="Button" parent="action_panel/action_menu_button/action_menu/deck_json_popup/VBoxContainer/HBoxContainer"]
+layout_mode = 2
 text = "Confirm"
 
-[node name="PreloadedDecksButton" type="MenuButton" parent="action_panel/action_menu_button/action_menu/deck_json_popup"]
-offset_left = 12.0
-offset_top = 470.0
-offset_right = 135.0
-offset_bottom = 490.0
+[node name="PreloadedDecksButton" type="MenuButton" parent="action_panel/action_menu_button/action_menu/deck_json_popup/VBoxContainer/HBoxContainer"]
+layout_mode = 2
 text = "Pre-Loaded Decks"
 
-[node name="LoadFileButton" type="Button" parent="action_panel/action_menu_button/action_menu/deck_json_popup"]
-visible = false
-offset_left = 300.0
-offset_top = 470.0
-offset_right = 369.0
-offset_bottom = 490.0
+[node name="LoadFileButton" type="Button" parent="action_panel/action_menu_button/action_menu/deck_json_popup/VBoxContainer/HBoxContainer"]
+layout_mode = 2
 text = "Load File"
 
 [node name="OpenDeckDialog" type="FileDialog" parent="action_panel/action_menu_button/action_menu/deck_json_popup"]
+initial_position = 2
 size = Vector2i(454, 159)
 access = 2
-
-[node name="about_popup" type="Popup" parent="action_panel/action_menu_button/action_menu"]
-exclusive = true
-
-[node name="background" type="ColorRect" parent="action_panel/action_menu_button/action_menu/about_popup"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -192.0
-offset_top = -160.0
-offset_right = 192.0
-offset_bottom = 160.0
-color = Color(0.466667, 0.466667, 0.466667, 1)
-
-[node name="about_label" type="Label" parent="action_panel/action_menu_button/action_menu/about_popup"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -176.0
-offset_top = -136.0
-offset_right = 176.0
-offset_bottom = 136.0
-text = "Testing"
-
-[node name="close_about_window_button" type="Button" parent="action_panel/action_menu_button/action_menu/about_popup"]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -20.0
-offset_bottom = 24.0
-text = "X"
 
 [node name="show_hide_hand_button" type="Button" parent="action_panel"]
 offset_left = -137.0
@@ -178,10 +140,10 @@ script = ExtResource("3")
 [connection signal="pressed" from="action_panel/zoom_out" to="." method="_on_zoom_out_pressed"]
 [connection signal="pressed" from="action_panel/action_menu_button" to="action_panel/action_menu_button/action_menu" method="_on_action_menu_button_pressed"]
 [connection signal="index_pressed" from="action_panel/action_menu_button/action_menu" to="action_panel/action_menu_button/action_menu" method="_on_action_menu_index_pressed"]
-[connection signal="pressed" from="action_panel/action_menu_button/action_menu/deck_json_popup/confirm_button" to="action_panel/action_menu_button/action_menu" method="_on_confirm_button_pressed"]
-[connection signal="pressed" from="action_panel/action_menu_button/action_menu/deck_json_popup/LoadFileButton" to="." method="_on_LoadFileButton_pressed"]
+[connection signal="close_requested" from="action_panel/action_menu_button/action_menu/deck_json_popup" to="." method="_on_deck_json_popup_close_requested"]
+[connection signal="pressed" from="action_panel/action_menu_button/action_menu/deck_json_popup/VBoxContainer/HBoxContainer/confirm_button" to="action_panel/action_menu_button/action_menu" method="_on_confirm_button_pressed"]
+[connection signal="pressed" from="action_panel/action_menu_button/action_menu/deck_json_popup/VBoxContainer/HBoxContainer/LoadFileButton" to="." method="_on_LoadFileButton_pressed"]
 [connection signal="file_selected" from="action_panel/action_menu_button/action_menu/deck_json_popup/OpenDeckDialog" to="." method="_on_OpenDeckDialog_file_selected"]
-[connection signal="pressed" from="action_panel/action_menu_button/action_menu/about_popup/close_about_window_button" to="." method="_on_close_about_window_button_pressed"]
 [connection signal="pressed" from="action_panel/show_hide_hand_button" to="." method="_on_show_hide_hand_button_pressed"]
 [connection signal="child_entered_tree" from="player_hand" to="player_hand" method="_on_player_hand_child_entered_tree"]
 [connection signal="child_exiting_tree" from="player_hand" to="player_hand" method="_on_player_hand_child_exiting_tree"]

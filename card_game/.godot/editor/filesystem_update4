@@ -5,3 +5,4 @@ res://camera_actions.gd
 res://player_hand.gd
 res://cards/deck_actions.gd
 res://camera.tscn
+res://action_menu.gd

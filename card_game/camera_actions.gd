@@ -10,6 +10,8 @@ var scroll_zooming_enabled = true
 signal load_preloaded_deck(file_name)
 signal load_deck(file_name)
 
+@onready var preloaded_decks_button = $action_panel/action_menu_button/action_menu/deck_json_popup/VBoxContainer/HBoxContainer/PreloadedDecksButton
+
 func _ready() -> void:
 	$action_panel/show_hide_hand_button.set_global_position(Vector2(10,get_viewport().size.y - 70))
 	$player_hand.transform = Transform2D(0,Vector2(10,140))
@@ -17,7 +19,7 @@ func _ready() -> void:
 	for address in IP.get_local_addresses():
 		if (address.split('.').size() == 4):
 			ip_address+=address + '\n'
-	$action_panel/action_menu_button/action_menu/about_popup/about_label.text = ip_address
+
 
 	var dir = DirAccess.open("res://assets/preloaded_decks/")
 	if dir:
@@ -25,12 +27,12 @@ func _ready() -> void:
 		var file_name = dir.get_next()
 		while file_name != "":
 			if "tres" in file_name:
-				$action_panel/action_menu_button/action_menu/deck_json_popup/PreloadedDecksButton.get_popup().add_item(file_name)
+				preloaded_decks_button.get_popup().add_item(file_name)
 			file_name = dir.get_next()
 	else:
 		print("An error occurred when trying to access the path.")
 		
-	$action_panel/action_menu_button/action_menu/deck_json_popup/PreloadedDecksButton.get_popup().connect("index_pressed",Callable(self,"_preloaded_id_pressed"))
+	preloaded_decks_button.get_popup().connect("index_pressed",Callable(self,"_preloaded_id_pressed"))
 	self.connect("load_preloaded_deck",Callable(get_parent(),"_load_preloaded_deck"))
 	self.connect("load_deck",Callable(get_parent(),"_load_deck"))
 
@@ -100,7 +102,7 @@ func _on_close_about_window_button_pressed() -> void:
 	$action_panel/action_menu_button/action_menu/about_popup.hide()
 
 func _preloaded_id_pressed(idx: int) -> void:
-	var item:String = $action_panel/action_menu_button/action_menu/deck_json_popup/PreloadedDecksButton.get_popup().get_item_text(idx)
+	var item:String = preloaded_decks_button.get_popup().get_item_text(idx)
 	print_debug(item)
 	emit_signal("load_preloaded_deck",item)
 
