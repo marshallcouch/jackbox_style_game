@@ -11,10 +11,8 @@ func _ready() -> void:
 	add_item("Clear Tokens/Counters")
 	add_item("Close Menu")
 	self.connect("json_pasted", Callable(get_node("/root/board"), "_on_action_menu_json_pasted"))
+
 	
-
-
-
 
 func _on_action_menu_button_pressed() -> void:
 	show()
@@ -41,8 +39,9 @@ func _on_action_menu_index_pressed(index: int) -> void:
 		for nodes in get_node("/root/board/counters").get_children():
 			get_node("/root/board/counters").remove_child(nodes)
 
-		
 
+@onready var paste_json_box =  $deck_json_popup/VBoxContainer/json_text_edit
 func _on_confirm_button_pressed() -> void:
-	emit_signal("json_pasted",$deck_json_popup/json_text_edit.text)
+	if paste_json_box.text:
+		emit_signal("json_pasted",paste_json_box.text)
 	$deck_json_popup.hide()

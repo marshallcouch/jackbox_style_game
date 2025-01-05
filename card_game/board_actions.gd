@@ -4,27 +4,23 @@ var testing = true
 var password:String = ""
 var is_connected:bool = false
 # The port we will listen to
-const PORT = 8181
 # Our WebSocketServer instance
 
 var client_id:int = -1
 
-func _ready() -> void:
-	_load_preloaded_deck("pokemon_lugia_deck.tres")
-	#setup_about()
-	#get_image_from_google("llanowar elves"
-	
-	
-func setup_about():
-	password = String(ceil(randf_range(1000,9999)))
-	var ip = ""
-	for address in IP.get_local_addresses():
-		if (address.split('.').size() == 4):
-			ip += "\n" + address
-	$camera/action_panel/action_menu_button/about_popup/about_label.text = "ip: " + ip
-	$camera/action_panel/action_menu_button/about_popup/about_label.text += "\n\npassword: " + password
-	$camera/action_panel/action_menu_button/about_popup.show()
 
+var web_server: WebServer = WebServer.new()
+
+		
+func _ready() -> void:
+	_load_preloaded_deck("pokemon_lugia_deck.tres")	
+	web_server.start()
+	web_server.client_connected.connect(hide_qr_code)
+
+func hide_qr_code():
+	$camera/QRCode.hide()
+	web_server.client_connected.disconnect(hide_qr_code)
+	
 func _on_deck_draw_card(card_object) -> void:
 	#print_debug("drawn card:" + card_object["top_left"])
 	var drawn_card = load("res://cards/card.tscn").instantiate()
@@ -50,19 +46,20 @@ func _place_card_in_hand(card_scene):
 
 func _load_preloaded_deck(filename: String) -> void:
 	print_debug("loading...")
-	var deck_file = FileAccess.open("res://assets/preloaded_decks/" + filename,FileAccess.READ)
-	_on_action_menu_json_pasted(deck_file.get_as_text().replace("[gd_resource type=\"Resource\" format=2]","").replace("[resource]",""))
-	deck_file.close()
+	var deck_file:JSON = load("res://assets/preloaded_decks/" + filename)
+	var json_text = deck_file.data
+	_on_action_menu_json_pasted(json_text)
+
 
 func _load_deck(filename: String) -> void:
 	print_debug("loading...")
 	var deck_file = FileAccess.open("res://assets/preloaded_decks/" + filename,FileAccess.READ)
 
-	_on_action_menu_json_pasted(deck_file.get_as_text().replace("[gd_resource type=\"Resource\" format=2]","").replace("[resource]",""))
+	_on_action_menu_json_pasted(deck_file.get_as_text())
 	deck_file.close()
 
 func _on_action_menu_json_pasted(json_text) -> void:
-	var json_result = JSON.parse_string(json_text)
+	var json_result =json_text
 	
 	var _game_name 
 	if "game" in json_result:
@@ -81,12 +78,8 @@ func _on_action_menu_json_pasted(json_text) -> void:
 
 func _on_close_about_window_button_pressed() -> void:
 	$camera/action_panel/action_menu_button/about_popup.hide() # Replace with function body.
-
-
-
-
-
-		
+	
 
 func _process(_delta):
-	pass
+	web_server.process()
+	

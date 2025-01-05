@@ -1,66 +1,61 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=3 uid="uid://bp1n5wmnuxvqm"]
 
-[ext_resource path="res://assets/cards/energy.png" type="Texture2D" id=2]
-[ext_resource path="res://assets/cards/blankcard.png" type="Texture2D" id=3]
-[ext_resource path="res://cards/card_actions.gd" type="Script" id=4]
-[ext_resource path="res://assets/cards/cardback.png" type="Texture2D" id=5]
+[ext_resource type="Texture2D" uid="uid://co1rxmsl3tea7" path="res://assets/cards/blankcard.png" id="3"]
+[ext_resource type="Script" path="res://cards/card_actions.gd" id="4"]
+[ext_resource type="Texture2D" uid="uid://pnra4e171jfq" path="res://assets/cards/cardback.png" id="5"]
 
-[sub_resource type="Theme" id=4]
+[sub_resource type="Theme" id="4"]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 62.25, 87 )
+[sub_resource type="RectangleShape2D" id="1"]
+size = Vector2(124.5, 174)
 
 [node name="draggable_card" type="Area2D"]
 z_index = -2000
-script = ExtResource( 4 )
+script = ExtResource("4")
 
 [node name="card_base" type="Control" parent="."]
 show_behind_parent = true
+layout_mode = 3
+anchors_preset = 0
 offset_right = 126.0
 offset_bottom = 177.0
-pivot_offset = Vector2( 60, 100 )
+pivot_offset = Vector2(60, 100)
 mouse_filter = 2
 
 [node name="card_background" type="Sprite2D" parent="card_base"]
-scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 3 )
-offset = Vector2( 125, 175 )
-
-[node name="card_image" type="Sprite2D" parent="card_base"]
-modulate = Color( 0, 0, 0, 1 )
-self_modulate = Color( 0, 0, 0, 1 )
-position = Vector2( -57, 8 )
-texture = ExtResource( 2 )
-offset = Vector2( 125, 40 )
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3")
+offset = Vector2(125, 175)
 
 [node name="top_left_label" type="Label" parent="card_base"]
-offset_left = 7.0
-offset_top = 7.0
-offset_right = 120.0
-offset_bottom = 36.0
-theme = SubResource( 4 )
-autowrap = true
+layout_mode = 0
+offset_left = 4.0
+offset_top = 6.0
+offset_right = 117.0
+offset_bottom = 35.0
+theme = SubResource("4")
+autowrap_mode = 3
 
 [node name="bottom_label" type="Label" parent="card_base"]
+layout_mode = 0
 offset_left = 11.0
 offset_top = 157.0
 offset_right = 122.0
 offset_bottom = 172.0
-theme = SubResource( 4 )
-align = 2
-autowrap = true
+theme = SubResource("4")
 clip_text = true
 
 [node name="card_back_sprite" type="Sprite2D" parent="card_base"]
-position = Vector2( 63, 88 )
-scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 5 )
+visible = false
+position = Vector2(63, 88)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5")
 
 [node name="card_collision_box" type="CollisionShape2D" parent="."]
-modulate = Color( 0.513726, 0.564706, 0.705882, 1 )
-position = Vector2( 63, 88 )
+modulate = Color(0.513726, 0.564706, 0.705882, 1)
 z_index = 1
-shape = SubResource( 1 )
+position = Vector2(63, 88)
+shape = SubResource("1")
 
 [node name="timer" type="Timer" parent="."]
 
@@ -79,20 +74,26 @@ offset_bottom = 218.0
 text = "Tap"
 
 [node name="ReturnButton" type="Button" parent="."]
+custom_minimum_size = Vector2(40, 40)
 offset_left = 66.0
 offset_top = 224.0
 offset_right = 112.0
 offset_bottom = 264.0
-custom_minimum_size = Vector2( 40, 40 )
 text = "Place"
 
 [node name="place_menu" type="PopupMenu" parent="ReturnButton"]
-offset_left = 18.0
-offset_top = 17.0
-offset_right = 122.0
-offset_bottom = 109.0
-scale = Vector2( 1.5, 1.5 )
-items = [ "Deck Top", null, 0, false, false, 0, 0, null, "", false, "Deck Bottom", null, 0, false, false, 1, 0, null, "", false, "Hand", null, 0, false, false, 2, 0, null, "", false, "Close", null, 0, false, false, 3, 0, null, "", false ]
+position = Vector2i(90, 250)
+size = Vector2i(129, 116)
+visible = true
+item_count = 4
+item_0/text = "Deck Top"
+item_0/id = 0
+item_1/text = "Deck Bottom"
+item_1/id = 1
+item_2/text = "Hand"
+item_2/id = 2
+item_3/text = "Close"
+item_3/id = 3
 
 [node name="MoreButton" type="Button" parent="."]
 offset_left = 16.0
@@ -103,21 +104,23 @@ text = "..."
 
 [node name="MorePanel" type="Panel" parent="MoreButton"]
 visible = false
+layout_mode = 0
 offset_right = 220.0
 offset_bottom = 220.0
 
 [node name="MoreScrollContainer" type="ScrollContainer" parent="MoreButton/MorePanel"]
+layout_mode = 0
 offset_top = 20.0
 offset_right = 220.0
 offset_bottom = 220.0
 
 [node name="MoreLabel" type="Label" parent="MoreButton/MorePanel/MoreScrollContainer"]
-offset_right = 200.0
-offset_bottom = 14.0
-custom_minimum_size = Vector2( 200, 0 )
-autowrap = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+autowrap_mode = 2
 
 [node name="CloseMoreButton" type="Button" parent="MoreButton/MorePanel"]
+layout_mode = 0
 offset_left = 199.0
 offset_top = 1.0
 offset_right = 219.0

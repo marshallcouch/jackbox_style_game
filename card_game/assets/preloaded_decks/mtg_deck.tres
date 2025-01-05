@@ -1,159 +1,159 @@
-[gd_resource type="Resource" format=2]
-{
-	"game":"Magic The Gathering",
-	"decks":[
-		{"deck_name":"Main Deck",
-		"deck":[
-			{
-			"top_left":"Venerated Rotpriest",
-			"top_right":"G",
-			"middle":"Phyrexian Druid - Toxic 1 (Players dealt combat damage by this creature also get a poison counter)\n\nWhenever a creature you control becomes the target of a spell, target opponent gets a poison counter.",
-			"type":"creature",
-			"bottom_right":"1/2",
-			"count":4
-			},
-			{
-			"top_left":"Glistener Elf",
-			"top_right": "G",
-			"type":"creature",
-			"middle": "Elf Warrior - Infect (This creature deals damage to creatures in the form of -1/-1 counters and to players in the form of poison counters.)",
-			"bottom_right":"1/1",
-			"count":4
-			},
-			{
-			"top_left":"Blighted Agent",
-			"top_right": "1U",
-			"type":"creature",
-			"middle": "Human Rogue - Infect (This creature deals damage to creatures in the form of -1/-1 counters and to players in the form of poison counters.)",
-			"bottom_right":"1/1",
-			"count":4
-			},
-			{
-			"top_left":"Noble Hierarch",
-			"top_right": "G",
-			"type":"creature",
-			"middle": "Exalted (Whenever a creautre you control attacks alone, that creature gets +1/+1 until end of turn.)\n\n Tap: Add G, W, or U to your mana pool.",
-			"bottom_right":"1/1",
-			"count":4
-			},
-			
-			{
-			"top_left":"Become Immense",
-			"top_right": "5G",
-			"type":"action",
-			"middle": "Instant - Delve (Each card you exile from your graveyward while casting this spell pays for 1) \n\n Target Creature gets +6/+6 until end of turn.",
-			"count":1
-			},
-			{
-			"top_left":"Spell Pierce",
-			"top_right": "U",
-			"type":"action",
-			"middle": "Instant - counter target noncreature spell unless its controller pays 2.",
-			"count":2
-			},
-			{
-			"top_left":"Might Of Old Krosa",
-			"top_right": "G",
-			"type":"action",
-			"middle": "Instant - Target Creature gets +2/+2 until end of turn.  If you played this spell during your main phase, that creature gets +4/+4 until end of turn instead.",
-			"count":4
-			},
-			{
-			"top_left":"Mutagenic Growth",
-			"top_right": "G/I",
-			"type":"action",
-			"middle": "Instant - (can be paid with either G or 2 life.)\nTarget creature gets +2/+2 until end of turn.",
-			"count":4
-			},
-			{
-			"top_left":"Vines of Vastwood",
-			"top_right": "G",
-			"type":"action",
-			"middle": "Instant - Kicker G (you may pan an additional G to cast this spell.)\n\nTarget creature can't be the target of spells or abilities your opponents control this turn.  If Vines of Vastwood was kicked, that creature gets +4/+4 until end of turn.",
-			"count":4
-			},
-			{
-			"top_left":"Blossoming Defense",
-			"top_right": "G",
-			"type":"action",
-			"middle": "Instant - Target creature you control gets +2/+2 and gains hexproof until end of turn.",
-			"count":4
-			},
-			
-			{
-			"top_left":"Distortion Strike",
-			"top_right": "G",
-			"type":"action",
-			"middle": "Sorcery - Target creature gets +1/+0 until end of turn and is unblockable this turn.\n\nRebound (if you cast this spell from your hand, exile it as it resolves.  At the end of your next upkeep, you may this card from exile without paying its mana cost.)",
-			"count":3
-			},
-			{
-			"top_left":"Scale Up",
-			"top_right": "G",
-			"type":"action",
-			"middle": "Sorcery - until end of your turn, target creature you control becomes a green Wurm with base power and toughness 6/4.\n\nOverload 4GG (You may cast this spell for its overload cost.  If you do, change its text by replacing all instances of \"target\" with \"each\"",
-			"count":3
-			},
-			{
-			"top_left":"Inkmoth Nexus",
-			"type":"energy",
-			"middle": "Land - Tap: Add 1 to your mana pool.\n\n1: Inkmoth Nexus becomes a 1/1 Blinkmoth artifact creature with flying and infect until end of turn.  It's still a land.",
-			"bottom_right":"1/1",
-			"count":4
-			},
-			{
-			"top_left":"Misty Rainforest",
-			"type":"energy",
-			"middle": "Land - Tap: pay 1 life, Sacrifice Misty Rainforest: Search your library for a forest or Island card and put it onto the battlefield then shuffle your library.",
-			"count":4
-			},
-			{
-			"top_left":"Breeding Pool",
-			"type":"energy",
-			"middle": "Land - Forest Island - Tap: G or U\n\nAs Breeding Pool comes into play you may pay 2 life.  If you don't Breeding Pool comes into play tapped instead.",
-			"count":3
-			},
-			{
-			"top_left":"Verdant Catacombs",
-			"type":"energy",
-			"middle": "Land - Tap: Pay 1 life, Sacrifice Verdant Catacomes: Search your library for a swamp or Forest card and put it onto the battlefield.  Then shuffle your library.",
-			"count":2
-			},
-			{
-			"top_left":"Pendlhaven",
-			"type":"energy",
-			"middle": "Legendary Land - Tap: Add G\n\nTap: Target 1/1 creature gains +1/+2 until end of turn.",
-			"count":1
-			},
-			{
-			"top_left":"Waterlogged Grove",
-			"top_right": "G",
-			"type":"energy",
-			"middle": " Tap: Pay 1 life Add G or U\n\n 1, Tap, Sacrifice Waterlogged Grove: Draw a card.",
-			"count":2
-			},
-			{
-			"top_left":"Boseiju, Who Endures",
-			"top_right": "",
-			"type":"energy",
-			"middle": "Tap: Add G\n\nChannel - 1G, Discard Boseiju, Who Endures: Destroy target artifact, enchantment, or nonbasic land an opponent controls.  That player may search their library for a land card with a basic land type, put it onto the battlefield then shuffl.  This ability costs 1 less to activate for each legendary creature you control.",
-			"count":1
-			},
-			{
-			"top_left":"Dryad Arbor",
-			"top_right": "G",
-			"type":"action",
-			"middle": "Land Creature - Forest Dryad - Tap: add Green.  Dryad Arbor is green.",
-			"bottom_right":"1/1",
-			"count":1
-			},
-			{
-			"top_left":"Forest",
-			"middle":"Green",
-			"type":"energy",
-			"count":1
-			}
-		]}
-	]
-}
+[gd_resource type="JSON" format=3 uid="uid://dbkf05hxe7caq"]
+
 [resource]
+data = {
+"decks": [{
+"deck": [{
+"br": "1/2",
+"count": 4.0,
+"middle": "Phyrexian Druid - Toxic 1 (Players dealt combat damage by this creature also get a poison counter)
+
+Whenever a creature you control becomes the target of a spell, target opponent gets a poison counter.",
+"tl": "Venerated Rotpriest",
+"tr": "G",
+"type": "creature"
+}, {
+"br": "1/1",
+"count": 4.0,
+"middle": "Elf Warrior - Infect (This creature deals damage to creatures in the form of -1/-1 counters and to players in the form of poison counters.)",
+"tl": "Glistener Elf",
+"tr": "G",
+"type": "creature"
+}, {
+"br": "1/1",
+"count": 4.0,
+"middle": "Human Rogue - Infect (This creature deals damage to creatures in the form of -1/-1 counters and to players in the form of poison counters.)",
+"tl": "Blighted Agent",
+"tr": "1U",
+"type": "creature"
+}, {
+"br": "1/1",
+"count": 4.0,
+"middle": "Exalted (Whenever a creautre you control attacks alone, that creature gets +1/+1 until end of turn.)
+
+ Tap: Add G, W, or U to your mana pool.",
+"tl": "Noble Hierarch",
+"tr": "G",
+"type": "creature"
+}, {
+"count": 1.0,
+"middle": "Instant - Delve (Each card you exile from your graveyward while casting this spell pays for 1) 
+
+ Target Creature gets +6/+6 until end of turn.",
+"tl": "Become Immense",
+"tr": "5G",
+"type": "action"
+}, {
+"count": 2.0,
+"middle": "Instant - counter target noncreature spell unless its controller pays 2.",
+"tl": "Spell Pierce",
+"tr": "U",
+"type": "action"
+}, {
+"count": 4.0,
+"middle": "Instant - Target Creature gets +2/+2 until end of turn.  If you played this spell during your main phase, that creature gets +4/+4 until end of turn instead.",
+"tl": "Might Of Old Krosa",
+"tr": "G",
+"type": "action"
+}, {
+"count": 4.0,
+"middle": "Instant - (can be paid with either G or 2 life.)
+Target creature gets +2/+2 until end of turn.",
+"tl": "Mutagenic Growth",
+"tr": "G/I",
+"type": "action"
+}, {
+"count": 4.0,
+"middle": "Instant - Kicker G (you may pan an additional G to cast this spell.)
+
+Target creature can't be the target of spells or abilities your opponents control this turn.  If Vines of Vastwood was kicked, that creature gets +4/+4 until end of turn.",
+"tl": "Vines of Vastwood",
+"tr": "G",
+"type": "action"
+}, {
+"count": 4.0,
+"middle": "Instant - Target creature you control gets +2/+2 and gains hexproof until end of turn.",
+"tl": "Blossoming Defense",
+"tr": "G",
+"type": "action"
+}, {
+"count": 3.0,
+"middle": "Sorcery - Target creature gets +1/+0 until end of turn and is unblockable this turn.
+
+Rebound (if you cast this spell from your hand, exile it as it resolves.  At the end of your next upkeep, you may this card from exile without paying its mana cost.)",
+"tl": "Distortion Strike",
+"tr": "G",
+"type": "action"
+}, {
+"count": 3.0,
+"middle": "Sorcery - until end of your turn, target creature you control becomes a green Wurm with base power and toughness 6/4.
+
+Overload 4GG (You may cast this spell for its overload cost.  If you do, change its text by replacing all instances of \"target\" with \"each\"",
+"tl": "Scale Up",
+"tr": "G",
+"type": "action"
+}, {
+"br": "1/1",
+"count": 4.0,
+"middle": "Land - Tap: Add 1 to your mana pool.
+
+1: Inkmoth Nexus becomes a 1/1 Blinkmoth artifact creature with flying and infect until end of turn.  It's still a land.",
+"tl": "Inkmoth Nexus",
+"type": "energy"
+}, {
+"count": 4.0,
+"middle": "Land - Tap: pay 1 life, Sacrifice Misty Rainforest: Search your library for a forest or Island card and put it onto the battlefield then shuffle your library.",
+"tl": "Misty Rainforest",
+"type": "energy"
+}, {
+"count": 3.0,
+"middle": "Land - Forest Island - Tap: G or U
+
+As Breeding Pool comes into play you may pay 2 life.  If you don't Breeding Pool comes into play tapped instead.",
+"tl": "Breeding Pool",
+"type": "energy"
+}, {
+"count": 2.0,
+"middle": "Land - Tap: Pay 1 life, Sacrifice Verdant Catacomes: Search your library for a swamp or Forest card and put it onto the battlefield.  Then shuffle your library.",
+"tl": "Verdant Catacombs",
+"type": "energy"
+}, {
+"count": 1.0,
+"middle": "Legendary Land - Tap: Add G
+
+Tap: Target 1/1 creature gains +1/+2 until end of turn.",
+"tl": "Pendlhaven",
+"type": "energy"
+}, {
+"count": 2.0,
+"middle": " Tap: Pay 1 life Add G or U
+
+ 1, Tap, Sacrifice Waterlogged Grove: Draw a card.",
+"tl": "Waterlogged Grove",
+"tr": "G",
+"type": "energy"
+}, {
+"count": 1.0,
+"middle": "Tap: Add G
+
+Channel - 1G, Discard Boseiju, Who Endures: Destroy target artifact, enchantment, or nonbasic land an opponent controls.  That player may search their library for a land card with a basic land type, put it onto the battlefield then shuffl.  This ability costs 1 less to activate for each legendary creature you control.",
+"tl": "Boseiju, Who Endures",
+"tr": "",
+"type": "energy"
+}, {
+"br": "1/1",
+"count": 1.0,
+"middle": "Land Creature - Forest Dryad - Tap: add Green.  Dryad Arbor is green.",
+"tl": "Dryad Arbor",
+"tr": "G",
+"type": "action"
+}, {
+"count": 1.0,
+"middle": "Green",
+"tl": "Forest",
+"type": "energy"
+}],
+"deck_name": "Main Deck"
+}],
+"game": "Magic The Gathering"
+}

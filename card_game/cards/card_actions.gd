@@ -17,24 +17,24 @@ func _ready() -> void:
 func set_card(card_object):
 	card = card_object
 	
-	if "top_left" in card_object:
-		$card_base/top_left_label.text = card_object["top_left"]
-		full_card_info += card_object["top_left"]
+	if "tl" in card_object:
+		$card_base/top_left_label.text = card_object["tl"]
+		full_card_info += card_object["tl"]
 		
-	if "top_right" in card_object:
-		$card_base/top_left_label.text += " " + card_object["top_right"]
-		full_card_info += '\n\n'+ card_object["top_right"]
+	if "tr" in card_object:
+		$card_base/top_left_label.text += " " + card_object["tr"]
+		full_card_info += '\n\n'+ card_object["tr"]
 		
 	if "middle" in card_object:
 		full_card_info += '\n\n'+  card_object["middle"]
 		
 	if "bottom_left" in card_object:
-		$card_base/bottom_label.text = card_object["bottom_left"]
-		full_card_info += '\n\n'+  card_object["bottom_left"]
+		$card_base/bottom_label.text = card_object["bl"]
+		full_card_info += '\n\n'+  card_object["bl"]
 		
 	if "bottom_right" in card_object:
-		$card_base/bottom_label.text += " " + card_object["bottom_right"]
-		full_card_info += '\n\n'+ card_object["bottom_right"]
+		$card_base/bottom_label.text += " " + card_object["br"]
+		full_card_info += '\n\n'+ card_object["br"]
 		
 	$MoreButton/MorePanel/MoreScrollContainer/MoreLabel.text = full_card_info
 	
