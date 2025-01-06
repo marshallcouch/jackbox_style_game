@@ -39,7 +39,7 @@ func _search_deck() -> void:
 	if $deck_search_box.visible == false:
 		for card in deck_array:
 			var card_in_deck = load("res://cards/card_in_deck.tscn").instantiate()
-			card_in_deck._set_label(card["top_left"])
+			card_in_deck._set_label(card["tl"])
 			$deck_search_box/deck_search/deck_list.add_child(card_in_deck)
 			card_in_deck.connect("draw_card_from_deck", Callable(self, "_draw_card_from_deck"))
 		$deck_search_box.show()
@@ -67,7 +67,7 @@ func _draw_card() -> void:
 
 func _draw_card_from_deck(card_to_draw):
 	for card in deck_array:
-		if card["top_left"] == card_to_draw:
+		if card["tl"] == card_to_draw:
 			deck_array.pop_at(deck_array.find(card))
 			emit_signal("draw_card",card)
 			break

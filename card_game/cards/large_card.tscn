@@ -1,5 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://j8ftnjme4xci"]
+[gd_scene load_steps=6 format=3 uid="uid://j8ftnjme4xci"]
 
+[ext_resource type="Script" path="res://cards/large_card.gd" id="1_o8558"]
 [ext_resource type="Texture2D" uid="uid://co1rxmsl3tea7" path="res://assets/cards/blankcard.png" id="2_ky0b2"]
 [ext_resource type="Texture2D" uid="uid://bkieti1x5kclt" path="res://assets/cards/energy.png" id="3_8x1u4"]
 [ext_resource type="Texture2D" uid="uid://pnra4e171jfq" path="res://assets/cards/cardback.png" id="4_xs43h"]
@@ -10,6 +11,7 @@
 z_index = -2000
 layout_mode = 3
 anchors_preset = 0
+script = ExtResource("1_o8558")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 offset_left = 10.0
@@ -26,8 +28,7 @@ alignment = 1
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 theme = SubResource("4")
-text = "Top Left Label! this card has a really long name!!!"
-autowrap_mode = 2
+autowrap_mode = 3
 
 [node name="VSeparator" type="VSeparator" parent="VBoxContainer/TopHBox"]
 custom_minimum_size = Vector2(10, 0)
@@ -37,8 +38,8 @@ layout_mode = 2
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 theme = SubResource("4")
-text = "Top Right Label!"
 horizontal_alignment = 2
+autowrap_mode = 3
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2
@@ -56,11 +57,9 @@ stretch_mode = 4
 custom_minimum_size = Vector2(460, 300)
 layout_mode = 2
 theme = SubResource("4")
-text = "If a card(s) is sent from the hand or Deck to your opponent's GY (except during the Damage Step): You can Special Summon this card from your hand, then you can Special Summon 1 Level 4 EARTH Fairy monster from your GY, except \\\"Agido the Ancient Sentinel\\\". If this card is sent from the hand or Deck to the GY: You can activate this 
-effect; each player sends the top 5 cards of their Deck to the GY (or their entire Deck, if less than 5), then, if \\\"Exchange of the Spirit\\\" is in your GY, you can send 5 more cards from the top of either player's Deck to the GY. You can only use each effect of \\\"Agido the Ancient Sentinel\\\" once per turn."
 horizontal_alignment = 1
 vertical_alignment = 1
-autowrap_mode = 2
+autowrap_mode = 3
 
 [node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
 layout_mode = 2
@@ -74,8 +73,8 @@ alignment = 1
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 theme = SubResource("4")
-text = "Bottom Left Label!"
 vertical_alignment = 2
+autowrap_mode = 3
 
 [node name="VSeparator" type="VSeparator" parent="VBoxContainer/BottomHbox"]
 custom_minimum_size = Vector2(10, 0)
@@ -85,9 +84,9 @@ layout_mode = 2
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 theme = SubResource("4")
-text = "ATK/2500  DEF/2000"
 horizontal_alignment = 2
 vertical_alignment = 2
+autowrap_mode = 3
 
 [node name="card_base" type="Control" parent="."]
 show_behind_parent = true

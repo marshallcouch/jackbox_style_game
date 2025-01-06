@@ -1,12 +1,20 @@
 extends Area2D
+class_name Card
 
 var is_dragging: bool = false
 var previous_mouse_position = Vector2()
 var card
-var full_card_info:String = ""
+var tl:String = ""
+var tr:String = ""
+var mid:String = ""
+var br:String = ""
+var bl:String = ""
 signal place_card_back_in_deck(card,location)
 signal place_card_back_in_hand(card)
+signal view_full_card(tl,tr,mid, bl, br)
 # Called when the node enters the scene tree for the first time.
+
+
 
 func _ready() -> void:
 	$timer.one_shot = true
@@ -18,44 +26,25 @@ func set_card(card_object):
 	card = card_object
 	
 	if "tl" in card_object:
-		$card_base/top_left_label.text = card_object["tl"]
-		full_card_info += card_object["tl"]
+		tl = card_object["tl"]
+		$card_base/top_left_label.text = tl
+		
 		
 	if "tr" in card_object:
-		$card_base/top_left_label.text += " " + card_object["tr"]
-		full_card_info += '\n\n'+ card_object["tr"]
+		tr = card_object["tr"]
+		$card_base/top_left_label.text += "\n" + tr
 		
 	if "middle" in card_object:
-		full_card_info += '\n\n'+  card_object["middle"]
+		mid = card_object["middle"]
 		
-	if "bottom_left" in card_object:
-		$card_base/bottom_label.text = card_object["bl"]
-		full_card_info += '\n\n'+  card_object["bl"]
+	if "bl" in card_object:
+		bl =  card_object["bl"]
+		$card_base/bottom_label.text = bl
 		
-	if "bottom_right" in card_object:
-		$card_base/bottom_label.text += " " + card_object["br"]
-		full_card_info += '\n\n'+ card_object["br"]
+	if "br" in card_object:
+		br = card_object["br"]
+		$card_base/bottom_label.text += "\n" + br
 		
-	$MoreButton/MorePanel/MoreScrollContainer/MoreLabel.text = full_card_info
-	
-	if "type" in card_object:
-		if card_object["type"] in ["creature","defense","action","energy"]:
-			$card_base/card_image.texture = load("res://assets/cards/" + card_object["type"] +".png")
-		else:
-			$card_base/card_image.texture = load("res://assets/cards/unknown.png")
-	else:
-		$card_base/card_image.texture = load("res://assets/cards/unknown.png")
-		
-	#scale card image and place it properly
-	if $card_base/card_image.texture.get_height() > $card_base/card_image.texture.get_width():
-		$card_base/card_image.scale *= 100.0/$card_base/card_image.texture.get_height()
-	else: 
-		$card_base/card_image.scale *= 100.0/$card_base/card_image.texture.get_width()
-	
-	$card_base/card_image.offset.x = 120/$card_base/card_image.scale.x
-	$card_base/card_image.offset.y = ($card_base/card_image.texture.get_height())
-	$card_base/card_image.centered = true
-
 	
 func _on_touch_input_event(_viewport, event, shape_idx):
 	if not event.is_action_pressed("ui_touch"):
@@ -112,7 +101,6 @@ func _on_place_menu_index_pressed(index: int) -> void:
 		return
 	elif index == 3:
 		return
-		
 	self.queue_free()
 
 
@@ -133,7 +121,7 @@ func _on_Return_pressed() -> void:
 
 
 func _on_MoreButton_pressed() -> void:
-	$MoreButton/MorePanel.show()
+	view_full_card.emit(tl,tr,mid,bl,br)
 
 
 func _on_CloseMoreButton_pressed() -> void:

@@ -1,78 +1,34 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://csclbuwjtsqkj"]
 
-[ext_resource path="res://cards/deck_actions.gd" type="Script" id=1]
-[ext_resource path="res://assets/cards/shuffle.png" type="Texture2D" id=2]
-[ext_resource path="res://assets/cards/draw.png" type="Texture2D" id=3]
-[ext_resource path="res://assets/cards/search.png" type="Texture2D" id=4]
-[ext_resource path="res://assets/cards/cardback.png" type="Texture2D" id=5]
+[ext_resource type="Script" path="res://cards/deck_actions.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://pnra4e171jfq" path="res://assets/cards/cardback.png" id="5"]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 64.75, 85.5 )
-
-[sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 23.5, 23 )
-
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 23, 25 )
-
-[sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 23, 25 )
+[sub_resource type="RectangleShape2D" id="1"]
+size = Vector2(129.5, 171)
 
 [node name="draggable_deck" type="Area2D"]
-position = Vector2( 1, -1 )
-script = ExtResource( 1 )
+position = Vector2(1, -1)
+script = ExtResource("1")
 
 [node name="card_collision_box" type="CollisionShape2D" parent="."]
-modulate = Color( 0.513726, 0.564706, 0.705882, 1 )
-position = Vector2( 60.75, 84.5 )
-shape = SubResource( 1 )
-
-[node name="shuffle_box" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2( -4, 206 )
-rotation = 1.5708
-shape = SubResource( 3 )
-
-[node name="shuffle_sprite" type="Sprite2D" parent="shuffle_box"]
-position = Vector2( 2.00189, 1.00439 )
-rotation = 4.71239
-scale = Vector2( 0.0890924, 0.0907351 )
-texture = ExtResource( 2 )
-
-[node name="draw_box" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2( 56, 208 )
-shape = SubResource( 2 )
-
-[node name="draw_sprite" type="Sprite2D" parent="draw_box"]
-position = Vector2( -0.999969, -1 )
-scale = Vector2( 0.230358, 0.237857 )
-texture = ExtResource( 3 )
-
-[node name="search_box" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2( 118, 208 )
-shape = SubResource( 4 )
-
-[node name="search_sprite" type="Sprite2D" parent="search_box"]
-position = Vector2( 1.51618, 1.33704 )
-scale = Vector2( 0.0761087, 0.0785865 )
-texture = ExtResource( 4 )
+modulate = Color(0.513726, 0.564706, 0.705882, 1)
+position = Vector2(60.75, 84.5)
+shape = SubResource("1")
 
 [node name="card_back_sprite3" type="Sprite2D" parent="."]
-position = Vector2( 52, 79 )
-scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 5 )
+position = Vector2(52, 79)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5")
 
 [node name="card_back_sprite2" type="Sprite2D" parent="."]
-position = Vector2( 57, 84 )
-scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 5 )
+position = Vector2(57, 84)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5")
 
 [node name="card_back_sprite" type="Sprite2D" parent="."]
-position = Vector2( 62, 89 )
-scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 5 )
+position = Vector2(62, 89)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5")
 
 [node name="card_count_label" type="Label" parent="."]
 offset_left = 79.0
@@ -80,7 +36,6 @@ offset_top = 6.0
 offset_right = 119.0
 offset_bottom = 20.0
 text = "60"
-align = 2
 
 [node name="deck_name_label" type="Label" parent="."]
 offset_left = 54.0
@@ -91,23 +46,25 @@ text = "Main Deck"
 
 [node name="deck_search_box" type="ColorRect" parent="."]
 visible = false
-offset_left = -225.0
-offset_top = 6.0
+offset_left = -372.0
+offset_top = -469.0
 offset_right = -15.0
 offset_bottom = 172.0
-color = Color( 0.627451, 0.627451, 0.627451, 1 )
+color = Color(0.627451, 0.627451, 0.627451, 1)
 
 [node name="deck_search" type="ScrollContainer" parent="deck_search_box"]
+layout_mode = 0
 offset_left = 2.0
 offset_top = 2.0
-offset_right = 209.0
-offset_bottom = 166.0
+offset_right = 355.0
+offset_bottom = 639.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 follow_focus = true
 scroll_deadzone = -1
 
 [node name="deck_list" type="VBoxContainer" parent="deck_search_box/deck_search"]
+layout_mode = 2
 
 [node name="ShuffleButton" type="Button" parent="."]
 offset_left = -33.0

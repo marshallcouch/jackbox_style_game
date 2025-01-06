@@ -11,23 +11,34 @@ var client_id:int = -1
 
 var web_server: WebServer = WebServer.new()
 
-		
+func _input(event):
+	if event.is_action_released("ui_touch") and $camera/LargeCard.visible:
+		$camera/LargeCard.hide()
+	
+
 func _ready() -> void:
 	_load_preloaded_deck("pokemon_lugia_deck.tres")	
 	web_server.start()
 	web_server.client_connected.connect(hide_qr_code)
 
+func display_large_card(tl:String, tr:String, mid:String, br:String, bl:String):
+	$camera/LargeCard.set_card_parts(tl, tr, mid, br, bl)
+	$camera/LargeCard.show()
+	
+
 func hide_qr_code():
 	$camera/QRCode.hide()
+	$camera.remove_qr_code_option()
 	web_server.client_connected.disconnect(hide_qr_code)
 	
 func _on_deck_draw_card(card_object) -> void:
 	#print_debug("drawn card:" + card_object["top_left"])
-	var drawn_card = load("res://cards/card.tscn").instantiate()
+	var drawn_card:Card = load("res://cards/card.tscn").instantiate()
 	drawn_card.set_card(card_object)
 	_place_card_in_hand(drawn_card)
 	drawn_card.connect("place_card_back_in_deck",Callable($decks.get_child(0),"place_card_in_deck"))
 	drawn_card.connect("place_card_back_in_hand",Callable(self,"_place_card_in_hand"))
+	drawn_card.view_full_card.connect(display_large_card)
 
 func _place_card_in_hand(card_scene):
 	var max_x = 0
@@ -82,4 +93,7 @@ func _on_close_about_window_button_pressed() -> void:
 
 func _process(_delta):
 	web_server.process()
-	
+
+
+func _on_camera_remove_qr_code():
+	$camera/QRCode.hide()

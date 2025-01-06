@@ -122,3 +122,10 @@ func _on_OpenDeckDialog_file_selected(path: String) -> void:
 
 func _on_deck_json_popup_close_requested():
 	$action_panel/action_menu_button/action_menu/deck_json_popup.hide() # Replace with function body.
+
+signal remove_qr_code
+func _on_action_menu_remove_qr_code():
+	remove_qr_code.emit()
+	
+func remove_qr_code_option():
+	$action_panel/action_menu_button/action_menu.remove_qr_code_option()
