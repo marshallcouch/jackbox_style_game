@@ -12,8 +12,6 @@ var bl:String = ""
 signal place_card_back_in_deck(card,location)
 signal place_card_back_in_hand(card)
 signal view_full_card(tl,tr,mid, bl, br)
-# Called when the node enters the scene tree for the first time.
-
 
 
 func _ready() -> void:

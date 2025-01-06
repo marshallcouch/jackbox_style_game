@@ -36,6 +36,9 @@ func _on_touch_input_event(_viewport, event, shape_idx):
 
 
 func _search_deck() -> void:
+	var vscroll = $deck_search_box/deck_search.get_v_scroll_bar()
+	vscroll.size.x = 30
+	vscroll.position.x =322
 	if $deck_search_box.visible == false:
 		for card in deck_array:
 			var card_in_deck = load("res://cards/card_in_deck.tscn").instantiate()
@@ -45,7 +48,6 @@ func _search_deck() -> void:
 		$deck_search_box.show()
 	else:
 		_hide_deck_search()
-
 
 func _hide_deck_search():
 	for n in $deck_search_box/deck_search/deck_list.get_children():
