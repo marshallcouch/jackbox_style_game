@@ -114,7 +114,9 @@ func _on_TapButton_pressed() -> void:
 
 
 func _on_Return_pressed() -> void:
-	$ReturnButton/place_menu.set_position(position+Vector2(100,125))
+	$ReturnButton/place_menu.position = position+Vector2(140,370)
+	if get_parent().name == "cards":
+		$ReturnButton/place_menu.position -= Vector2i(get_viewport().get_camera_2d().offset*get_viewport().get_camera_2d().zoom.x) - Vector2i(580,220)
 	$ReturnButton/place_menu.show()
 
 

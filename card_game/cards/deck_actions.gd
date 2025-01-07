@@ -5,6 +5,7 @@ var previous_mouse_position = Vector2()
 var deck_array:Array = []
 
 signal draw_card(card_object)
+signal reveal_card(card_object)
 var game_name:String = ""
 var deck_name:String = ""
 # Called when the node enters the scene tree for the first time.
@@ -66,6 +67,11 @@ func _draw_card() -> void:
 		emit_signal("draw_card",deck_array.pop_front())
 		_set_deck_cards_visible()
 
+func _reveal_card() -> void:
+	if deck_array.size() >0:
+		emit_signal("reveal_card",deck_array.pop_front())
+		_set_deck_cards_visible()
+
 
 func _draw_card_from_deck(card_to_draw):
 	for card in deck_array:
@@ -124,3 +130,7 @@ func _on_DrawButton_pressed() -> void:
 
 func _on_SearchButton_pressed() -> void:
 	_search_deck()
+
+
+func _on_reveal_button_pressed():
+	_reveal_card()

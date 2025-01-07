@@ -9,7 +9,6 @@ func _ready() -> void:
 	add_item("Clear Decks and Cards")
 	add_item("Create Token/Counter")
 	add_item("Clear Tokens/Counters")
-	add_item("Close QR Code")
 	add_item("Close Menu")
 	self.connect("json_pasted", Callable(get_node("/root/board"), "_on_action_menu_json_pasted"))
 
@@ -41,9 +40,7 @@ func _on_action_menu_index_pressed(index: int):
 	elif index == 3: #clear Token/Counter
 		for nodes in get_node("/root/board/counters").get_children():
 			get_node("/root/board/counters").remove_child(nodes)
-	elif index == 4 and get_item_text(4) == "Close QR Code": 
-		remove_qr_code.emit()
-		remove_item(4)
+
 
 func remove_qr_code_option():
 	if get_item_text(4) == "Close QR Code": 

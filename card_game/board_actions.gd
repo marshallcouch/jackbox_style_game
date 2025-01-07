@@ -14,6 +14,8 @@ var web_server: WebServer = WebServer.new()
 func _input(event):
 	if event.is_action_released("ui_touch") and $camera/LargeCard.visible:
 		$camera/LargeCard.hide()
+	if event.is_action_released("ui_touch") and $camera/QRCode.visible:
+		hide_qr_code()
 	
 
 func _ready() -> void:
@@ -28,8 +30,25 @@ func display_large_card(tl:String, tr:String, mid:String, br:String, bl:String):
 
 func hide_qr_code():
 	$camera/QRCode.hide()
-	$camera.remove_qr_code_option()
 	web_server.client_connected.disconnect(hide_qr_code)
+	
+func _on_deck_reveal_card(card_object) -> void:
+	#print_debug("drawn card:" + card_object["top_left"])
+	var drawn_card:Card = load("res://cards/card.tscn").instantiate()
+	$cards.add_child(drawn_card)
+	drawn_card.set_card(card_object)
+	drawn_card.connect("place_card_back_in_deck",Callable($decks.get_child(0),"place_card_in_deck"))
+	drawn_card.connect("place_card_back_in_hand",Callable(self,"_place_card_in_hand"))
+	drawn_card.view_full_card.connect(display_large_card)
+	var max_x = 100
+	var max_y = 0
+	for cards in $cards.get_children():
+		if cards.position.x > max_x:
+			max_x = cards.position.x
+		if cards.position.y > max_y:
+			max_y = cards.position.y
+	drawn_card.position = Vector2(max_x + 20 ,max_y + 40)
+
 	
 func _on_deck_draw_card(card_object) -> void:
 	#print_debug("drawn card:" + card_object["top_left"])
@@ -81,8 +100,8 @@ func _on_action_menu_json_pasted(json_text) -> void:
 		new_deck = load("res://cards/card_deck.tscn").instantiate()
 		new_deck.load_deck(String(json_result["game"]), deck["deck_name"], deck["deck"])
 		new_deck.connect("draw_card",Callable(self,"_on_deck_draw_card"))
-		
-		new_deck.position.y = get_viewport().size.y/2 - 190 
+		new_deck.connect("reveal_card",Callable(self,"_on_deck_reveal_card"))
+		new_deck.position.y = get_viewport().size.y/2 - 230
 		new_deck.position.x = get_viewport().size.x/2 - 125 + (220 * $decks.get_child_count())
 		$decks.add_child(new_deck)
 

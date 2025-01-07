@@ -8,7 +8,7 @@
 [sub_resource type="Theme" id="4"]
 
 [node name="Card" type="Control"]
-z_index = -2000
+z_index = 2000
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_o8558")

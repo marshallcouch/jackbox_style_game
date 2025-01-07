@@ -45,6 +45,7 @@ offset_bottom = 171.0
 text = "Main Deck"
 
 [node name="deck_search_box" type="ColorRect" parent="."]
+visible = false
 offset_left = -372.0
 offset_top = -469.0
 offset_right = -15.0
@@ -66,27 +67,35 @@ scroll_deadzone = -1
 layout_mode = 2
 
 [node name="ShuffleButton" type="Button" parent="."]
-offset_left = -33.0
-offset_top = 178.0
-offset_right = 22.0
-offset_bottom = 218.0
+offset_left = 62.0
+offset_top = 223.0
+offset_right = 125.0
+offset_bottom = 263.0
 text = "Shuffle"
 
 [node name="DrawButton" type="Button" parent="."]
-offset_left = 35.0
-offset_top = 179.0
-offset_right = 79.0
-offset_bottom = 219.0
+offset_left = -5.0
+offset_top = 178.0
+offset_right = 45.0
+offset_bottom = 218.0
 text = "Draw"
 
 [node name="SearchButton" type="Button" parent="."]
-offset_left = 96.0
-offset_top = 180.0
-offset_right = 150.0
-offset_bottom = 220.0
+offset_left = -4.0
+offset_top = 223.0
+offset_right = 57.0
+offset_bottom = 263.0
 text = "Search"
+
+[node name="RevealButton" type="Button" parent="."]
+offset_left = 65.0
+offset_top = 180.0
+offset_right = 124.0
+offset_bottom = 220.0
+text = "Reveal"
 
 [connection signal="input_event" from="." to="." method="_on_touch_input_event"]
 [connection signal="pressed" from="ShuffleButton" to="." method="_on_ShuffleButton_pressed"]
 [connection signal="pressed" from="DrawButton" to="." method="_on_DrawButton_pressed"]
 [connection signal="pressed" from="SearchButton" to="." method="_on_SearchButton_pressed"]
+[connection signal="pressed" from="RevealButton" to="." method="_on_reveal_button_pressed"]
