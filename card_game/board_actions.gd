@@ -22,6 +22,7 @@ func _ready() -> void:
 	_load_preloaded_deck("pokemon_lugia_deck.tres")	
 	web_server.start()
 	web_server.client_connected.connect(hide_qr_code)
+	web_server.set_hand_node($camera/player_hand)
 
 func display_large_card(tl:String, tr:String, mid:String, br:String, bl:String):
 	$camera/LargeCard.set_card_parts(tl, tr, mid, br, bl)
