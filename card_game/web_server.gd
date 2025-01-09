@@ -16,6 +16,7 @@ func start():
 signal client_connected
 func process():
 	# Accept new client connections
+	#print("server running..." + Time.get_datetime_string_from_system())
 	if server.is_connection_available():
 		var client = server.take_connection()
 		if client:
@@ -88,7 +89,7 @@ func _handle_action(params:String):
 
 func _cards_in_hand() -> String:
 	var cards:Array[Card] = get_cards()
-	var cards_body:String = "<p>Count: " + str(cards.size()) + "</p>"
+	var cards_body:String = "<p>Count: " + str(cards.size()) + "</p> <form method=\"POST\"><button name=\"REFRESH\" value=\"refresh\">refresh</button></form>"
 	for card in cards:
 		cards_body += CARD_BODY.replace("TOP_RIGHT", card.tr)\
 		.replace("TOP_LEFT", card.tl)\

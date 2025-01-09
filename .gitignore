@@ -18,3 +18,4 @@ mono_crash.*.json
 builds/*
 *.cfg
 /card_game/.godot
+*.cfg
