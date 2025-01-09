@@ -37,6 +37,8 @@ func set_hand_node(p_hand:Node):
 func get_cards()-> Array[Card]:
 	var cards:Array[Card]
 	for c:Card in player_hand.get_children():
+		if c.is_queued_for_deletion():
+			continue
 		cards.append(c)
 	return cards
 func get_card_count() -> int:
@@ -46,8 +48,11 @@ func _handle_request(client: StreamPeerTCP, request: String):
 	# HTML response with corrected diamond-shaped D-pad layout
 	var client_id_loc:int = request.find("client=",request.length()-70)
 	var client_id:String = "-1"
-	var action:String = request.substr(request.find("action"))
 	print(request)
+	var action:String = request.substr(request.find("ACTION"))
+	if action.length() > 0:
+		_handle_action(action)
+
 	
 	var body = SKELETON.replace("STYLE_CONTENT",STYLES)\
 	.replace("SCRIPT_CONTENT", SCRIPTS)\
@@ -58,9 +63,33 @@ func _handle_request(client: StreamPeerTCP, request: String):
 	client.put_data(response.to_utf8_buffer())
 	client.disconnect_from_host()
 
-func _cards_in_hand() -> String:
-	var cards_body:String = "<p>Count: " + str(get_card_count()) + "</p>"
+func _handle_action(params:String):
+	var param_split = params.split("&")
+	var action:String = param_split[0].split("=")[1]
+	var card_name:String = param_split[1].split("=")[1].replace("+"," ")
 	for card in get_cards():
+		if card.tl == card_name:
+			if action == "play_face_down":
+				card.play_card_face_down()
+			elif action == "play":
+				card.play_card()
+			elif action == "place_top_deck":
+				card.place_card_back_in_deck.emit(card.card, "top")
+				card.queue_free()
+			elif action == "place_bottom_deck":
+				card.place_card_back_in_deck.emit(card.card, "bottom")
+				card.queue_free()
+			return
+	
+
+
+	
+
+
+func _cards_in_hand() -> String:
+	var cards:Array[Card] = get_cards()
+	var cards_body:String = "<p>Count: " + str(cards.size()) + "</p>"
+	for card in cards:
 		cards_body += CARD_BODY.replace("TOP_RIGHT", card.tr)\
 		.replace("TOP_LEFT", card.tl)\
 		.replace("MIDDLE", card.mid)\
@@ -176,11 +205,11 @@ const CARD_BODY:String = """
 <p>BOTTOM_LEFT</p>
 <p>BOTTOM_RIGHT</p>
 <form method="POST">
+	<button name="ACTION" value="play_face_down">Face Down</button>
+	<button name="ACTION" value="place_top_deck">Top Deck</button>
+	<button name="ACTION" value="place_bottom_deck">Bottom Deck</button>
+	<button name="ACTION" value="play">Play</button>
 	<input name="card_name" type="hidden" value="TOP_LEFT">
-	<button name="action" value="play_face_down">Face Down</button>
-	<button name="action" value="place_top_deck">Top Deck</button>
-	<button name="action" value="place_bottom_deck">Bottom Deck</button>
-	<button name="action" value="play">Play</button>
 </form>
 <hr />
 """

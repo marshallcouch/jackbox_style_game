@@ -7,3 +7,5 @@ res://cards/card.tscn
 res://cards/large_card.tscn
 res://qr_code/qr_code.tscn
 res://cards/card_deck.tscn
+res://board_actions.gd
+res://cards/card_actions.gd

@@ -63,7 +63,9 @@ func play_card():
 			get_parent().remove_child(self)
 			new_parent.add_child(self)
 			position = Vector2(0-randf_range(0,100),0-randf_range(0,100))
-			
+func play_card_face_down():
+	play_card()
+	$card_base/card_back_sprite.show()
 func _input(event):
 	if not is_dragging:
 		return
