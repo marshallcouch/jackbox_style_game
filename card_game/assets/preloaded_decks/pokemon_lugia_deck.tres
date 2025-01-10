@@ -7,7 +7,7 @@ data = {
 "bl": "Weakness: Lx2   Resistance: Ftg-20    Retreat: **",
 "count": 2.0,
 "middle": "** Aero Ball Atack 20x
-This attackdoes 20 damage times the amount of Energy attached to both Active Pokemon.
+This attack does 20 damage times the amount of Energy attached to both Active Pokemon.
 
 **** Deep Hurricane 80+
 If there is any Stadium card in play, this attack does 70 more damage.  Then, Discard that Stadium card.",
@@ -121,7 +121,7 @@ P** Moonlight Gain 70
 "type": "action"
 }, {
 "count": 2.0,
-"middle": "Discard 2 cards from your hand.  (If you can't discard 2 cards, you can't play this card.)  Search your deck for a Pokemon, reveal it, an dput it into your hand.  Shuffle your deck afterward.",
+"middle": "Discard 2 cards from your hand.  (If you can't discard 2 cards, you can't play this card.)  Search your deck for a Pokemon, reveal it, and put it into your hand.  Shuffle your deck afterward.",
 "tl": "Ultra Ball",
 "tr": "Item",
 "type": "action"
@@ -145,7 +145,7 @@ P** Moonlight Gain 70
 "type": "action"
 }, {
 "count": 1.0,
-"middle": "Search your deck for up to 2 basic Energy cards.  Reveal them, an dput them into your hand.  Shuffle your deck afterward.",
+"middle": "Search your deck for up to 2 basic Energy cards.  Reveal them, and put them into your hand.  Shuffle your deck afterward.",
 "tl": "Professor's Letter",
 "tr": "Item",
 "type": "action"
@@ -187,7 +187,7 @@ P** Moonlight Gain 70
 "type": "action"
 }, {
 "count": 1.0,
-"middle": "Search yoru deck for up to 2 Basic Pokemon, reveal them, and put them into your hand.  Shuffle your deck afterward.",
+"middle": "Search your deck for up to 2 Basic Pokemon, reveal them, and put them into your hand.  Shuffle your deck afterward.",
 "tl": "Pokemon Fan Club",
 "tr": "Supporter",
 "type": "action"

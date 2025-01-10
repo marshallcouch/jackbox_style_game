@@ -29,7 +29,7 @@ Whenever a creature you control becomes the target of a spell, target opponent g
 }, {
 "br": "1/1",
 "count": 4.0,
-"middle": "Exalted (Whenever a creautre you control attacks alone, that creature gets +1/+1 until end of turn.)
+"middle": "Human Druid - Exalted (Whenever a creautre you control attacks alone, that creature gets +1/+1 until end of turn.)
 
  Tap: Add G, W, or U to your mana pool.",
 "tl": "Noble Hierarch",
@@ -80,7 +80,7 @@ Target creature can't be the target of spells or abilities your opponents contro
 "count": 3.0,
 "middle": "Sorcery - Target creature gets +1/+0 until end of turn and is unblockable this turn.
 
-Rebound (if you cast this spell from your hand, exile it as it resolves.  At the end of your next upkeep, you may this card from exile without paying its mana cost.)",
+Rebound (if you cast this spell from your hand, exile it as it resolves.  At the end of your next upkeep, you may play this card from exile without paying its mana cost.)",
 "tl": "Distortion Strike",
 "tr": "G",
 "type": "action"
