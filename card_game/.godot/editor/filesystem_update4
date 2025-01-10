@@ -9,3 +9,5 @@ res://qr_code/qr_code.tscn
 res://cards/card_deck.tscn
 res://board_actions.gd
 res://cards/card_actions.gd
+res://cards/deck_actions.gd
+res://cards/counter.gd

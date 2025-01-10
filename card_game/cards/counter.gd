@@ -21,9 +21,9 @@ func _on_touch_input_event(_viewport, event, shape_idx):
 	#shape ID 0 means drag, they clicked the card
 	if shape_idx == 0:
 		print_debug("draggable:" + event.to_string())
-		get_viewport().set_input_as_handled()
-		previous_mouse_position = event.position
-		is_dragging = true
+		#get_viewport().set_input_as_handled()
+		#previous_mouse_position = event.position
+		#is_dragging = true
 		
 		if $counter_edit.visible:
 			$counter_label.text = $counter_edit.text
@@ -40,19 +40,21 @@ func _on_touch_input_event(_viewport, event, shape_idx):
 			
 		
 		
-
-
-func _input(event):
-	if not is_dragging:
-		return
-		
-	if event.is_action_released("ui_touch"):
-		previous_mouse_position = Vector2()
-		is_dragging = false
-	
-	if is_dragging and event is InputEventMouseMotion:
-		position += (event.position - previous_mouse_position) # * get_tree().get_root().find_child("Camera2D").
-		previous_mouse_position = event.position
+func on_click():
+	pass
+func on_release():
+	z_index = int(position.y)-2000
+#func _input(event):
+	#if not is_dragging:
+		#return
+		#
+	#if event.is_action_released("ui_touch"):
+		#previous_mouse_position = Vector2()
+		#is_dragging = false
+	#
+	#if is_dragging and event is InputEventMouseMotion:
+		#position += (event.position - previous_mouse_position) # * get_tree().get_root().find_child("Camera2D").
+		#previous_mouse_position = event.position
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta: float) -> void:

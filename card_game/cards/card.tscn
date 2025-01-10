@@ -9,7 +9,7 @@
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(124.5, 174)
 
-[node name="draggable_card" type="Area2D"]
+[node name="draggable_card" type="Area2D" groups=["Card"]]
 z_index = -2000
 script = ExtResource("4")
 

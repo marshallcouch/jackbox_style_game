@@ -11,7 +11,8 @@ var deck_name:String = ""
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass
-
+func on_release():
+	z_index = int(position.y)-2000
 func load_deck(_game_name, _deck_name, deck_json) -> void:
 	for card in deck_json:
 		for _j in range(0,card["count"]):
@@ -22,17 +23,18 @@ func load_deck(_game_name, _deck_name, deck_json) -> void:
 	$deck_name_label.text = deck_name
 	deck_array.shuffle()
 
-
-func _on_touch_input_event(_viewport, event, shape_idx):
-	if not event.is_action_pressed("ui_touch"):
-		return
-	
-	#shape ID 0 means drag, they clicked the deck
-	if shape_idx == 0:
-		get_viewport().set_input_as_handled()
-		previous_mouse_position = event.position
-		is_dragging = true
-	
+func on_click():
+	pass
+#func _on_touch_input_event(_viewport, event, shape_idx):
+	#if not event.is_action_pressed("ui_touch"):
+		#return
+	#
+	##shape ID 0 means drag, they clicked the deck
+	#if shape_idx == 0:
+		#get_viewport().set_input_as_handled()
+		#previous_mouse_position = event.position
+		#is_dragging = true
+	#
 
 
 

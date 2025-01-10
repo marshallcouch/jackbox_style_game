@@ -12,8 +12,12 @@ var bl:String = ""
 signal place_card_back_in_deck(card,location)
 signal place_card_back_in_hand(card)
 signal view_full_card(tl,tr,mid, bl, br)
+func on_click():
+	pass
 
-
+func on_release():
+	z_index = int(position.y)-2000
+	
 func _ready() -> void:
 	$timer.one_shot = true
 	z_index = int(position.y)-2000
@@ -54,8 +58,8 @@ func _on_touch_input_event(_viewport, event, shape_idx):
 	else:
 		$timer.start(.3)
 	
-	is_dragging = true
-	previous_mouse_position = event.position
+	#is_dragging = true
+	#previous_mouse_position = event.position
 
 func play_card():
 	if get_node("/root/board/cards") != get_parent():
@@ -66,18 +70,19 @@ func play_card():
 func play_card_face_down():
 	play_card()
 	$card_base/card_back_sprite.show()
-func _input(event):
-	if not is_dragging:
-		return
-		
-	if event.is_action_released("ui_touch"):
-		previous_mouse_position = Vector2()
-		is_dragging = false
 	
-	if is_dragging and event is InputEventMouseMotion:
-		position += (event.position - previous_mouse_position) # * get_tree().get_root().find_child("Camera2D").
-		previous_mouse_position = event.position
-	z_index = int(position.y)-2000
+#func _input(event):
+	#if not is_dragging:
+		#return
+		#
+	#if event.is_action_released("ui_touch"):
+		#previous_mouse_position = Vector2()
+		#is_dragging = false
+	#
+	#if is_dragging and event is InputEventMouseMotion:
+		#position += (event.position - previous_mouse_position) # * get_tree().get_root().find_child("Camera2D").
+		#previous_mouse_position = event.position
+	#z_index = int(position.y)-2000
 
 
 func is_face_down() -> bool:
