@@ -15,9 +15,9 @@ script = ExtResource("4")
 [node name="LargeCard" parent="camera" instance=ExtResource("3_v1wb3")]
 visible = false
 z_index = 4096
-offset_left = -289.0
+offset_left = -450.0
 offset_top = -354.0
-offset_right = -289.0
+offset_right = -450.0
 offset_bottom = -354.0
 
 [node name="QRCode" parent="camera" instance=ExtResource("3_sgaja")]

@@ -57,11 +57,6 @@ func _input(event):
 	if is_dragging and event is InputEventMouseMotion and dragging_shape:
 		dragging_shape.position += (event.position - previous_mouse_position) / camera.zoom  
 		previous_mouse_position = event.position
-		
-	if is_dragging and event is InputEventMouseMotion and !dragging_shape:
-		camera.position -= (event.position - previous_mouse_position) / camera.zoom  
-		previous_mouse_position = event.position
-
 			
 func setup_camera():
 	var viewport = get_viewport()
@@ -145,7 +140,14 @@ func _load_deck(filename: String) -> void:
 	deck_file.close()
 
 func _on_action_menu_json_pasted(json_text) -> void:
-	var json_result =json_text
+	var json_result:Dictionary
+	if typeof(json_text) == TYPE_STRING:
+		var json_object = JSON.new()
+		json_object.parse(json_text)
+		json_result = json_object.data
+	else:
+		json_result = json_text
+	
 	
 	var _game_name 
 	if "game" in json_result:
@@ -157,6 +159,7 @@ func _on_action_menu_json_pasted(json_text) -> void:
 		new_deck.load_deck(String(json_result["game"]), deck["deck_name"], deck["deck"])
 		new_deck.connect("draw_card",Callable(self,"_on_deck_draw_card"))
 		new_deck.connect("reveal_card",Callable(self,"_on_deck_reveal_card"))
+		new_deck.view_full_card.connect(display_large_card)
 		new_deck.position.y = get_viewport().size.y/2 - 230
 		new_deck.position.x = get_viewport().size.x/2 - 125 + (220 * $decks.get_child_count())
 		$decks.add_child(new_deck)

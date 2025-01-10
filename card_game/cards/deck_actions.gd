@@ -6,6 +6,7 @@ var deck_array:Array = []
 
 signal draw_card(card_object)
 signal reveal_card(card_object)
+signal view_full_card(tl,tr,mid, bl, br)
 var game_name:String = ""
 var deck_name:String = ""
 # Called when the node enters the scene tree for the first time.
@@ -46,12 +47,16 @@ func _search_deck() -> void:
 		for card in deck_array:
 			var card_in_deck = load("res://cards/card_in_deck.tscn").instantiate()
 			card_in_deck._set_label(card["tl"])
+			card_in_deck.set_card(card)
 			$deck_search_box/deck_search/deck_list.add_child(card_in_deck)
 			card_in_deck.connect("draw_card_from_deck", Callable(self, "_draw_card_from_deck"))
+			card_in_deck.connect("view_full_card", Callable(self, "_view_full_card"))
 		$deck_search_box.show()
 	else:
 		_hide_deck_search()
-
+func _view_full_card(tl,tr,mid, bl, br):
+	view_full_card.emit(tl,tr,mid, bl, br)
+	
 func _hide_deck_search():
 	for n in $deck_search_box/deck_search/deck_list.get_children():
 			$deck_search_box/deck_search/deck_list.remove_child(n)

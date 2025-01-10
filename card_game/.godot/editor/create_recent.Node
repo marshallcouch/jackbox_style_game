@@ -1,11 +1,12 @@
-Container
-VScrollBar
 Control
+Container
+VBoxContainer
+Button
+VScrollBar
 TextureRect
 VSeparator
 HSeparator
 HBoxContainer
-VBoxContainer
 MenuButton
 FileDialog
 Window

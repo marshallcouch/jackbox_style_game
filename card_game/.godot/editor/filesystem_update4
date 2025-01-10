@@ -12,3 +12,5 @@ res://cards/card_actions.gd
 res://cards/deck_actions.gd
 res://cards/counter.gd
 res://assets/preloaded_decks/pokemon_lugia_deck.tres
+res://cards/card_in_deck.tscn
+res://cards/card_in_deck.gd
