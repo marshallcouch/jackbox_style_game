@@ -46,22 +46,23 @@ func get_card_count() -> int:
 	return player_hand.get_child_count()
 
 func _handle_request(client: StreamPeerTCP, request: String):
-	# HTML response with corrected diamond-shaped D-pad layout
-	var client_id_loc:int = request.find("client=",request.length()-70)
-	var client_id:String = "-1"
-	print(request)
-	var action:String = request.substr(request.find("ACTION"))
-	if action.length() > 0:
-		_handle_action(action)
+	var request_lines = request.split("\n")
+	if request_lines.size() == 0:
+		return
+	var request_line = request_lines[0]  # First line of the HTTP request
+	var path = request_line.split(" ")[1]  # Extract the path (e.g., "/icon.png")
 
-	
-	var body = SKELETON.replace("STYLE_CONTENT",STYLES)\
-	.replace("SCRIPT_CONTENT", SCRIPTS)\
-	.replace("BODY_CONTENT",_cards_in_hand())
-	
-	# Ensure no extraneous characters before headers
-	var response = set_headers(body)
-	client.put_data(response.to_utf8_buffer())
+	if path == "/icon.png":
+		# Serve the image
+		_send_image(client, "res://icon.png")
+	else:
+		# Serve the HTML
+		var body = SKELETON.replace("STYLE_CONTENT", STYLES)\
+			.replace("SCRIPT_CONTENT", SCRIPTS)\
+			.replace("BODY_CONTENT", _cards_in_hand())
+		var response = set_headers(body)
+		client.put_data(response.to_utf8_buffer())
+
 	client.disconnect_from_host()
 
 func _handle_action(params:String):
@@ -83,7 +84,32 @@ func _handle_action(params:String):
 			return
 	
 
+func _send_image(client: StreamPeerTCP, image_path: String):
+	# Load the image from the file system
+	var image = Image.new()
+	var error = image.load(image_path)
+	if error != OK:
+		print("Failed to load image: ", image_path)
+		return
 
+	# Convert the image to PNG format (binary data)
+	var image_data
+	if image_path.contains("jpg") or image_path.contains("jpeg"):
+		image_data = image.save_jpg_to_buffer()
+	elif image_path.contains("png"):
+		image_data = image.save_png_to_buffer()
+	elif image_path.contains("webp"):
+		image_data = image.save_webp_to_buffer()
+	# Prepare HTTP headers
+	var response = "HTTP/1.1 200 OK\r\n"
+	response += "Content-Type: image/png\r\n"  # Change to "image/jpeg" if using JPEG
+	response += "Content-Length: %d\r\n" % image_data.size()
+	response += "Connection: close\r\n"
+	response += "\r\n"  # End of headers
+
+	# Send headers and image data
+	client.put_data(response.to_utf8_buffer())
+	client.put_data(image_data)
 	
 
 
@@ -118,6 +144,7 @@ const SKELETON:String = """
 		<style>STYLE_CONTENT</style>
 	<head>
 	<body>
+		<img src="icon.png"/>
 		BODY_CONTENT
 	</body>
 </html>
