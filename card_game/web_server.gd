@@ -44,31 +44,36 @@ func get_cards()-> Array[Card]:
 	return cards
 func get_card_count() -> int:
 	return player_hand.get_child_count()
-
+	
 func _handle_request(client: StreamPeerTCP, request: String):
+	# HTML response with corrected diamond-shaped D-pad layout
+	var client_id_loc:int = request.find("client=",request.length()-70)
+	var client_id:String = "-1"
+	print(request)
+	var action:String = request.substr(request.find("ACTION"))
+	if action.length() > 0:
+		_handle_action(action)
+		
 	var request_lines = request.split("\n")
-	if request_lines.size() == 0:
-		return
 	var request_line = request_lines[0]  # First line of the HTTP request
 	var path = request_line.split(" ")[1]  # Extract the path (e.g., "/icon.png")
-
 	if path == "/icon.png":
 		# Serve the image
 		_send_image(client, "res://icon.png")
 	else:
-		# Serve the HTML
-		var body = SKELETON.replace("STYLE_CONTENT", STYLES)\
-			.replace("SCRIPT_CONTENT", SCRIPTS)\
-			.replace("BODY_CONTENT", _cards_in_hand())
+		var body = SKELETON.replace("STYLE_CONTENT",STYLES)\
+		.replace("SCRIPT_CONTENT", SCRIPTS)\
+		.replace("BODY_CONTENT",_cards_in_hand())
+		# Ensure no extraneous characters before headers
 		var response = set_headers(body)
 		client.put_data(response.to_utf8_buffer())
-
+	
 	client.disconnect_from_host()
 
 func _handle_action(params:String):
 	var param_split = params.split("&")
 	var action:String = param_split[0].split("=")[1]
-	var card_name:String = param_split[1].split("=")[1].replace("+"," ")
+	var card_name:String = decode_url(param_split[1].split("=")[1])
 	for card in get_cards():
 		if card.tl == card_name:
 			if action == "play_face_down":
@@ -82,7 +87,30 @@ func _handle_action(params:String):
 				card.place_card_back_in_deck.emit(card.card, "bottom")
 				card.queue_free()
 			return
+
+func decode_url(input: String) -> String:
+	# Define a dictionary for HTML special characters and their replacements
+	# Replace URL-encoded characters with their corresponding values
+	var replacements = {
+		"%27": "'",
+		"%28": "(",
+		"%29": ")",
+		"%20": " ",  # Space
+		"%21": "!",  # Exclamation mark
+		"%2C": ",",  # Comma
+		"%3F": "?",  # Question mark
+		"%3A": ":",  # Colon
+		"%2F": "/",  # Slash
+		"%3B": ";",   # Semi-colon
+		"+":" "
+	}
+	var keys = replacements.keys()
+	# Replace each encoded character in the input string
+	for entity in replacements.keys():
+		input = input.replace(entity, replacements[entity])
 	
+	return input
+
 
 func _send_image(client: StreamPeerTCP, image_path: String):
 	# Load the image from the file system
@@ -144,7 +172,6 @@ const SKELETON:String = """
 		<style>STYLE_CONTENT</style>
 	<head>
 	<body>
-		<img src="icon.png"/>
 		BODY_CONTENT
 	</body>
 </html>
